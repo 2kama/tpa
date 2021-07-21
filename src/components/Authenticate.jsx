@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
 import { useDispatch, useSelector, shallowEqual } from 'react-redux'
 import { getUser, setUser } from '../store/reducers/user'
-import firebase from 'firebase'
+import firebase from '../utils/Firebase'
 
 
 const Authenticate = ({ inside }) => {
@@ -32,7 +32,7 @@ const Authenticate = ({ inside }) => {
 
 
     const { isLoading, isAuthenticated } = useSelector(state => ({
-        isLoading : state.isLoading,
+        isLoading : state.user.isLoading,
         isAuthenticated : state.user.isAuthenticated
     }), shallowEqual)
 
@@ -43,7 +43,7 @@ const Authenticate = ({ inside }) => {
                 !isLoading && (
                     inside ? 
                         (isAuthenticated ? <></> : <Redirect to="/login" />) :
-                        (isAuthenticated ? <Redirect to="/dashboard" /> : <></>)
+                        (isAuthenticated ? <Redirect to="/hash" /> : <></>)
                 )
             }
         </>
