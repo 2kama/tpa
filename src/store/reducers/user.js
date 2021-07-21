@@ -1,4 +1,11 @@
-import { GET_USER, SET_USER } from "../constant";
+import { GET_USER, REGISTER_USER, SET_USER } from "../constant";
+
+
+
+export const registerUser = (userData) => ({
+    type: REGISTER_USER,
+    userData
+})
 
 export const getUser = () => ({
     type : GET_USER
@@ -9,17 +16,18 @@ export const setUser = (user) => ({
     user
 })
 
+
 const initialState = {
     isLoading : true
 }
 
 export default function user (state = initialState, action) {
+    let { user } = action
     switch (action.type) {
         case SET_USER:
-            const { user } = action;
             return {
                 ...state,
-                user,
+                ...user,
                 isLoading: false
             }
         default:
