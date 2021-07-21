@@ -10,7 +10,7 @@ import { registerUser } from '../../store/reducers/user'
 
 const validationSchema = Yup.object().shape({
     email: Yup.string().required().email().label("Email"),
-    password: Yup.string().required().min(6).label("Password"),
+    password: Yup.string().required().min(6).max(20).label("Password"),
     passwordConfirmation: Yup.string().required().oneOf([Yup.ref('password'), null], 'Passwords must match').label("Password Confirmation"),
     firstName: Yup.string().required().label("First Name"),
     lastName: Yup.string().required().label("Last Name"),
@@ -105,7 +105,7 @@ const Register = () => {
                 <FormField 
                     type="password"
                     name="passwordConfirmation"
-                    placeholder="Comfirm Password"
+                    placeholder="Confirm Password"
                 />
 
                 <FormField 

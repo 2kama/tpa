@@ -27,6 +27,7 @@ const Authenticate = ({ inside }) => {
 
     useEffect(() => {
         AuthUser()
+        // eslint-disable-next-line
     },[])
 
 

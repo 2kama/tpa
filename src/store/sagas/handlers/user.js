@@ -28,7 +28,7 @@ export function* handleGetUser(action) {
 export function* handleRegisterUser(action) {
     try {
 
-        const response = yield call(requestRegisterUser(action.userData))
+        yield call(requestRegisterUser(action.userData))
         const alertData = {
             msg : "Successfully Registered",
             alertType : "success",

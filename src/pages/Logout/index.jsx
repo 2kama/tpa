@@ -11,7 +11,7 @@ const Logout = () => {
     useEffect(() => {
 
         auth.signOut()
-
+        // eslint-disable-next-line
     },[])
 
     return(
