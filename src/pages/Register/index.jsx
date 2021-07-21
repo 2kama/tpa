@@ -10,7 +10,7 @@ import { registerUser } from '../../store/reducers/user'
 
 const validationSchema = Yup.object().shape({
     email: Yup.string().required().email().label("Email"),
-    password: Yup.string().required().min(6).max(20).label("Password"),
+    password: Yup.string().required().min(6).label("Password"),
     passwordConfirmation: Yup.string().required().oneOf([Yup.ref('password'), null], 'Passwords must match').label("Password Confirmation"),
     firstName: Yup.string().required().min(3).label("First Name"),
     lastName: Yup.string().required().min(3).label("Last Name"),
@@ -28,8 +28,9 @@ const Register = () => {
     const[termsChecked, setTermsChecked] = useState(false)
     const[mustPick, setMustPick] = useState(false)
 
-    const { buttonDisable } = useSelector(state => ({
-        buttonDisable : state.buttonState.buttonDisable
+    const { buttonDisable, isAuthenticated } = useSelector(state => ({
+        buttonDisable : state.buttonState.buttonDisable,
+        isAuthenticated : state.user.isAuthenticated
     }), shallowEqual)
 
 
@@ -60,65 +61,76 @@ const Register = () => {
     return(
         <>
             <Authenticate inside={false} />
-            <div>this is Register page</div>
+
+            {
+                isAuthenticated !== undefined && !isAuthenticated && (
+
+                    <>
+                    <div>this is Register page</div>
 
 
 
 
-            <Form
-                initialValues={{ firstName: "", lastName: "", phone: "", email: "", password: "", passwordConfirmation: "", affiliate: "" }}
-                onSubmit={submitForm}
-                validationSchema={validationSchema}
-            >
+                    <Form
+                        initialValues={{ firstName: "", lastName: "", phone: "", email: "", password: "", passwordConfirmation: "", affiliate: "" }}
+                        onSubmit={submitForm}
+                        validationSchema={validationSchema}
+                    >
 
-                <FormField 
-                    type="text"
-                    name="firstName"
-                    placeholder="First Name"
-                />
+                        <FormField 
+                            type="text"
+                            name="firstName"
+                            placeholder="First Name"
+                        />
 
-                <FormField 
-                    type="text"
-                    name="lastName"
-                    placeholder="Last Name"
-                />
+                        <FormField 
+                            type="text"
+                            name="lastName"
+                            placeholder="Last Name"
+                        />
 
-                <FormField 
-                    type="email"
-                    name="email"
-                    placeholder="youremail@mail.com"
-                />
+                        <FormField 
+                            type="email"
+                            name="email"
+                            placeholder="youremail@mail.com"
+                        />
 
-                <FormField 
-                    type="text"
-                    name="phone"
-                    placeholder="080-000-0000"
-                />
+                        <FormField 
+                            type="text"
+                            name="phone"
+                            placeholder="080-000-0000"
+                        />
 
 
-                <FormField 
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                />
+                        <FormField 
+                            type="password"
+                            name="password"
+                            placeholder="Password"
+                        />
 
-                <FormField 
-                    type="password"
-                    name="passwordConfirmation"
-                    placeholder="Confirm Password"
-                />
+                        <FormField 
+                            type="password"
+                            name="passwordConfirmation"
+                            placeholder="Confirm Password"
+                        />
 
-                <FormField 
-                    type="text"
-                    name="affiliate"
-                    placeholder="Affiliate Code [Optional]"
-                />
+                        <FormField 
+                            type="text"
+                            name="affiliate"
+                            placeholder="Affiliate Code [Optional]"
+                        />
 
-                <FormCheckBox clicker={setTermsChecked} checked={termsChecked} text={termsText} error={mustPick} />
+                        <FormCheckBox clicker={setTermsChecked} checked={termsChecked} text={termsText} error={mustPick} />
 
-                <SubmitButton title="Register" disable={buttonDisable} />
+                        <SubmitButton title="Register" disable={buttonDisable} />
 
-            </Form>
+                    </Form>
+                    </>
+
+                )
+            }
+
+            
 
 
         </>

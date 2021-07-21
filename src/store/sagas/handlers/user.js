@@ -34,6 +34,7 @@ export function* handleRegisterUser(action) {
             alertType : "success",
             id: uuidv4()
         }
+        console.log(alertData)
         yield put(setAlert(alertData))
         yield put(enableButton())
         
@@ -43,6 +44,7 @@ export function* handleRegisterUser(action) {
             alertType : 'error',
             id: uuidv4()
         }
+        console.log(alertData, err.message)
         yield put(setAlert(alertData))
         yield put(enableButton())
     }
