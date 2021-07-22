@@ -29,11 +29,10 @@ export function* handleRegisterUser(action) {
         
     } catch (err) {
         const alertData = {
-            msg : err.code,
+            msg : err.message,
             alertType : 'error',
             id: uuidv4()
         }
-        console.log(alertData, err.message)
         yield put(setAlert(alertData))
         yield put(enableButton())
     }
@@ -46,11 +45,10 @@ export function* handleLoginUser(action) {
         
     } catch (err) {
         const alertData = {
-            msg : err.code,
+            msg : err.message,
             alertType : 'error',
             id: uuidv4()
         }
-        console.log(alertData, err.message)
         yield put(setAlert(alertData))
         yield put(enableButton())
     }
