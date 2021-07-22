@@ -6,6 +6,7 @@ import Authenticate from '../../components/Authenticate'
 import { disableButton } from '../../store/reducers/buttonState'
 import { Form, FormCheckBox, FormField, SubmitButton } from '../../components/Form'
 import { registerUser } from '../../store/reducers/user'
+import { useQuery } from '../../utils/query';
 
 
 const validationSchema = Yup.object().shape({
@@ -23,6 +24,7 @@ const Register = () => {
     const termsText = "I agree to the terms and Conditions"
 
     const dispatch = useDispatch()
+    const { query } = useQuery()
 
     
     const[termsChecked, setTermsChecked] = useState(false)
@@ -68,11 +70,8 @@ const Register = () => {
                     <>
                     <div>this is Register page</div>
 
-
-
-
                     <Form
-                        initialValues={{ firstName: "", lastName: "", phone: "", email: "", password: "", passwordConfirmation: "", affiliate: "" }}
+                        initialValues={{ firstName: "", lastName: "", phone: "", email: "", password: "", passwordConfirmation: "", affiliate: query.affiliate || "" }}
                         onSubmit={submitForm}
                         validationSchema={validationSchema}
                     >
