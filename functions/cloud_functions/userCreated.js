@@ -38,7 +38,7 @@ exports.userCreated = functions.auth.user().onCreate(async user => {
         },
         ROI : 0,
         assignedTrader : "",
-        approved : false,
+        isApproved : false,
         affiliate : ""
     }
 

@@ -13,6 +13,10 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import DecipherPage from './pages/DecipherPage'
 import Logout from './pages/Logout'
+import UserDashboard from './pages/UserPages/UserDashboard'
+import AdminDashboard from './pages/AdminPages/AdminDashboard'
+import TraderDashboard from './pages/TraderPages/TraderDashboard'
+import PageNotFound from './pages/PageNotFound'
 
 
 
@@ -25,10 +29,16 @@ const App = () => {
         <>
             <BrowserRouter>
                 <Switch>
-                    <Route exact path="/login" component={Login} />
+                    <Route path="/login" component={Login} />
                     <Route exact path="/register" component={Register} />
                     <Route path="/hash" component={DecipherPage} />
                     <Route path="/logout" component={Logout} />
+
+                    <Route exact path="/dashboard" component={UserDashboard} />
+                    <Route exact path="/admin/dashboard" component={AdminDashboard} />
+                    <Route exact path="/trader/dashboard" component={TraderDashboard} />
+
+                    <Route component={PageNotFound} />
                 </Switch>
             </BrowserRouter>
         </>

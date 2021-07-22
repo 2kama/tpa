@@ -22,6 +22,12 @@ export const requestRegisterUser = (userData) => {
 }
 
 
+export const requestVerifyUser = () => {
+    const user = auth.currentUser
+    return user.sendEmailVerification()
+}
+
+
 export const requestLoginUser = (userData) => {
     const { email, password } = userData
 

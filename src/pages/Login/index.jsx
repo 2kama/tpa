@@ -18,9 +18,10 @@ const Login = () => {
 
     const dispatch = useDispatch()
 
-    const { buttonDisable, isAuthenticated } = useSelector(state => ({
+    const { buttonDisable, isAuthenticated, isLoading } = useSelector(state => ({
         buttonDisable : state.buttonState.buttonDisable,
-        isAuthenticated : state.user.isAuthenticated
+        isAuthenticated : state.user.isAuthenticated,
+        isLoading : state.isLoading
     }), shallowEqual)
 
 
@@ -43,13 +44,10 @@ const Login = () => {
             <Authenticate inside={false} />
 
             {
-                isAuthenticated !== undefined && !isAuthenticated && (
+                !isLoading && !isAuthenticated && (
 
                     <>
                     <div>this is Login page</div>
-
-
-
 
                     <Form
                         initialValues={{ email: "", password: "" }}
