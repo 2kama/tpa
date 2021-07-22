@@ -25,7 +25,7 @@ export function* handleGetUser(action) {
 export function* handleRegisterUser(action) {
     try {
 
-        yield call(requestRegisterUser(action.userData))
+        yield call(requestRegisterUser.bind(null, action.userData))
         
     } catch (err) {
         const alertData = {
@@ -42,7 +42,7 @@ export function* handleRegisterUser(action) {
 export function* handleLoginUser(action) {
     try {
 
-        yield call(requestLoginUser(action.userData))
+        yield call(requestLoginUser.bind(null, action.userData))
         
     } catch (err) {
         const alertData = {
