@@ -33,11 +33,6 @@ export default function user (state = initialState, action) {
                 ...user,
                 isLoading: false
             }
-        case SIGNIN_USER:
-            return {
-                email: user.email,
-                isLoading: true
-            }
         default:
             return state;
     }

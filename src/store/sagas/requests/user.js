@@ -32,6 +32,5 @@ export const requestGetUser = () => {
 }
 
 export const loginUser = (email, password) => {
-    auth.signInWithEmailAndPassword(email, password)
-    return requestGetUser()
+    return auth.signInWithEmailAndPassword(email, password)
 }

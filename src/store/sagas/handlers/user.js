@@ -27,13 +27,20 @@ export function* handleGetUser(action) {
 export function* handleSignin(action) {
     try {
 
-        const response = yield call(loginUser)
+        const response = yield call(loginUser(action.userData))
+        console.log(response)
         yield put(setUser({
             ...response.data(),
             isAuthenticated : true
         }))
-
-
+        const alertData = {
+            msg : "Successfully signed in",
+            alertType : "success",
+            id: uuidv4()
+        }
+        console.log(alertData)
+        yield put(setAlert(alertData))
+        yield put(enableButton())
         
         
     } catch (err) {

@@ -3,7 +3,7 @@ import { useSelector, shallowEqual, useDispatch } from 'react-redux'
 import * as Yup from 'yup'
 import { disableButton } from '../../store/reducers/buttonState'
 import { Form, FormField, SubmitButton } from '../../components/Form'
-import { getUser } from '../../store/reducers/user'
+import { signInUser } from '../../store/reducers/user'
 import Authenticate from '../../components/Authenticate'
 
 const validationSchema = Yup.object().shape({
@@ -17,12 +17,10 @@ const Login = () => {
 
     const { buttonDisable, isAuthenticated, alertMessage, alertType } = useSelector(state => ({
         buttonDisable : state.buttonState.buttonDisable,
-        isAuthenticated : state.user.isAuthenticated,
-        alertMessage: state.alert.msg,
-        alertType: state.alert.type
+        isAuthenticated : state.user.isAuthenticated
     }), shallowEqual)
 
-
+console.log(buttonDisable)
     const submitForm = ({ email, password }) => {
 
         const userData = {
@@ -31,7 +29,7 @@ const Login = () => {
         }
 
         dispatch(disableButton())
-        dispatch(getUser(userData))
+        dispatch(signInUser(userData))
 
     }
     return(
