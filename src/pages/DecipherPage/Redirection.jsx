@@ -5,26 +5,12 @@ import { Redirect } from 'react-router-dom'
 
 const Redirection = ({ role }) => {
 
-   const redirectRule = () => {
-
-        if(role.isAdmin) {
-            return <Redirect to="/admin/dashboard" />
-        }
-
-        if(role.isUser) {
-            return <Redirect to="/dashboard" />
-        }
-
-        if(role.isTrader) {
-            return <Redirect to="/trader/dashboard" />
-        }
-
-    }
-
 
     return(
         <>
-        {redirectRule()}
+         {role.isAdmin && <Redirect to="/admin/dashboard" />}
+         {role.isUser && <Redirect to="/dashboard" />}
+         {role.isTrader && <Redirect to="/trader/dashboard" />}
         </>
     )
 
