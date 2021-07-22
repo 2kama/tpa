@@ -26,11 +26,10 @@ export function* handleGetUser(action) {
 
 export function* handleSignin(action) {
     try {
-
-        const response = yield call(loginUser(action.userData))
-        console.log(response)
+        const {email, password} = action.user
+        const response = yield call(loginUser.bind(null, email,password))
         yield put(setUser({
-            ...response.data(),
+            ...response.data,
             isAuthenticated : true
         }))
         const alertData = {
@@ -38,19 +37,16 @@ export function* handleSignin(action) {
             alertType : "success",
             id: uuidv4()
         }
-        console.log(alertData)
         yield put(setAlert(alertData))
         yield put(enableButton())
         
         
     } catch (err) {
-        console.log(err)
         const alertData = {
-            msg : err.code,
+            msg : err.message,
             alertType : 'error',
             id: uuidv4()
         }
-        console.log(alertData, err.message)
         yield put(setAlert(alertData))
         yield put(enableButton())
     }
@@ -60,7 +56,7 @@ export function* handleSignin(action) {
 export function* handleRegisterUser(action) {
     try {
 
-        yield call(requestRegisterUser(action.userData))
+        yield call(requestRegisterUser.bind(null, action.userData))
         const alertData = {
             msg : "Successfully Registered",
             alertType : "success",
