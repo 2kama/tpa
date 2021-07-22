@@ -22,6 +22,13 @@ export const requestRegisterUser = (userData) => {
 }
 
 
+export const requestLoginUser = (userData) => {
+    const { email, password } = userData
+
+    return auth.signInWithEmailAndPassword(email, password)
+}
+
+
 export const requestGetUserPrivateData = () => {
     return db.doc(`users/${auth.currentUser.uid}/private/info`).get()
 }

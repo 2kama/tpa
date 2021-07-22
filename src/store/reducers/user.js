@@ -1,9 +1,14 @@
-import { GET_USER, REGISTER_USER, SET_USER } from "../constant";
+import { GET_USER, LOGIN_USER, REGISTER_USER, SET_USER } from "../constant";
 
 
 
 export const registerUser = (userData) => ({
     type: REGISTER_USER,
+    userData
+})
+
+export const loginUser = (userData) => ({
+    type: LOGIN_USER,
     userData
 })
 
