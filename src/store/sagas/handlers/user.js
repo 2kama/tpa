@@ -1,6 +1,6 @@
 import { call, put } from 'redux-saga/effects'
 import { setUser } from '../../reducers/user'
-import { requestGetUser, requestRegisterUser, requestGetUserPrivateData, requestLoginUser } from '../requests/user'
+import { requestGetUser, requestRegisterUser, requestGetUserPrivateData, requestLoginUser, requestVerifyUser } from '../requests/user'
 import { v4 as uuidv4 } from 'uuid'
 import { enableButton } from '../../reducers/buttonState'
 import { setAlert } from '../../reducers/alerts'
@@ -42,6 +42,30 @@ export function* handleLoginUser(action) {
     try {
 
         yield call(requestLoginUser.bind(null, action.userData))
+        
+    } catch (err) {
+        const alertData = {
+            msg : err.message,
+            alertType : 'error',
+            id: uuidv4()
+        }
+        yield put(setAlert(alertData))
+        yield put(enableButton())
+    }
+}
+
+
+export function* handleVerifyUser(action) {
+    try {
+
+        yield call(requestVerifyUser)
+        const alertData = {
+            msg : "Verification mail has been sent to your Email Address",
+            alertType : 'success',
+            id: uuidv4()
+        }
+        yield put(setAlert(alertData))
+        yield put(enableButton())
         
     } catch (err) {
         const alertData = {

@@ -29,10 +29,16 @@ exports.userCreated = functions.auth.user().onCreate(async user => {
             available : 0
         },
         walletTransactions : [],
-        role : "user",
+        role : {
+            isAdmin : false,
+            isSuperAdmin : false,
+            isUser : true,
+            isAffiliate : false,
+            isTrader : false
+        },
         ROI : 0,
         assignedTrader : "",
-        approved : false,
+        isApproved : false,
         affiliate : ""
     }
 

@@ -30,9 +30,10 @@ const Register = () => {
     const[termsChecked, setTermsChecked] = useState(false)
     const[mustPick, setMustPick] = useState(false)
 
-    const { buttonDisable, isAuthenticated } = useSelector(state => ({
+    const { buttonDisable, isAuthenticated, isLoading } = useSelector(state => ({
         buttonDisable : state.buttonState.buttonDisable,
-        isAuthenticated : state.user.isAuthenticated
+        isAuthenticated : state.user.isAuthenticated,
+        isLoading : state.isLoading
     }), shallowEqual)
 
 
@@ -65,7 +66,7 @@ const Register = () => {
             <Authenticate inside={false} />
 
             {
-                isAuthenticated !== undefined && !isAuthenticated && (
+                !isLoading && !isAuthenticated && (
 
                     <>
                     <div>this is Register page</div>
