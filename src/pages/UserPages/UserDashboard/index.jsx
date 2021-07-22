@@ -21,7 +21,7 @@ const UserDashboard = () => {
                 role.isUser ? (
                     <>
 
-                        This is the Trader Dashboard Page
+                        This is the User Dashboard Page
 
                     </>
                 ) : <PageNotFound />)
