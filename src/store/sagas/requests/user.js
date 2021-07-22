@@ -30,3 +30,8 @@ export const requestGetUserPrivateData = () => {
 export const requestGetUser = () => {
     return db.doc(`users/${auth.currentUser.uid}`).get()
 }
+
+export const loginUser = (email, password) => {
+    auth.signInWithEmailAndPassword(email, password)
+    return requestGetUser()
+}

@@ -1,6 +1,6 @@
 import { call, put } from 'redux-saga/effects'
 import { setUser } from '../../reducers/user'
-import { requestGetUser, requestRegisterUser, requestGetUserPrivateData } from '../requests/user'
+import { requestGetUser, requestRegisterUser, requestGetUserPrivateData, loginUser } from '../requests/user'
 import { v4 as uuidv4 } from 'uuid'
 import { enableButton } from '../../reducers/buttonState'
 import { setAlert } from '../../reducers/alerts'
@@ -21,6 +21,31 @@ export function* handleGetUser(action) {
         
     } catch (err) {
         console.log(err)
+    }
+}
+
+export function* handleSignin(action) {
+    try {
+
+        const response = yield call(loginUser)
+        yield put(setUser({
+            ...response.data(),
+            isAuthenticated : true
+        }))
+
+
+        
+        
+    } catch (err) {
+        console.log(err)
+        const alertData = {
+            msg : err.code,
+            alertType : 'error',
+            id: uuidv4()
+        }
+        console.log(alertData, err.message)
+        yield put(setAlert(alertData))
+        yield put(enableButton())
     }
 }
 
