@@ -1,25 +1,22 @@
 import React, {useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import Authenticate from '../../../components/Authenticate'
-import PageNotFound from '../../PageNotFound'
-import { getUnapprovedUsers } from "../../../store/reducers/unapprovedUser";
-import { Redirect } from 'react-router-dom';
+import Authenticate from '../../components/Authenticate'
+import PageNotFound from '../PageNotFound'
+import { getUnapprovedUsers } from "../../store/reducers/unapprovedUser";
+import { Table } from '../../components/Table/Table';
 
-
-const AdminDashboard = () => {
+const UnapprovedAccounts = () => {
     const dispatch = useDispatch()
     const { role, isLoading, unapprovedUsers } = useSelector(state => ({
         role : state.user.role,
         isLoading : state.isLoading,
         unapprovedUsers: state.unapprovedUsers
     }))
-    console.log(unapprovedUsers)
+
     useEffect(() => {
         dispatch(getUnapprovedUsers())
         // eslint-disable-next-line
-    },[])
-        console.log(unapprovedUsers)
-        
+    },[unapprovedUsers])
 
     return(
         <>
@@ -31,11 +28,14 @@ const AdminDashboard = () => {
                 role.isAdmin ? (
                     <>
 
-                        This is the Admin Dashboard Page
+                        Unapproved Users
                         <hr />
-                        <button onClick={() => <Redirect to="/admin/view/users/unapproved" />}>View Unapprove Accounts</button>
-
+                        <Table
+                            headers={['firstName', 'lastName', 'email', 'phone', 'actions']}
+                            data={unapprovedUsers} 
+                        />
                     </>
+                    
                 ) : <PageNotFound />)
 
 
@@ -46,5 +46,4 @@ const AdminDashboard = () => {
     )
 }
 
-
-export default AdminDashboard
+export default UnapprovedAccounts

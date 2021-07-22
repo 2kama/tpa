@@ -17,6 +17,7 @@ import UserDashboard from './pages/UserPages/UserDashboard'
 import AdminDashboard from './pages/AdminPages/AdminDashboard'
 import TraderDashboard from './pages/TraderPages/TraderDashboard'
 import PageNotFound from './pages/PageNotFound'
+import UnapprovedAccounts from './pages/AdminPages/UnapprovedAccounts'
 
 
 
@@ -38,6 +39,7 @@ const App = () => {
                     <Route exact path="/admin/dashboard" component={AdminDashboard} />
                     <Route exact path="/trader/dashboard" component={TraderDashboard} />
 
+                    <Route exact path="/admin/view/users/unapproved" component={UnapprovedAccounts} />
                     <Route component={PageNotFound} />
                 </Switch>
             </BrowserRouter>
