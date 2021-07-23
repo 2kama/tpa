@@ -24,31 +24,51 @@ const UnapprovedAccounts = () => {
     }), shallowEqual)
 
     const setRole = e => {
-        console.log(e.target.value)
-        e.preventDefault();
-        const data = {
-            isAdmin : false,
-            isSuperAdmin : false,
-            isUser : false,
-            isAffiliate : false,
-            isTrader : false
-        }
         if (e.target.value === 'admin') {
-            data.isAdmin = true;
-        } 
+            setSelectedRole({
+                isAdmin : true,
+                isSuperAdmin : false,
+                isUser : false,
+                isAffiliate : false,
+                isTrader : false
+            })
+        }
         if (e.target.value === 'superadmin') {
-            data.isSuperAdmin = true;
+            setSelectedRole({
+                isAdmin : true,
+                isSuperAdmin : true,
+                isUser : false,
+                isAffiliate : false,
+                isTrader : false
+            })
         }
         if (e.target.value === 'user') {
-            data.isUser = true
+            setSelectedRole({
+                isAdmin : false,
+                isSuperAdmin : false,
+                isUser : true,
+                isAffiliate : false,
+                isTrader : false
+            })
         }
         if (e.target.value === 'affiliate') {
-            data.isAffiliate = true
+            setSelectedRole({
+                isAdmin : false,
+                isSuperAdmin : false,
+                isUser : true,
+                isAffiliate : true,
+                isTrader : false
+            })
         }
         if (e.target.value === 'trader') {
-            data.isTrader = true
+            setSelectedRole({
+                isAdmin : false,
+                isSuperAdmin : false,
+                isUser : false,
+                isAffiliate : false,
+                isTrader : true
+            })
         }
-        setSelectedRole(data)
     }
 
     useEffect(() => {
