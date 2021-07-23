@@ -9,13 +9,6 @@ import BaseModal from '../../../components/Modal/BaseModal';
 const UnapprovedAccounts = () => {
     const dispatch = useDispatch()
     const [selectedUser, setSelectedUser] = useState({})
-    const [selectedRole, setSelectedRole] = useState({
-        isAdmin : false,
-        isSuperAdmin : false,
-        isUser : true,
-        isAffiliate : false,
-        isTrader : false
-    })
     const [showModal, setShowModal] = useState(false)
     const { role, isLoading, unapprovedUsers } = useSelector(state => ({
         role : state.user.role,
@@ -25,7 +18,7 @@ const UnapprovedAccounts = () => {
 
     const setRole = e => {
         if (e.target.value === 'admin') {
-            setSelectedRole({
+            setSelectedUser({
                 isAdmin : true,
                 isSuperAdmin : false,
                 isUser : false,
@@ -34,41 +27,49 @@ const UnapprovedAccounts = () => {
             })
         }
         if (e.target.value === 'superadmin') {
-            setSelectedRole({
+            setSelectedUser({...selectedUser, role:{
                 isAdmin : true,
                 isSuperAdmin : true,
                 isUser : false,
                 isAffiliate : false,
                 isTrader : false
-            })
+            }})
         }
         if (e.target.value === 'user') {
-            setSelectedRole({
+            setSelectedUser({...selectedUser, role:{
                 isAdmin : false,
                 isSuperAdmin : false,
                 isUser : true,
                 isAffiliate : false,
                 isTrader : false
-            })
+            }})
         }
         if (e.target.value === 'affiliate') {
-            setSelectedRole({
+            setSelectedUser({...selectedUser, role:{
                 isAdmin : false,
                 isSuperAdmin : false,
                 isUser : true,
                 isAffiliate : true,
                 isTrader : false
-            })
+            }})
         }
         if (e.target.value === 'trader') {
-            setSelectedRole({
+            setSelectedUser({...selectedUser, role:{
                 isAdmin : false,
                 isSuperAdmin : false,
                 isUser : false,
                 isAffiliate : false,
                 isTrader : true
-            })
+            }})
         }
+    }
+
+    const setROI = (e) => {
+        setSelectedUser({...selectedUser, roi: parseFloat(e.target.value)})
+    }
+
+    const setAssignedTrader = (e) => {
+        setSelectedUser({...selectedUser, assignedTrader: e.target.value})
     }
 
     useEffect(() => {
@@ -76,8 +77,7 @@ const UnapprovedAccounts = () => {
         // eslint-disable-next-line
     },[])
 
-    const approveAccount = (user, role) => {
-        setSelectedUser({...user, role: selectedRole})
+    const approveAccount = (user) => {
         // dispatch(approveUser(selectedUser))
         console.log(selectedUser)
     }
@@ -104,7 +104,7 @@ const UnapprovedAccounts = () => {
                                             close={() => {setShowModal(false)}}
                                             doneText="Approve" 
                                             closeText="Cancel"
-                                            onDone={() => approveAccount(user, selectedRole)}
+                                            onDone={() => approveAccount(user)}
                                         >
                                         <p>Are you sure you want to approve {user.email}'s account?</p>
                                         <p>First Name: {selectedUser.firstName}</p>
@@ -119,6 +119,14 @@ const UnapprovedAccounts = () => {
                                             <option value="admin">Admin</option>
                                             <option value="superadmin">Super Admin</option>
                                         </select>
+                                        {( selectedUser.role && (selectedUser.role.isUser || selectedUser.role.isAffiliate)) && <>
+                                            <input placeholder="ROI" type="number" onChange={setROI} />
+                                            <select onChange={setAssignedTrader}>
+                                                {/* {traders.map( trader =><option defaultChecked value={trader.id}>{trader.firstName} {trader.lastName}</option>)} */}
+                                            </select>
+                                        </>}
+                                        <input />
+
                                         </BaseModal>
                                         
                                     </>
