@@ -1,7 +1,6 @@
 import { FETCH_UNAPPROVED_USERS, GET_UNAPPROVED_USERS } from '../constant';
 
 export const setUnapprovedUsers = users => {
-    console.log(users)
     return {
         type: FETCH_UNAPPROVED_USERS,
         users
@@ -17,7 +16,6 @@ const initState={
 }
 
 export default function unapprovedUsers (state = initState, {type, users}) {
-    console.log(users)
     switch (type) {
         case FETCH_UNAPPROVED_USERS:
             return {users};

@@ -91,7 +91,7 @@ const UnapprovedAccounts = () => {
                     <>
                         Unapproved Users
                         <hr />
-                        {unapprovedUsers && <Table
+                        {unapprovedUsers.length > 0 && <Table
                             headers={['firstName', 'lastName', 'email', 'phone', 'approve']}
                             data={unapprovedUsers.map(user => (
                                 {
