@@ -18,13 +18,13 @@ const UnapprovedAccounts = () => {
 
     const setRole = e => {
         if (e.target.value === 'admin') {
-            setSelectedUser({
+            setSelectedUser({...selectedUser, role:{
                 isAdmin : true,
                 isSuperAdmin : false,
                 isUser : false,
                 isAffiliate : false,
                 isTrader : false
-            })
+            }})
         }
         if (e.target.value === 'superadmin') {
             setSelectedUser({...selectedUser, role:{
