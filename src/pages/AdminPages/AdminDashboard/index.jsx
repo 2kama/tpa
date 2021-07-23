@@ -1,24 +1,16 @@
-import React, {useEffect} from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import React from 'react'
+import { useSelector } from 'react-redux'
 import Authenticate from '../../../components/Authenticate'
 import PageNotFound from '../../PageNotFound'
-import { getUnapprovedUsers } from "../../../store/reducers/unapprovedUser";
-import { Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 
 const AdminDashboard = () => {
-    const dispatch = useDispatch()
-    const { role, isLoading, unapprovedUsers } = useSelector(state => ({
+    const history = useHistory()
+    const { role, isLoading } = useSelector(state => ({
         role : state.user.role,
-        isLoading : state.isLoading,
-        unapprovedUsers: state.unapprovedUsers
+        isLoading : state.isLoading
     }))
-    console.log(unapprovedUsers)
-    useEffect(() => {
-        dispatch(getUnapprovedUsers())
-        // eslint-disable-next-line
-    },[])
-        console.log(unapprovedUsers)
         
 
     return(
@@ -33,7 +25,7 @@ const AdminDashboard = () => {
 
                         This is the Admin Dashboard Page
                         <hr />
-                        <button onClick={() => <Redirect to="/admin/view/users/unapproved" />}>View Unapprove Accounts</button>
+                        <button onClick={() => history.push("/admin/view/users/unapproved")}>View Unapproved Accounts</button>
 
                     </>
                 ) : <PageNotFound />)
