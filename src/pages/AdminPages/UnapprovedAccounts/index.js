@@ -120,8 +120,8 @@ const UnapprovedAccounts = () => {
                                             <option value="superadmin">Super Admin</option>
                                         </select>
                                         {( selectedUser.role && (selectedUser.role.isUser || selectedUser.role.isAffiliate)) && <>
-                                             <br /><input placeholder="ROI" type="number" onChange={setROI} /> <br />
-                                            <select onChange={setAssignedTrader}>
+                                             <br /> ROI: <input placeholder="ROI" type="number" onChange={setROI} /> <br />
+                                            assigned trader: <select onChange={setAssignedTrader}>
                                                 {/* {traders.map( trader =><option defaultChecked value={trader.id}>{trader.firstName} {trader.lastName}</option>)} */}
                                             </select>
                                         </>}
