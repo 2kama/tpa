@@ -43,7 +43,7 @@ const UnapprovedAccounts = () => {
                 isUser : true,
                 isAffiliate : false,
                 isTrader : false
-            }})
+            }, assignedTrader: traders[0]})
         }
         if (e.target.value === 'affiliate') {
             setSelectedUser({...selectedUser, role:{
@@ -52,7 +52,7 @@ const UnapprovedAccounts = () => {
                 isUser : true,
                 isAffiliate : true,
                 isTrader : false
-            }})
+            },  assignedTrader: traders[0]})
         }
         if (e.target.value === 'trader') {
             setSelectedUser({...selectedUser, role:{
@@ -82,7 +82,11 @@ const UnapprovedAccounts = () => {
 
     const approveAccount = (user) => {
         // dispatch(approveUser(selectedUser))
+        if (!selectedUser.role.isAffiliate) {
+            setSelectedUser({...selectedUser, affiliateCode: null})
+        }
         console.log(selectedUser)
+
     }
 
     return(
@@ -124,15 +128,23 @@ const UnapprovedAccounts = () => {
                                             <option defaultChecked value="user">User</option>
                                             <option value="affiliate">Affiliate</option>
                                             <option value="trader">Trader</option>
-                                            <option value="admin">Admin</option>
-                                            <option value="superadmin">Super Admin</option>
+                                            {role.isSuperAdmin && <>
+                                                <option value="admin">Admin</option>
+                                                <option value="superadmin">Super Admin</option>
+                                            </>}
                                         </select>
                                         {( selectedUser.role && (selectedUser.role.isUser || selectedUser.role.isAffiliate)) && <>
                                              <br /> ROI: <input placeholder="ROI" type="number" onChange={setROI} /> <br />
                                             assigned trader: <select onChange={setAssignedTrader}>
-                                                {traders.map( trader =><option key={trader.uid} defaultChecked value={trader.uid}>{trader.firstName} {trader.lastName}</option>)}
+                                                {traders.map( trader =><option key={trader.uid} value={trader.uid}>{trader.firstName} {trader.lastName}</option>)}
                                             </select>
                                         </>}
+                                        {
+                                            selectedUser.role && selectedUser.role.isAffiliate && 
+                                            (
+                                                <><br /> Affiliate Code: <input type="text" placeholder="affiliate code" onChange={e => {setSelectedUser({...selectedUser, affiliateCode: selectedUser.role.isAffiliate ? e.target.value : null})}} /></>
+                                            )
+                                        }
 
                                         </BaseModal>
                                         
