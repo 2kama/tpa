@@ -115,7 +115,7 @@ const UnapprovedAccounts = () => {
                                             closeText="Cancel"
                                             onDone={() => approveAccount(user)}
                                         >
-                                        <p>Are you sure you want to approve {user.email}'s account?</p>
+                                        <p>Are you sure you want to approve {selectedUser.email}'s account?</p>
                                         <p>First Name: {selectedUser.firstName}</p>
                                         <p>Last Name: {selectedUser.lastName}</p>
                                         <p>Email: {selectedUser.email}</p>
