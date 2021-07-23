@@ -90,5 +90,11 @@ export function* handleGetUnapprovedUsers(action) {
         
     } catch (err) {
         console.log(err)
+        const alertData = {
+            msg : err.message,
+            alertType : 'error',
+            id: uuidv4()
+        }
+        yield put(setAlert(alertData))
     }
 }
