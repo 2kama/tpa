@@ -14,3 +14,15 @@ export const getUnapprovedUsers = async () => {
     }
     return unapprovedUsers.reverse()
 }
+
+export const getAllTraders = async () => {
+    let data = await db.collection('users').get()
+    let traders = []
+    for (let user of data.docs) {
+        let privateInfo = await db.doc(`users/${user.id}/private/info`).get()
+        if (privateInfo.data().role.isTrader) {
+             traders.push({...user.data(), ...privateInfo.data()})
+        }
+    }
+    return traders.reverse()
+}

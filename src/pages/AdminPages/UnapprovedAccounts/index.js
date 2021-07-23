@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import { useSelector, useDispatch, shallowEqual } from 'react-redux'
 import Authenticate from '../../../components/Authenticate'
 import PageNotFound from '../../PageNotFound'
-import { getUnapprovedUsers } from "../../../store/reducers/unapprovedUser";
+import { getUnapprovedUsers, getTraders } from "../../../store/reducers/adminQuery";
 import { Table } from '../../../components/Table/Table';
 import BaseModal from '../../../components/Modal/BaseModal';
 
@@ -10,10 +10,11 @@ const UnapprovedAccounts = () => {
     const dispatch = useDispatch()
     const [selectedUser, setSelectedUser] = useState({})
     const [showModal, setShowModal] = useState(false)
-    const { role, isLoading, unapprovedUsers } = useSelector(state => ({
+    const { role, isLoading, unapprovedUsers, traders } = useSelector(state => ({
         role : state.user.role,
         isLoading : state.isLoading,
-        unapprovedUsers: state.unapprovedUsers.users
+        unapprovedUsers: state.adminQuery.unapprovedUsers,
+        traders: state.adminQuery.traders,
     }), shallowEqual)
 
     const setRole = e => {
@@ -69,11 +70,13 @@ const UnapprovedAccounts = () => {
     }
 
     const setAssignedTrader = (e) => {
-        setSelectedUser({...selectedUser, assignedTrader: e.target.value})
+        const assignedTrader = traders.find(trader => trader.uid === e.target.value)
+        setSelectedUser({...selectedUser, assignedTrader})
     }
 
     useEffect(() => {
         dispatch(getUnapprovedUsers())
+        dispatch(getTraders())
         // eslint-disable-next-line
     },[])
 
@@ -122,7 +125,7 @@ const UnapprovedAccounts = () => {
                                         {( selectedUser.role && (selectedUser.role.isUser || selectedUser.role.isAffiliate)) && <>
                                              <br /> ROI: <input placeholder="ROI" type="number" onChange={setROI} /> <br />
                                             assigned trader: <select onChange={setAssignedTrader}>
-                                                {/* {traders.map( trader =><option defaultChecked value={trader.id}>{trader.firstName} {trader.lastName}</option>)} */}
+                                                {traders.map( trader =><option key={trader.uid} defaultChecked value={trader.uid}>{trader.firstName} {trader.lastName}</option>)}
                                             </select>
                                         </>}
 

@@ -1,7 +1,7 @@
 import { takeLatest } from "redux-saga/effects"
-import { GET_USER, LOGIN_USER, REGISTER_USER, VERIFY_USER, GET_UNAPPROVED_USERS } from "../constant"
+import { GET_USER, LOGIN_USER, REGISTER_USER, VERIFY_USER, GET_UNAPPROVED_USERS, GET_TRADERS } from "../constant"
 import { handleGetUser, handleLoginUser, handleRegisterUser, handleVerifyUser } from "./handlers/user"
-import { handleGetUnapprovedUsers} from "./handlers/adminQueryUsers"
+import { handleGetUnapprovedUsers, handleGetTraders} from "./handlers/adminQueryUsers"
 
 
 export function*  watcherSaga() {
@@ -10,4 +10,5 @@ export function*  watcherSaga() {
     yield takeLatest(LOGIN_USER, handleLoginUser)
     yield takeLatest(VERIFY_USER, handleVerifyUser)
     yield takeLatest(GET_UNAPPROVED_USERS, handleGetUnapprovedUsers)
+    yield takeLatest(GET_TRADERS, handleGetTraders)
 }
