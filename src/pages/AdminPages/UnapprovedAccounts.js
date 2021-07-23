@@ -43,11 +43,6 @@ const UnapprovedAccounts = () => {
                                 }
                             ))} 
                         />}
-                        <hr />
-                        {selectedUsers.length > 0 && <Table
-                            headers={['firstName', 'lastName', 'email', 'phone']}
-                            data={selectedUsers} 
-                        />}
                     </>
                 ) : <PageNotFound />)
             }
