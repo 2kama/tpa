@@ -43,9 +43,3 @@ export const requestGetUserPrivateData = () => {
 export const requestGetUser = () => {
     return db.doc(`users/${auth.currentUser.uid}`).get()
 }
-
-export const getUnapprovedUsers = () => {
-    return db.collection('newUser').get().then((users) => {
-        return users.docs.map((user) => user.data())
-    })
-}

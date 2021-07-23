@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react'
 import { useSelector, useDispatch, shallowEqual } from 'react-redux'
-import Authenticate from '../../components/Authenticate'
-import PageNotFound from '../PageNotFound'
-import { getUnapprovedUsers } from "../../store/reducers/unapprovedUser";
-import { Table } from '../../components/Table/Table';
-import BaseModal from '../../components/Modal/BaseModal';
+import Authenticate from '../../../components/Authenticate'
+import PageNotFound from '../../PageNotFound'
+import { getUnapprovedUsers } from "../../../store/reducers/unapprovedUser";
+import { Table } from '../../../components/Table/Table';
+import BaseModal from '../../../components/Modal/BaseModal';
 
 const UnapprovedAccounts = () => {
     const dispatch = useDispatch()
@@ -20,7 +20,7 @@ const UnapprovedAccounts = () => {
     const { role, isLoading, unapprovedUsers } = useSelector(state => ({
         role : state.user.role,
         isLoading : state.isLoading,
-        unapprovedUsers: state.unapprovedUsers
+        unapprovedUsers: state.unapprovedUsers.users
     }), shallowEqual)
 
     const setRole = e => {
@@ -74,7 +74,7 @@ const UnapprovedAccounts = () => {
     useEffect(() => {
         dispatch(getUnapprovedUsers())
         // eslint-disable-next-line
-    },[unapprovedUsers])
+    },[])
 
     const approveAccount = (user, role) => {
         setSelectedUser({...user, role: selectedRole})
@@ -91,7 +91,7 @@ const UnapprovedAccounts = () => {
                     <>
                         Unapproved Users
                         <hr />
-                        {unapprovedUsers.length > 0 && <Table
+                        {unapprovedUsers && <Table
                             headers={['firstName', 'lastName', 'email', 'phone', 'approve']}
                             data={unapprovedUsers.map(user => (
                                 {
@@ -133,3 +133,4 @@ const UnapprovedAccounts = () => {
 }
 
 export default UnapprovedAccounts
+

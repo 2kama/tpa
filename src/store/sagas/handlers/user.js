@@ -1,10 +1,9 @@
 import { call, put } from 'redux-saga/effects'
 import { setUser } from '../../reducers/user'
-import { requestGetUser, requestRegisterUser, requestGetUserPrivateData, requestLoginUser, requestVerifyUser, getUnapprovedUsers } from '../requests/user'
+import { requestGetUser, requestRegisterUser, requestGetUserPrivateData, requestLoginUser, requestVerifyUser } from '../requests/user'
 import { v4 as uuidv4 } from 'uuid'
 import { enableButton } from '../../reducers/buttonState'
 import { setAlert } from '../../reducers/alerts'
-import { fetchUnapprovedUsers } from '../../reducers/unapprovedUser'
 
 export function* handleGetUser(action) {
     try {
@@ -76,25 +75,5 @@ export function* handleVerifyUser(action) {
         }
         yield put(setAlert(alertData))
         yield put(enableButton())
-    }
-}
-
-
-export function* handleGetUnapprovedUsers(action) {
-    try {
-
-        const response = yield call(getUnapprovedUsers)
-        yield put(fetchUnapprovedUsers(
-            response
-        ))
-        
-    } catch (err) {
-        console.log(err)
-        const alertData = {
-            msg : err.message,
-            alertType : 'error',
-            id: uuidv4()
-        }
-        yield put(setAlert(alertData))
     }
 }
