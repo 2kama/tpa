@@ -100,7 +100,13 @@ const UnapprovedAccounts = () => {
                                 {
                                     ...user,
                                     'approve':  <>
-                                        <button onClick={() => {setShowModal(true); setSelectedUser(user)}}>Approve</button>
+                                        <button onClick={() => {setShowModal(true); setSelectedUser({...user, role:{
+                                            isAdmin : false,
+                                            isSuperAdmin : false,
+                                            isUser : true,
+                                            isAffiliate : false,
+                                            isTrader : false
+                                        }})}}>Approve</button>
                                         <BaseModal 
                                             title={`Approve ${selectedUser.email}'s account`}
                                             show={showModal}
@@ -115,8 +121,7 @@ const UnapprovedAccounts = () => {
                                         <p>Email: {selectedUser.email}</p>
                                         <p>Phone Number: {selectedUser.phone}</p>
                                         role: <select onChange={setRole}>
-                                            <option defaultChecked value="select">select</option>
-                                            <option value="user">User</option>
+                                            <option defaultChecked value="user">User</option>
                                             <option value="affiliate">Affiliate</option>
                                             <option value="trader">Trader</option>
                                             <option value="admin">Admin</option>

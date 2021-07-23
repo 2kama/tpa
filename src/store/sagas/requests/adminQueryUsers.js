@@ -24,5 +24,5 @@ export const getAllTraders = async () => {
              traders.push({...user.data(), ...privateInfo.data()})
         }
     }
-    return traders.reverse()
+    return traders
 }
