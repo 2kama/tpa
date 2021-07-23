@@ -125,7 +125,6 @@ const UnapprovedAccounts = () => {
                                                 {/* {traders.map( trader =><option defaultChecked value={trader.id}>{trader.firstName} {trader.lastName}</option>)} */}
                                             </select>
                                         </>}
-                                        <input />
 
                                         </BaseModal>
                                         
