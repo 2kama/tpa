@@ -1,4 +1,4 @@
-import { GET_USER, LOGIN_USER, REGISTER_USER, SET_USER, VERIFY_USER } from "../constant";
+import { GET_USER, LOGIN_USER, REGISTER_USER, SET_USER, UPDATE_KIN, UPDATE_PASSWORD, UPDATE_USER, UPDATE_USER_BANK, VERIFY_USER } from "../constant";
 
 
 
@@ -14,6 +14,26 @@ export const loginUser = (userData) => ({
 
 export const verifyUser = () => ({
     type : VERIFY_USER
+})
+
+export const updateUser = (userData) => ({
+    type : UPDATE_USER,
+    userData
+})
+
+export const updateKin = (userData) => ({
+    type : UPDATE_KIN,
+    userData
+})
+
+export const updateUserBank = (userData) => ({
+    type: UPDATE_USER_BANK,
+    userData
+})
+
+export const updatePassword = (userData) => ({
+    type: UPDATE_PASSWORD,
+    userData
 })
 
 export const getUser = () => ({

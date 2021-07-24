@@ -10,7 +10,7 @@ import FieldError from "../Error/FieldError"
 
 
 
-const AppFormField = ({ name, type, placeholder = "", icon = false, disabled = false }) =>{
+const AppFormField = ({ name, type, placeholder = "", icon = false, disabled = false, hidden = false }) =>{
   const {
     handleBlur,
     handleChange,
@@ -34,6 +34,7 @@ const AppFormField = ({ name, type, placeholder = "", icon = false, disabled = f
           type={type}    
           placeholder={placeholder}
           disabled={disabled}
+          hidden={hidden}
         />
        <FieldError error={errors[name]} visible={touched[name]} />
      </div>

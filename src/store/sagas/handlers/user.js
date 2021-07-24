@@ -1,9 +1,11 @@
 import { call, put } from 'redux-saga/effects'
 import { setUser } from '../../reducers/user'
-import { requestGetUser, requestRegisterUser, requestGetUserPrivateData, requestLoginUser, requestVerifyUser } from '../requests/user'
+import { requestGetUser, requestRegisterUser, requestGetUserPrivateData, requestLoginUser, requestVerifyUser, requestUpdateUser, requestUpdateKin, requestUpdateUserBank, reAuthUser, requestUpdatePassword } from '../requests/user'
 import { v4 as uuidv4 } from 'uuid'
 import { enableButton } from '../../reducers/buttonState'
 import { setAlert } from '../../reducers/alerts'
+
+
 
 export function* handleGetUser(action) {
     try {
@@ -75,5 +77,118 @@ export function* handleVerifyUser(action) {
         }
         yield put(setAlert(alertData))
         yield put(enableButton())
+    }
+}
+
+
+export function* handleUpdateUser(action) {
+    try {
+        yield call(requestUpdateUser.bind(null, action.userData))
+        const alertData = {
+            msg : "Profile has been updated",
+            alertType : 'success',
+            id: uuidv4()
+        }
+        yield put(setAlert(alertData))
+        yield put(enableButton())
+        
+    } catch (err) {
+        const alertData = {
+            msg : err.message,
+            alertType : 'error',
+            id: uuidv4()
+        }
+        yield put(setAlert(alertData))
+        yield put(enableButton())
+    }
+}
+
+
+export function* handleUpdateKin(action) {
+    try {
+        yield call(requestUpdateKin.bind(null, action.userData))
+        const alertData = {
+            msg : "Next of Kin Info has been updated",
+            alertType : 'success',
+            id: uuidv4()
+        }
+        yield put(setAlert(alertData))
+        yield put(enableButton())
+        
+    } catch (err) {
+        const alertData = {
+            msg : err.message,
+            alertType : 'error',
+            id: uuidv4()
+        }
+        yield put(setAlert(alertData))
+        yield put(enableButton())
+    }
+}
+
+
+
+export function* handleUpdateUserBank(action) {
+    try {
+        yield call(requestUpdateUserBank.bind(null, action.userData))
+        const alertData = {
+            msg : "Banking Details have been updated",
+            alertType : 'success',
+            id: uuidv4()
+        }
+        yield put(setAlert(alertData))
+        yield put(enableButton())
+        
+    } catch (err) {
+        const alertData = {
+            msg : err.message,
+            alertType : 'error',
+            id: uuidv4()
+        }
+        yield put(setAlert(alertData))
+        yield put(enableButton())
+    }
+}
+
+
+export function* handleUpdatePassword(action) {
+    try {
+
+        yield call(reAuthUser.bind(null, action.userData.password))
+
+        try {
+
+            yield call(requestUpdatePassword.bind(null, action.userData.newPassword))
+
+            const alertData = {
+                msg : "Password has been Updated",
+                alertType : 'success',
+                id: uuidv4()
+            }
+            yield put(setAlert(alertData))
+            yield put(enableButton())
+            
+        } catch (err) {
+
+            const alertData = {
+                msg : err.message,
+                alertType : 'error',
+                id: uuidv4()
+            }
+            yield put(setAlert(alertData))
+            yield put(enableButton())
+            
+        }
+        
+    } catch (err) {
+
+        const alertData = {
+            msg : err.message,
+            alertType : 'error',
+            id: uuidv4()
+        }
+        yield put(setAlert(alertData))
+        yield put(enableButton())
+        
     }
 }

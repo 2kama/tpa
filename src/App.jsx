@@ -17,6 +17,7 @@ import UserDashboard from './pages/UserPages/UserDashboard'
 import AdminDashboard from './pages/AdminPages/AdminDashboard'
 import TraderDashboard from './pages/TraderPages/TraderDashboard'
 import PageNotFound from './pages/PageNotFound'
+import Account from './pages/Account'
 
 
 
@@ -37,6 +38,8 @@ const App = () => {
                     <Route exact path="/dashboard" component={UserDashboard} />
                     <Route exact path="/admin/dashboard" component={AdminDashboard} />
                     <Route exact path="/trader/dashboard" component={TraderDashboard} />
+
+                    <Route exact path="/account" component={Account} />
 
                     <Route component={PageNotFound} />
                 </Switch>

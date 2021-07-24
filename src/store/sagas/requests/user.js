@@ -43,3 +43,25 @@ export const requestGetUserPrivateData = () => {
 export const requestGetUser = () => {
     return db.doc(`users/${auth.currentUser.uid}`).get()
 }
+
+export const requestUpdateUser = (userData) => {
+    return db.doc(`users/${auth.currentUser.uid}`).update(userData)
+}
+
+export const requestUpdateKin = (userData) => {
+    return db.doc(`users/${auth.currentUser.uid}`).update(userData)
+}
+
+export const requestUpdateUserBank = (userData) => {
+    return db.doc(`users/${auth.currentUser.uid}`).update(userData)
+}
+
+export const reAuthUser = (password) => {
+    const user = auth.currentUser
+    let credentials = firebase.auth.EmailAuthProvider.credential(user.email, password)
+    return user.reauthenticateWithCredential(credentials)
+}
+
+export const requestUpdatePassword = (newPassword) => {
+    return auth.currentUser.updatePassword(newPassword)
+}

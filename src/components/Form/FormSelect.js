@@ -3,25 +3,32 @@ import React, { useState } from "react";
 //third party components
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Modal } from "react-bootstrap";
+import { useFormikContext } from "formik";
 
 //custom components
 import FieldError from "../Error/FieldError"
 
+const FormSelect = ({ name, icon=false, options, index, disabled=false }) =>{
 
-const FormSelect = ({ icon=false, options, value, select, disabled=false, error }) =>{
-  
+
+    const {
+        errors,
+        touched
+      } = useFormikContext();
+
+      let { values } = useFormikContext()
 
 
   const [show, toggleShow] = useState(false)
-  const [currentVal, setVal] = useState(value)
+  const [currentIndex, setIndex] = useState(index)
 
   const doNothing = () => {}
 
 
   const choose = (idx) => {
-      setVal(idx)
+      setIndex(idx)
       toggleShow(false)
-      select(idx)
+      values[name] = options[idx][1]
   }
 
   return (
@@ -31,26 +38,27 @@ const FormSelect = ({ icon=false, options, value, select, disabled=false, error 
                 <div className="card">
 
                     {
-                        options.map((tag, idx) => <div onClick={e => choose(idx)} key={tag[1]} className={`${value === idx && 'selected'} optionsTag`}>{tag[0]}</div>)
+                        options.map((tag, idx) => <div onClick={e => choose(idx)} key={tag[1]} className={`optionsTag`}>{tag[0]}</div>)
                     }
                 </div>
              </Modal.Body>
         </Modal>
 
-        <div className={`formInput${error ? ' error' : ''}`} onClick={e => disabled ? doNothing() : toggleShow(true)}>
+        <div className={`formInput`} onClick={e => disabled ? doNothing() : toggleShow(true)}>
             {
                 icon && <FontAwesomeIcon icon={icon} />
             }
         
             <input
-            value={options[currentVal][0]}
+            value={options[currentIndex][0]}
             type="text"   
             disabled={true} 
             />
 
-            <FieldError error="This field is required" visible={error} />
+            <FieldError error={errors[name]} visible={touched[name]} />
         
         </div>
+
     
     </>
   );

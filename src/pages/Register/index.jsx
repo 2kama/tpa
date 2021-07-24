@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useSelector, shallowEqual, useDispatch } from 'react-redux'
 import * as Yup from 'yup'
 
@@ -15,7 +15,8 @@ const validationSchema = Yup.object().shape({
     passwordConfirmation: Yup.string().required().oneOf([Yup.ref('password'), null], 'Passwords must match').label("Password Confirmation"),
     firstName: Yup.string().required().min(3).label("First Name"),
     lastName: Yup.string().required().min(3).label("Last Name"),
-    phone: Yup.string().required().label("Phone Number")
+    phone: Yup.string().required().label("Phone Number"),
+    terms: Yup.boolean().oneOf([true], 'Must accept Terms and Services')
 })
 
 
@@ -26,9 +27,6 @@ const Register = () => {
     const dispatch = useDispatch()
     const { query } = useQuery()
 
-    
-    const[termsChecked, setTermsChecked] = useState(false)
-    const[mustPick, setMustPick] = useState(false)
 
     const { buttonDisable, isAuthenticated, isLoading } = useSelector(state => ({
         buttonDisable : state.buttonState.buttonDisable,
@@ -38,8 +36,6 @@ const Register = () => {
 
 
     const submitForm = ({ email, password, passwordConfirmation, affiliate, firstName, lastName, phone }) => {
-
-        if(termsChecked) {
 
             const userData = {
                 email,
@@ -54,10 +50,7 @@ const Register = () => {
             dispatch(disableButton())
             dispatch(registerUser(userData))
 
-        }else {
-            setMustPick(true)
-        }
-
+        
     }
 
 
@@ -72,7 +65,7 @@ const Register = () => {
                     <div>this is Register page</div>
 
                     <Form
-                        initialValues={{ firstName: "", lastName: "", phone: "", email: "", password: "", passwordConfirmation: "", affiliate: query.affiliate || "" }}
+                        initialValues={{ firstName: "", lastName: "", phone: "", email: "", password: "", passwordConfirmation: "", affiliate: query.affiliate || "", terms : false }}
                         onSubmit={submitForm}
                         validationSchema={validationSchema}
                     >
@@ -120,7 +113,7 @@ const Register = () => {
                             placeholder="Affiliate Code [Optional]"
                         />
 
-                        <FormCheckBox clicker={setTermsChecked} checked={termsChecked} text={termsText} error={mustPick} />
+                        <FormCheckBox name="terms" text={termsText} />
 
                         <SubmitButton title="Register" disable={buttonDisable} />
 
