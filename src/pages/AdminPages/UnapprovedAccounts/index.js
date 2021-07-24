@@ -85,9 +85,6 @@ const UnapprovedAccounts = () => {
         if (!selectedUser.role.isAffiliate) {
             setSelectedUser({...selectedUser, affiliateCode: ""})
         }
-        if (!selectedUser.role.isAffiliate) {
-            setSelectedUser({...selectedUser, affiliateCode: ""})
-        }
         console.log(selectedUser)
 
     }
