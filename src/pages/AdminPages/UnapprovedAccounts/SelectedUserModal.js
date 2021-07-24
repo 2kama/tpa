@@ -2,15 +2,9 @@ import React from 'react'
 import { useSelector, useDispatch, shallowEqual } from 'react-redux'
 import BaseModal from '../../../components/Modal/BaseModal'
 import * as Yup from 'yup'
-import { Form, FormField, SubmitButton } from '../../../components/Form'
+import { Form, FormField, FormSelect, SubmitButton } from '../../../components/Form'
 import { setSelectedUnApprovedUser } from '../../../store/reducers/adminQuery';
-
-const validationSchema = Yup.object().shape({
-    email: Yup.string().required().email().label("Email"),
-    firstName: Yup.string().required().min(3).label("First Name"),
-    lastName: Yup.string().required().min(3).label("Last Name"),
-    phone: Yup.string().required().label("Phone Number")
-})
+import { superAdminSettableRoles, adminSettableRoles } from '../../../utils/userRoles'
 
 const SelectedUnapprovedUserModal = ({showModal, closeModal}) => {
 
@@ -21,25 +15,38 @@ const SelectedUnapprovedUserModal = ({showModal, closeModal}) => {
         traders: state.adminQuery.traders,
     }), shallowEqual)
 
-    const approveUser = ({firstName, lastName, email, phone, affiliateCode, roi}) => {
+    const validationSchema = Yup.object().shape({
+        email: Yup.string().required().email().label("Email"),
+        firstName: Yup.string().required().min(3).label("First Name"),
+        lastName: Yup.string().required().min(3).label("Last Name"),
+        phone: Yup.string().required().label("Phone Number"),
+        roi: selectedUnapprovedUser.role && (selectedUnapprovedUser.role.isUser || selectedUnapprovedUser.role.isAffiliate) &&  Yup.number().required().label("ROI"),
+        affiliateCode: selectedUnapprovedUser.role && selectedUnapprovedUser.role.isAffiliate && Yup.string().required().length(6).label("Affiliate Code"),
+        assignedTrader: selectedUnapprovedUser.role && (selectedUnapprovedUser.role.isUser || selectedUnapprovedUser.role.isAffiliate) && Yup.string().required().label("Assigned Trader")
+    })
+
+    const approveUser = ({firstName, lastName, email, phone, affiliateCode, roi, assignedTrader}) => {
+        console.log(roi)
+        console.log(assignedTrader)
         if (!selectedUnapprovedUser.role.isAffiliate) affiliateCode=""
         if (!selectedUnapprovedUser.role.isAffiliate && !selectedUnapprovedUser.role.isUser) {
             roi=""
-            selectedUnapprovedUser.assignedTrader=""
+            assignedTrader=""
         }
-        console.log(roi)
         dispatch(setSelectedUnApprovedUser(
             {
                 ...selectedUnapprovedUser, 
-                affiliateCode, roi
+                affiliateCode, roi, assignedTrader
             }
         ))
-        console.log(selectedUnapprovedUser)        
+        console.log(selectedUnapprovedUser)
+        // dispath disable button
+        // dispatch approve user, then in the approve user dispatch enable button
     }
 
-    const setRole = e => {
+    const setRole = role => {
         let user = {...selectedUnapprovedUser}
-        if (e.target.value === 'admin') {
+        if (role === 'admin') {
             user = {...selectedUnapprovedUser, role:{
                 isAdmin : true,
                 isSuperAdmin : false,
@@ -48,7 +55,7 @@ const SelectedUnapprovedUserModal = ({showModal, closeModal}) => {
                 isTrader : false
             }}
         }
-        if (e.target.value === 'superadmin') {
+        if (role === 'superadmin') {
             user = {...selectedUnapprovedUser, role:{
                 isAdmin : true,
                 isSuperAdmin : true,
@@ -57,7 +64,7 @@ const SelectedUnapprovedUserModal = ({showModal, closeModal}) => {
                 isTrader : false
             }}
         }
-        if (e.target.value === 'user') {
+        if (role === 'user') {
             user = {...selectedUnapprovedUser, role:{
                 isAdmin : false,
                 isSuperAdmin : false,
@@ -66,7 +73,7 @@ const SelectedUnapprovedUserModal = ({showModal, closeModal}) => {
                 isTrader : false
             }, assignedTrader: traders[0].id}
         }
-        if (e.target.value === 'affiliate') {
+        if (role === 'affiliate') {
             user = {...selectedUnapprovedUser, role:{
                 isAdmin : false,
                 isSuperAdmin : false,
@@ -75,7 +82,7 @@ const SelectedUnapprovedUserModal = ({showModal, closeModal}) => {
                 isTrader : false
             }}
         }
-        if (e.target.value === 'trader') {
+        if (role === 'trader') {
             user = {...selectedUnapprovedUser, role:{
                 isAdmin : false,
                 isSuperAdmin : false,
@@ -85,16 +92,6 @@ const SelectedUnapprovedUserModal = ({showModal, closeModal}) => {
             }}
         }
         dispatch(setSelectedUnApprovedUser(user))
-    }
-
-    const setAssignedTrader = (e) => {
-        dispatch(setSelectedUnApprovedUser(
-            {
-                ...selectedUnapprovedUser, 
-                assignedTrader: e.target.value
-            }
-        ))
-        console.log(selectedUnapprovedUser)
     }
 
     const initialFormValues = {
@@ -122,24 +119,15 @@ const SelectedUnapprovedUserModal = ({showModal, closeModal}) => {
                 <FormField name="lastName" type="text" disabled />
                 <FormField name="email" type="email" disabled />
                 <FormField name="phone" type="text" disabled />
-                <select onChange={setRole}>
-                    <option defaultChecked value="user">User</option>
-                    <option value="affiliate">Affiliate</option>
-                    <option value="trader">Trader</option>
-                    {role.isSuperAdmin && <>
-                        <option value="admin">Admin</option>
-                        <option value="superadmin">Super Admin</option>
-                    </>}
-                </select>
+                <FormSelect name="role" index={0} 
+                    updateStuff={(role) => setRole(role)}
+                    options={role.isSuperAdmin ? 
+                        superAdminSettableRoles : adminSettableRoles} />
                 {selectedUnapprovedUser.role && (selectedUnapprovedUser.role.isUser || selectedUnapprovedUser.role.isAffiliate) && <>
                     <FormField name="roi" placeholder="ROI" type="number" />
-                    <select onChange={setAssignedTrader}>
-                        <option defaultChecked value="">Select</option>
-                        {traders.map( trader =><option 
-                            key={trader.id} 
-                            value={trader.id}>{trader.firstName} {trader.lastName}
-                            </option>)}
-                    </select>
+                    <FormSelect name="assignedTrader" index={0} 
+                        options={traders.map(trader => 
+                            [`${trader.firstName} ${trader.lastName}`, trader.id])} />
                 </>}
                 {
                     selectedUnapprovedUser.role && selectedUnapprovedUser.role.isAffiliate && 
