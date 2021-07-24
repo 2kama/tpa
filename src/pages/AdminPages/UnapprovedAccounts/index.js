@@ -43,7 +43,7 @@ const UnapprovedAccounts = () => {
                 isUser : true,
                 isAffiliate : false,
                 isTrader : false
-            }, assignedTrader: traders[0]})
+            }, assignedTrader: traders[0].id})
         }
         if (e.target.value === 'affiliate') {
             setSelectedUser({...selectedUser, role:{
@@ -52,7 +52,7 @@ const UnapprovedAccounts = () => {
                 isUser : true,
                 isAffiliate : true,
                 isTrader : false
-            },  assignedTrader: traders[0]})
+            }})
         }
         if (e.target.value === 'trader') {
             setSelectedUser({...selectedUser, role:{
@@ -70,8 +70,8 @@ const UnapprovedAccounts = () => {
     }
 
     const setAssignedTrader = (e) => {
-        const assignedTrader = traders.find(trader => trader.uid === e.target.value)
-        setSelectedUser({...selectedUser, assignedTrader})
+        setSelectedUser({...selectedUser, assignedTrader: e.target.value})
+        console.log(selectedUser)
     }
 
     useEffect(() => {
@@ -83,7 +83,10 @@ const UnapprovedAccounts = () => {
     const approveAccount = (user) => {
         // dispatch(approveUser(selectedUser))
         if (!selectedUser.role.isAffiliate) {
-            setSelectedUser({...selectedUser, affiliateCode: null})
+            setSelectedUser({...selectedUser, affiliateCode: ""})
+        }
+        if (!selectedUser.role.isAffiliate) {
+            setSelectedUser({...selectedUser, affiliateCode: ""})
         }
         console.log(selectedUser)
 
@@ -136,7 +139,7 @@ const UnapprovedAccounts = () => {
                                         {( selectedUser.role && (selectedUser.role.isUser || selectedUser.role.isAffiliate)) && <>
                                              <br /> ROI: <input placeholder="ROI" type="number" onChange={setROI} /> <br />
                                             assigned trader: <select onChange={setAssignedTrader}>
-                                                {traders.map( trader =><option key={trader.uid} value={trader.uid}>{trader.firstName} {trader.lastName}</option>)}
+                                                {traders.map( trader =><option key={trader.id} value={trader.id}>{trader.firstName} {trader.lastName}</option>)}
                                             </select>
                                         </>}
                                         {

@@ -3,26 +3,31 @@ import firebase from '../../../utils/Firebase'
 const db = firebase.firestore()
 
 export const getUnapprovedUsers = async () => {
-    let data = await db.collection('users').get()
-    let unapprovedUsers = []
-    for (let user of data.docs) {
-        let privateInfo = await db.doc(`users/${user.id}/private/info`).get()
-        if (!privateInfo.data().isApproved) {
-            let userData = await db.doc(`newUser/${privateInfo.data().email}`).get()
-             unapprovedUsers.push(userData.data())
+    try {
+        let data = await db.collectionGroup('private')
+            .where('isApproved', '==', false)
+            .orderBy('createdAt', 'desc')
+            .get()
+        let unapprovedUsers = []
+        for (let user of data.docs) {
+            let userData = await db.doc(`newUser/${user.data().email}`).get()
+            unapprovedUsers.push(userData.data())
         }
+    return unapprovedUsers
+    } catch (error) {
+        console.log(error)
+        return []
     }
-    return unapprovedUsers.reverse()
 }
 
 export const getAllTraders = async () => {
-    let data = await db.collection('users').get()
+    let data = await db.collectionGroup('private')
+            .where('role.isTrader', '==', true)
+            .get()
     let traders = []
-    for (let user of data.docs) {
-        let privateInfo = await db.doc(`users/${user.id}/private/info`).get()
-        if (privateInfo.data().role.isTrader) {
-             traders.push({...user.data(), ...privateInfo.data()})
-        }
+    for (let userInfo of data.docs) {
+        let user = await db.collection('users').doc(userInfo.data().uid).get()
+        traders.push({...user.data(), id: userInfo.data().uid})
     }
     return traders
 }
