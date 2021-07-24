@@ -1,7 +1,7 @@
 import React from 'react'
 import { Modal, Button } from 'react-bootstrap';
 
-const BaseModal = ({show, close, title, children, doneText, closeText, onDone, disabled}) => {
+const BaseModal = ({show, close, title, children, closeText}) => {
     return (
         <Modal
             show={show}
@@ -10,16 +10,13 @@ const BaseModal = ({show, close, title, children, doneText, closeText, onDone, d
             aria-labelledby="contained-modal-title-vcenter"
             centered
         >
-            <Modal.Header closeButton>
+            <Modal.Header>
                 <Modal.Title>{title}</Modal.Title>
             </Modal.Header>
                 <Modal.Body>{children}</Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={close}>
                     {closeText}
-                </Button>
-                <Button variant="primary" onClick={onDone}>
-                    {doneText}
                 </Button>
             </Modal.Footer>
         </Modal>
