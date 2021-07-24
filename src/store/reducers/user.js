@@ -1,4 +1,4 @@
-import { GET_USER, LOGIN_USER, REGISTER_USER, SET_USER, UPDATE_KIN, UPDATE_PASSWORD, UPDATE_USER, UPDATE_USER_BANK, VERIFY_USER } from "../constant";
+import { GET_USER, LOGIN_USER, REGISTER_USER, SET_ACCOUNT_NAME, SET_USER, UPDATE_KIN, UPDATE_PASSWORD, UPDATE_USER, UPDATE_USER_BANK, VERIFY_USER } from "../constant";
 
 
 
@@ -45,6 +45,11 @@ export const setUser = (user) => ({
     user
 })
 
+export const setAccName = (user) => ({
+    type : SET_ACCOUNT_NAME,
+    user
+})
+
 
 const initialState = {
     isLoading : true
@@ -54,6 +59,12 @@ export default function user (state = initialState, action) {
     let { user } = action
     switch (action.type) {
         case SET_USER:
+            return {
+                ...state,
+                ...user,
+                isLoading: false
+            };
+        case SET_ACCOUNT_NAME:
             return {
                 ...state,
                 ...user,
