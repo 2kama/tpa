@@ -23,7 +23,10 @@ const UnapprovedUsers = () => {
                     isUser : true,
                     isAffiliate : false,
                     isTrader : false
-                }
+                },
+                assignedTrader: "",
+                roi: "",
+                affiliateCode: ""
             }
         ))
         setShowModal(true)

@@ -3,7 +3,8 @@ import {
     GET_UNAPPROVED_USERS, 
     GET_TRADERS, 
     SET_TRADERS, 
-    SELECT_UNAPPROVED_USER
+    SELECT_UNAPPROVED_USER,
+    APPROVE_USER
 } from '../constant';
 
 export const setUnapprovedUsers = users => {
@@ -19,6 +20,12 @@ export const getUnapprovedUsers = () => ({
 
 export const getTraders = () => ({
     type : GET_TRADERS
+    
+})
+
+export const approveUser = (user) => ({
+    type : APPROVE_USER,
+    user
 })
 
 export const setTraders = (users) => ({
@@ -42,9 +49,9 @@ export default function adminQuery (state = initState, action) {
         case FETCH_UNAPPROVED_USERS:
             return {...state, unapprovedUsers: action.users};
             case SET_TRADERS:
-            return {...state, traders: action.users};
-        case SELECT_UNAPPROVED_USER:
-            return {...state, selectedUnapprovedUser: action.user}
+                return {...state, traders: action.users};
+            case SELECT_UNAPPROVED_USER:
+                return {...state, selectedUnapprovedUser: action.user}
         default:
             return state;
     }

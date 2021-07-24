@@ -5,14 +5,18 @@ import * as Yup from 'yup'
 import { Form, FormField, FormSelect, SubmitButton } from '../../../components/Form'
 import { setSelectedUnApprovedUser } from '../../../store/reducers/adminQuery';
 import { superAdminSettableRoles, adminSettableRoles } from '../../../utils/userRoles'
+import { approveUser as approveUserReducer, setUnapprovedUsers } from '../../../store/reducers/adminQuery';
+import { disableButton } from '../../../store/reducers/buttonState'
 
 const SelectedUnapprovedUserModal = ({showModal, closeModal}) => {
 
     const dispatch = useDispatch()
-    const { role, selectedUnapprovedUser, traders } = useSelector(state => ({
+    const { role, selectedUnapprovedUser, traders, buttonState, unapprovedUsers } = useSelector(state => ({
         selectedUnapprovedUser: state.adminQuery.selectedUnapprovedUser,
+        unapprovedUsers: state.adminQuery.unapprovedUsers,
         role : state.user.role,
         traders: state.adminQuery.traders,
+        buttonState: state.buttonState.buttonDisable
     }), shallowEqual)
 
     const validationSchema = Yup.object().shape({
@@ -26,22 +30,19 @@ const SelectedUnapprovedUserModal = ({showModal, closeModal}) => {
     })
 
     const approveUser = ({firstName, lastName, email, phone, affiliateCode, roi, assignedTrader}) => {
-        console.log(roi)
-        console.log(assignedTrader)
-        if (!selectedUnapprovedUser.role.isAffiliate) affiliateCode=""
-        if (!selectedUnapprovedUser.role.isAffiliate && !selectedUnapprovedUser.role.isUser) {
+        if (!(selectedUnapprovedUser.role.isAffiliate || selectedUnapprovedUser.role.isUser)) {
             roi=""
             assignedTrader=""
         }
-        dispatch(setSelectedUnApprovedUser(
-            {
-                ...selectedUnapprovedUser, 
-                affiliateCode, roi, assignedTrader
-            }
+        if (!selectedUnapprovedUser.role.isAffiliate) {
+            affiliateCode=""
+        }
+        dispatch(disableButton())
+        dispatch(approveUserReducer({...selectedUnapprovedUser, roi, affiliateCode, assignedTrader}))
+        dispatch(setUnapprovedUsers(
+            unapprovedUsers.filter(user => user.id !== selectedUnapprovedUser.id)
         ))
-        console.log(selectedUnapprovedUser)
-        // dispath disable button
-        // dispatch approve user, then in the approve user dispatch enable button
+        closeModal()
     }
 
     const setRole = role => {
@@ -71,7 +72,7 @@ const SelectedUnapprovedUserModal = ({showModal, closeModal}) => {
                 isUser : true,
                 isAffiliate : false,
                 isTrader : false
-            }, assignedTrader: traders[0].id}
+            }}
         }
         if (role === 'affiliate') {
             user = {...selectedUnapprovedUser, role:{
@@ -126,7 +127,7 @@ const SelectedUnapprovedUserModal = ({showModal, closeModal}) => {
                 {selectedUnapprovedUser.role && (selectedUnapprovedUser.role.isUser || selectedUnapprovedUser.role.isAffiliate) && <>
                     <FormField name="roi" placeholder="ROI" type="number" />
                     <FormSelect name="assignedTrader" index={0} 
-                        options={traders.map(trader => 
+                        options={[{id: "", firstName: "Select", lastName: ""}, ...traders].map(trader => 
                             [`${trader.firstName} ${trader.lastName}`, trader.id])} />
                 </>}
                 {
@@ -135,7 +136,7 @@ const SelectedUnapprovedUserModal = ({showModal, closeModal}) => {
                 }
                 <div>
                     <button onClick={() => {}}>Delete Account</button>
-                    <SubmitButton title="Approve" />
+                    <SubmitButton title="Approve" disable={buttonState} />
                 </div>
             </Form>
         </BaseModal>

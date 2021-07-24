@@ -1,8 +1,7 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin')
 
-
-exports.userCreated = functions.auth.user().onCreate(async user => {
+exports.userCreated = functions.auth.user().onCreate(async (user) => {
 
     const db = admin.firestore()
 
@@ -56,4 +55,22 @@ exports.userCreated = functions.auth.user().onCreate(async user => {
         return console.log(err)
     }
 
+})
+
+exports.userApproved = functions.firestore.document("/users/{userId}/private/info").onUpdate(async (change, context) => {
+    try {
+        await admin.firestore().doc(`newUser/${change.before.data().email}`).delete();
+    } catch (error) {
+        console.log(error.message)
+    }
+});
+
+exports.userDeleted = functions.firestore.document("/users/{userId}").onDelete(async (change, ctx) => {
+    try {
+        let data = await admin.firestore().doc(`users/${change.id}/private/info`).get()
+        const user = await admin.auth().getUserByEmail(data.id)
+        await admin.auth().deleteUser(user.uid)
+    } catch (error) {
+        console.log(error.message)
+    }
 })
