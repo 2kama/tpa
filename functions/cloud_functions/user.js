@@ -65,3 +65,14 @@ exports.userApproved = functions.firestore.document("/users/{userId}/private/inf
     }
 });
 
+exports.deleteUnapprovedUser = functions.firestore.document("/users/{userId}/private/info").onDelete(async (data, context) => {
+    try {
+        await admin.firestore().doc(`newUser/${data.data().email}`).delete();
+        await admin.firestore().doc(`users/${data.data().uid}`).delete();
+        const user = await admin.auth().getUserByEmail(data.data().email)
+        await admin.auth().deleteUser(user.uid);
+    } catch (error) {
+        console.log(error.message)
+    }
+});
+
