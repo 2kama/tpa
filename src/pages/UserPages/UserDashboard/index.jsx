@@ -6,9 +6,10 @@ import PageNotFound from '../../PageNotFound'
 
 const UserDashboard = () => {
 
-    const { role, isLoading } = useSelector(state => ({
+    const { role, isLoading, isApproved } = useSelector(state => ({
         role : state.user.role,
-        isLoading : state.isLoading
+        isLoading : state.isLoading,
+        isApproved : state.user.isApproved
     }))
 
     return(
@@ -18,7 +19,7 @@ const UserDashboard = () => {
             {
                 !isLoading && role && (
                 
-                role.isUser ? (
+                role.isUser && isApproved ? (
                     <>
 
                         This is the User Dashboard Page
