@@ -110,6 +110,7 @@ const SelectedUnapprovedUserModal = ({showModal, closeModal}) => {
             show={showModal}
             close={closeModal}
             closeText="Cancel"
+            size="lg"
         >
             <Form
                 initialValues={initialFormValues}
