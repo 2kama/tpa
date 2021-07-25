@@ -65,12 +65,3 @@ exports.userApproved = functions.firestore.document("/users/{userId}/private/inf
     }
 });
 
-exports.userDeleted = functions.firestore.document("/users/{userId}").onDelete(async (change, ctx) => {
-    try {
-        let data = await admin.firestore().doc(`users/${change.id}/private/info`).get()
-        const user = await admin.auth().getUserByEmail(data.id)
-        await admin.auth().deleteUser(user.uid)
-    } catch (error) {
-        console.log(error.message)
-    }
-})
