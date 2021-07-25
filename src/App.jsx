@@ -2,7 +2,7 @@ import React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import {  } from '@fortawesome/free-brands-svg-icons'
+import {  } from '@fortawesome/free-brands-svg-icons'   
 import { faCheckCircle as farCheckCircle, faCircle as farCircle } from '@fortawesome/free-regular-svg-icons'
 import { faExclamationCircle, faCircle, faToggleOff, faToggleOn, faCheckCircle } from '@fortawesome/free-solid-svg-icons'
 
