@@ -14,5 +14,4 @@ const user = require('./cloud_functions/user')
 // });
 
 exports.userCreated = user.userCreated;
-exports.userApproved = user.userApproved;
 exports.deleteUnapprovedUser = user.deleteUnapprovedUser;

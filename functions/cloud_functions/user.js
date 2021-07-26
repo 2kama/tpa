@@ -58,17 +58,8 @@ exports.userCreated = functions.auth.user().onCreate(async (user) => {
 
 })
 
-exports.userApproved = functions.firestore.document("/users/{userId}/private/info").onUpdate(async (change, context) => {
-    try {
-        await admin.firestore().doc(`newUser/${change.before.data().email}`).delete();
-    } catch (error) {
-        console.log(error.message)
-    }
-});
-
 exports.deleteUnapprovedUser = functions.firestore.document("/users/{userId}/private/info").onDelete(async (data, context) => {
     try {
-        await admin.firestore().doc(`newUser/${data.data().email}`).delete();
         await admin.firestore().doc(`users/${data.data().uid}`).delete();
         const user = await admin.auth().getUserByEmail(data.data().email)
         await admin.auth().deleteUser(user.uid);
