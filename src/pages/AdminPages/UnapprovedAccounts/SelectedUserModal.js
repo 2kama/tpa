@@ -37,21 +37,28 @@ const SelectedUserModal = ({showModal, closeModal, removeEntry=false, selectedAl
     }
 
     const alterUser = ({affiliateCode, roi, assignedTrader, role, affiliate, referralCode}) => {
-        
-        dispatch(alterUserReducer({
-            ...selectedAlterUser,
-            roi, 
-            affiliateCode, 
-            assignedTrader,
-            role,
-            affiliate,
-            referralCode
-        }))
-
         if(removeEntry) {
+            dispatch(alterUserReducer({
+                ...selectedAlterUser,
+                roi, 
+                affiliateCode, 
+                assignedTrader,
+                role,
+                affiliate
+            }))
             dispatch(setAlterUsers(
                 alterUsers.filter(user => user.uid !== selectedAlterUser.uid)
             ))
+        } else {
+            dispatch(alterUserReducer({
+                ...selectedAlterUser,
+                roi, 
+                affiliateCode, 
+                assignedTrader,
+                role,
+                affiliate,
+                referralCode
+            }))
         }
         closeModal()
     }
@@ -118,7 +125,7 @@ const SelectedUserModal = ({showModal, closeModal, removeEntry=false, selectedAl
                     <FormField name="affiliateCode" placeholder="Affiliate Code" type="text" />
                 }
 
-                <FormField name="referralCode" placeholder="Referral Code" type="text" />
+                {!removeEntry && <FormField name="referralCode" placeholder="Referral Code" type="text" />}
              
                 <div>
                     <SubmitButton title="Approve" />
