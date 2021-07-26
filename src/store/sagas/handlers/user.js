@@ -34,6 +34,7 @@ export function* handleRegisterUser(action) {
     try {
 
         yield call(requestRegisterUser.bind(null, action.userData))
+        yield put(enableButton())
         
     } catch (err) {
         const alertData = {
@@ -48,8 +49,9 @@ export function* handleRegisterUser(action) {
 
 export function* handleLoginUser(action) {
     try {
-
+        
         yield call(requestLoginUser.bind(null, action.userData))
+        yield put(enableButton())
         
     } catch (err) {
         const alertData = {
