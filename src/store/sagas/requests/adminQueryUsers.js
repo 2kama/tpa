@@ -47,7 +47,7 @@ export const alterUser = (data) => {
     })
 }
 
-export const deleteUnapprovedUser = async data => {
-    await db.doc(`users/${data.uid}/private/info`).delete()
-    return true
+export const deleteUnapprovedUser = data => {
+    return db.doc(`users/${data.uid}/private/info`).delete()
+
 }
