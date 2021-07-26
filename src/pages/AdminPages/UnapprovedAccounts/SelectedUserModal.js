@@ -136,7 +136,6 @@ const SelectedUnapprovedUserModal = ({showModal, closeModal}) => {
                     <FormField name="affiliateCode" placeholder="Affiliate Code" type="text" />
                 }
                 <div>
-                    <button onClick={() => {}}>Delete Account</button>
                     <SubmitButton title="Approve" disable={buttonState} />
                 </div>
             </Form>

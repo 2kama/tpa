@@ -15,7 +15,6 @@ export const getUnapprovedUsers = async () => {
         }
         return unapprovedUsers
     } catch (error) {
-        console.log(error)
         return []
     }
 }
@@ -33,7 +32,6 @@ export const getAllTraders = async () => {
 }
 
 export const approveUser = async (data) => {
-    console.log(data)
     await db.doc(`users/${data.id}/private/info`).update({
         role: data.role,
         isApproved: true,
@@ -46,6 +44,9 @@ export const approveUser = async (data) => {
         lastName: data.lastName,
         phone: data.phone
     })
-    console.log('done?')
     return true
+}
+
+export const deleteUnapprovedUser = async data => {
+    await db.doc(`users/${data.id}/private/info`).delete()
 }

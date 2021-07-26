@@ -4,7 +4,8 @@ import {
     GET_TRADERS, 
     SET_TRADERS, 
     SELECT_UNAPPROVED_USER,
-    APPROVE_USER
+    APPROVE_USER,
+    DELETE_UNAPPROVED_USER
 } from '../constant';
 
 export const setUnapprovedUsers = users => {
@@ -25,6 +26,11 @@ export const getTraders = () => ({
 
 export const approveUser = (user) => ({
     type : APPROVE_USER,
+    user
+})
+
+export const deleteUnapprovedUser = (user) => ({
+    type : DELETE_UNAPPROVED_USER,
     user
 })
 

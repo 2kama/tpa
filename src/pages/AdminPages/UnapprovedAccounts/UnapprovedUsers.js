@@ -3,7 +3,8 @@ import { useSelector, useDispatch, shallowEqual } from 'react-redux'
 import { Table } from '../../../components/Table/Table';
 import { useState } from 'react';
 import SelectedUnapprovedUserModal from './SelectedUserModal';
-import { setSelectedUnApprovedUser } from '../../../store/reducers/adminQuery';
+import { setSelectedUnApprovedUser, deleteUnapprovedUser, setUnapprovedUsers } from '../../../store/reducers/adminQuery';
+import { disableButton } from '../../../store/reducers/buttonState';
 
 const UnapprovedUsers = () => {
 
@@ -13,6 +14,16 @@ const UnapprovedUsers = () => {
         selectedUnapprovedUser: state.adminQuery.selectedUnapprovedUser,
         unapprovedUsers: state.adminQuery.unapprovedUsers
     }), shallowEqual)
+
+    const deleteUser = (user) => {
+        if (window.confirm("Are you sure you want to delete this account?")) {
+            dispatch(disableButton())
+            dispatch(deleteUnapprovedUser(user))
+            dispatch(setUnapprovedUsers(
+                unapprovedUsers.filter(u => u.id !== user.id)
+            ))
+        }
+    }
 
     const openModalAndSetUnapprovedUser = (user)  => {
         dispatch(setSelectedUnApprovedUser(
@@ -34,7 +45,7 @@ const UnapprovedUsers = () => {
 
     return (
         <Table
-            headers={['firstName', 'lastName', 'email', 'phone', 'approve']}
+            headers={['firstName', 'lastName', 'email', 'phone', 'approve', 'delete']}
             data={unapprovedUsers.map(user => (
                 {
                     ...user,
@@ -49,7 +60,8 @@ const UnapprovedUsers = () => {
                             closeModal={() => {setShowModal(false); dispatch(setSelectedUnApprovedUser({}))}} 
                         />
                         
-                    </>
+                    </>,
+                    'delete': <button onClick={() => {deleteUser(user)}}>Delete</button>
                 }
             ))} 
         />

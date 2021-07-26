@@ -1,5 +1,5 @@
 import { setUnapprovedUsers, setTraders } from '../../reducers/adminQuery'
-import { getAllTraders, getUnapprovedUsers, approveUser } from '../requests/adminQueryUsers'
+import { getAllTraders, getUnapprovedUsers, approveUser, deleteUnapprovedUser } from '../requests/adminQueryUsers'
 import { call, put } from 'redux-saga/effects'
 import { v4 as uuidv4 } from 'uuid'
 import { setAlert } from '../../reducers/alerts'
@@ -46,7 +46,21 @@ export function* handleApproveUser(action) {
         yield call(approveUser,  action.user)
         yield put(enableButton())
     } catch (err) {
-        console.log(err.message)
+        const alertData = {
+            msg : err.message,
+            alertType : 'error',
+            id: uuidv4()
+        }
+        yield put(setAlert(alertData))
+        yield put(enableButton())
+    }
+}
+
+export function* handleDeleteUnapprovedUser(action) {
+    try {
+        yield call(deleteUnapprovedUser,  action.user)
+        yield put(enableButton())
+    } catch (err) {
         const alertData = {
             msg : err.message,
             alertType : 'error',
