@@ -32,22 +32,19 @@ export const getAllTraders = async () => {
 }
 
 export const alterUser = (data) => {
-    const updatedData = {
-        isApproved: true
-    }
-    data.roi && (updatedData.roi = data.roi)
-    data.assignedTrader && (updatedData.assignedTrader = data.assignedTrader)
-    data.role && (updatedData.role = data.role)
-    data.affiliateCode && (updatedData.affiliateCode = data.affiliateCode)
-    data.referralCode && (updatedData.referralCode = data.referralCode)
-
-    
     db.doc(`users/${data.uid}`).update({
         firstName: data.firstName,
         lastName: data.lastName,
         phone: data.phone
     })
-    return db.doc(`users/${data.uid}/private/info`).update(updatedData)
+    return db.doc(`users/${data.uid}/private/info`).update({
+        role: data.role,
+        isApproved: true,
+        ROI: data.role.isUser ? data.roi < 0 ? 0 : data.roi : 0,
+        assignedTrader: data.role.isUser ? data.assignedTrader : "",
+        affiliateCode: data.role.isAffliate ? data.affiliateCode : "",
+        referralCode: data.referralCode
+    })
 }
 
 export const deleteUnapprovedUser = async data => {
