@@ -66,7 +66,7 @@ const SelectedUserModal = ({showModal, closeModal, removeEntry=false, selectedAl
         roi: selectedAlterUser.ROI,
         role: selectedAlterUser.role,
         assignedTrader: selectedAlterUser.assignedTrader,
-        referralCode: selectedAlterUser.referralCode || selectedAlterUser.affiliate,
+        referralCode: selectedAlterUser.referralCode,
     }
 
     return (
