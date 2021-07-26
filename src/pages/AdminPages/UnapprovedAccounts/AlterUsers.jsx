@@ -45,7 +45,7 @@ const AlterUsers = () => {
                         </button>
                         <SelectedUserModal
                             showModal={showModal}
-                            closeModal={() => {setShowModal(false); dispatch(setSelectedAlterUser({}))}}
+                            closeModal={() => {dispatch(setSelectedAlterUser({})); setShowModal(false)}}
                             selectedAlterUser={selectedAlterUser}
                             removeEntry
                         />

@@ -6,7 +6,6 @@ import { Form, FormField, FormSelect, SubmitButton } from '../../../components/F
 import { superAdminSettableRoles, adminSettableRoles } from '../../../utils/userRoles'
 import { alterUser as alterUserReducer, setAlterUsers, setSelectedAlterUser } from '../../../store/reducers/adminQuery';
 import { getIndexOfK } from '../../../utils/helperFunctions'
-import { alterUser as alterUserDispatch } from '../../../store/reducers/adminQuery';
 
 const SelectedUserModal = ({showModal, closeModal, removeEntry=false, selectedAlterUser }) => {
 
@@ -52,9 +51,7 @@ const SelectedUserModal = ({showModal, closeModal, removeEntry=false, selectedAl
             dispatch(setAlterUsers(
                 alterUsers.filter(user => user.uid !== selectedAlterUser.uid)
             ))
-            dispatch(alterUserDispatch(selectedAlterUser))
         }
-        
         closeModal()
     }
 

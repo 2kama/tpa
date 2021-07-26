@@ -31,21 +31,22 @@ export const getAllTraders = async () => {
     return traders
 }
 
-export const alterUser = async (data) => {
-    await db.doc(`users/${data.uid}/private/info`).update({
-        role: data.role,
-        isApproved: true,
-        ROI: data.roi ? data.roi : "", 
-        assignedTrader: data.assignedTrader ? data.assignedTrader : "",
-        affiliateCode: data.affiliateCode ? data.affiliateCode : ""
-    })
+export const alterUser = (data) => {
+    const updatedData = {
+        isApproved: true
+    }
+    data.roi && (updatedData.roi = data.roi)
+    data.assignedTrader && (updatedData.assignedTrader = data.assignedTrader)
+    data.role && (updatedData.role = data.role)
+    data.affiliateCode && (updatedData.affiliateCode = data.affiliateCode)
+
+    db.doc(`users/${data.uid}/private/info`).update(updatedData)
     
-    db.doc(`users/${data.uid}`).update({
+    return db.doc(`users/${data.uid}`).update({
         firstName: data.firstName,
         lastName: data.lastName,
         phone: data.phone
     })
-    return true
 }
 
 export const deleteUnapprovedUser = async data => {
