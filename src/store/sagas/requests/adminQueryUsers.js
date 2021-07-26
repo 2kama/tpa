@@ -41,13 +41,13 @@ export const alterUser = (data) => {
     data.affiliateCode && (updatedData.affiliateCode = data.affiliateCode)
     data.referralCode && (updatedData.referralCode = data.referralCode)
 
-    db.doc(`users/${data.uid}/private/info`).update(updatedData)
     
-    return db.doc(`users/${data.uid}`).update({
+    db.doc(`users/${data.uid}`).update({
         firstName: data.firstName,
         lastName: data.lastName,
         phone: data.phone
     })
+    return db.doc(`users/${data.uid}/private/info`).update(updatedData)
 }
 
 export const deleteUnapprovedUser = async data => {
