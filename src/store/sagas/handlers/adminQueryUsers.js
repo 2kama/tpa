@@ -1,15 +1,14 @@
-import { setUnapprovedUsers, setTraders } from '../../reducers/adminQuery'
-import { getAllTraders, getUnapprovedUsers, approveUser } from '../requests/adminQueryUsers'
+import { setAlterUsers, setTraders } from '../../reducers/adminQuery'
+import { getAllTraders, getUnapprovedUsers, alterUser } from '../requests/adminQueryUsers'
 import { call, put } from 'redux-saga/effects'
 import { v4 as uuidv4 } from 'uuid'
 import { setAlert } from '../../reducers/alerts'
-import { enableButton } from '../../reducers/buttonState';
 
 export function* handleGetUnapprovedUsers(action) {
     try {
 
         const users = yield call(getUnapprovedUsers)
-        yield put(setUnapprovedUsers(
+        yield put(setAlterUsers(
             users
         ))
         
@@ -41,18 +40,25 @@ export function* handleGetTraders(action) {
     }
 }
 
-export function* handleApproveUser(action) {
+export function* handleAlterUser(action) {
     try {
-        yield call(approveUser,  action.user)
-        yield put(enableButton())
+        yield call(alterUser,  action.user)
+
+        const alertData = {
+            msg : `${action.user.firstName} ${action.user.lastName} has been approved`,
+            alertType : 'success',
+            id: uuidv4()
+        }
+        yield put(setAlert(alertData))
+        
     } catch (err) {
-        console.log(err.message)
+        
         const alertData = {
             msg : err.message,
             alertType : 'error',
             id: uuidv4()
         }
         yield put(setAlert(alertData))
-        yield put(enableButton())
+        
     }
 }
