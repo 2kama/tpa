@@ -39,6 +39,7 @@ export const alterUser = (data) => {
     data.assignedTrader && (updatedData.assignedTrader = data.assignedTrader)
     data.role && (updatedData.role = data.role)
     data.affiliateCode && (updatedData.affiliateCode = data.affiliateCode)
+    data.referralCode && (updatedData.referralCode = data.referralCode)
 
     db.doc(`users/${data.uid}/private/info`).update(updatedData)
     
