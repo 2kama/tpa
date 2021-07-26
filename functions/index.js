@@ -1,9 +1,9 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin")
 
-admin.initializeApp(functions.config().firebase)
+admin.initializeApp(functions.config().firebase);
 
-const userCreated = require('./cloud_functions/userCreated')
+const user = require('./cloud_functions/user')
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
@@ -13,6 +13,5 @@ const userCreated = require('./cloud_functions/userCreated')
 //   response.send("Hello from Firebase!");
 // });
 
-
-
-exports.userCreated = userCreated.userCreated
+exports.userCreated = user.userCreated;
+exports.deleteUnapprovedUser = user.deleteUnapprovedUser;

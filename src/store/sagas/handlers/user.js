@@ -1,6 +1,12 @@
 import { call, put } from 'redux-saga/effects'
 import { setUser } from '../../reducers/user'
-import { requestGetUser, requestRegisterUser, requestGetUserPrivateData, requestLoginUser, requestVerifyUser, requestUpdateUser, requestUpdateKin, requestUpdateUserBank, reAuthUser, requestUpdatePassword } from '../requests/user'
+import { 
+    requestGetUser, requestRegisterUser, 
+    requestGetUserPrivateData, requestLoginUser, 
+    requestVerifyUser, requestUpdateUser, 
+    requestUpdateKin, requestUpdateUserBank, 
+    reAuthUser, requestUpdatePassword 
+} from '../requests/user'
 import { v4 as uuidv4 } from 'uuid'
 import { enableButton } from '../../reducers/buttonState'
 import { setAlert } from '../../reducers/alerts'

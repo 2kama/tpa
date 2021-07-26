@@ -1,8 +1,7 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin')
 
-
-exports.userCreated = functions.auth.user().onCreate(async user => {
+exports.userCreated = functions.auth.user().onCreate(async (user) => {
 
     const db = admin.firestore()
 
@@ -39,7 +38,8 @@ exports.userCreated = functions.auth.user().onCreate(async user => {
         ROI : 0,
         assignedTrader : "",
         isApproved : false,
-        affiliate : ""
+        referralCode : "",
+        affiliateCode : ""
     }
 
 
@@ -57,3 +57,14 @@ exports.userCreated = functions.auth.user().onCreate(async user => {
     }
 
 })
+
+exports.deleteUnapprovedUser = functions.firestore.document("/users/{userId}/private/info").onDelete(async (data, context) => {
+    try {
+        await admin.firestore().doc(`users/${data.data().uid}`).delete();
+        const user = await admin.auth().getUserByEmail(data.data().email)
+        await admin.auth().deleteUser(user.uid);
+    } catch (error) {
+        console.log(error.message)
+    }
+});
+
