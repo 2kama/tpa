@@ -4,7 +4,7 @@ import React from "react";
 import { useFormikContext } from "formik";
 
 
-const SubmitButton = ({ title, disable }) => {
+const SubmitButton = ({ title, disable=false }) => {
   const { handleSubmit } = useFormikContext();
 
   return (

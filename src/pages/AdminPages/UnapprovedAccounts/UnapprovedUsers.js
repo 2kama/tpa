@@ -3,7 +3,7 @@ import { useSelector, useDispatch, shallowEqual } from 'react-redux'
 import { Table } from '../../../components/Table/Table';
 import { useState } from 'react';
 import SelectedUnapprovedUserModal from './SelectedUserModal';
-import { setSelectedUnApprovedUser, deleteUnapprovedUser, setUnapprovedUsers } from '../../../store/reducers/adminQuery';
+import { setSelectedAlterUser, deleteUnapprovedUser, setUnapprovedUsers } from '../../../store/reducers/adminQuery';
 import { disableButton } from '../../../store/reducers/buttonState';
 
 const UnapprovedUsers = () => {
@@ -26,7 +26,7 @@ const UnapprovedUsers = () => {
     }
 
     const openModalAndSetUnapprovedUser = (user)  => {
-        dispatch(setSelectedUnApprovedUser(
+        dispatch(setSelectedAlterUser(
             {...user, 
                 role:{
                     isAdmin : false,
@@ -57,7 +57,7 @@ const UnapprovedUsers = () => {
                         </button>
                         <SelectedUnapprovedUserModal
                             showModal={showModal}
-                            closeModal={() => {setShowModal(false); dispatch(setSelectedUnApprovedUser({}))}} 
+                            closeModal={() => {setShowModal(false); dispatch(setSelectedAlterUser({}))}} 
                         />
                         
                     </>,

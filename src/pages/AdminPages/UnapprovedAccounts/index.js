@@ -3,14 +3,14 @@ import { useSelector, useDispatch, shallowEqual } from 'react-redux'
 import Authenticate from '../../../components/Authenticate'
 import PageNotFound from '../../PageNotFound'
 import { getUnapprovedUsers, getTraders } from "../../../store/reducers/adminQuery";
-import Users from './UnapprovedUsers';
+import AlterUsers from './AlterUsers';
 
 const UnapprovedAccounts = () => {
     const dispatch = useDispatch()
-    const { role, isLoading, unapprovedUsers } = useSelector(state => ({
+    const { role, isLoading, alterUsers } = useSelector(state => ({
         role : state.user.role,
         isLoading : state.isLoading,
-        unapprovedUsers: state.adminQuery.unapprovedUsers,
+        alterUsers: state.adminQuery.alterUsers,
         traders: state.adminQuery.traders,
     }), shallowEqual)
 
@@ -29,7 +29,7 @@ const UnapprovedAccounts = () => {
                     <>
                         Unapproved Users
                         <hr />
-                        {unapprovedUsers.length > 0 && <Users />}
+                        {alterUsers.length > 0 ? <AlterUsers /> : <>No Unapproved Accounts</>}
                     </>
                 ) : <PageNotFound />)
             }

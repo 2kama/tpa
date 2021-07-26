@@ -11,7 +11,7 @@ export const getUnapprovedUsers = async () => {
         let unapprovedUsers = []
         for (let user of data.docs) {
             let userData = await db.doc(`newUser/${user.data().email}`).get()
-            unapprovedUsers.push({...userData.data(), id: user.data().uid})
+            unapprovedUsers.push({...userData.data(), ...user.data()})
         }
         return unapprovedUsers
     } catch (error) {
@@ -26,20 +26,21 @@ export const getAllTraders = async () => {
     let traders = []
     for (let userInfo of data.docs) {
         let user = await db.collection('users').doc(userInfo.data().uid).get()
-        traders.push({ ...user.data(), id: userInfo.data().uid })
+        traders.push({ ...user.data(), uid: userInfo.data().uid })
     }
     return traders
 }
 
-export const approveUser = async (data) => {
-    await db.doc(`users/${data.id}/private/info`).update({
+export const alterUser = async (data) => {
+    await db.doc(`users/${data.uid}/private/info`).update({
         role: data.role,
         isApproved: true,
         ROI: data.roi ? data.roi : "", 
         assignedTrader: data.assignedTrader ? data.assignedTrader : "",
         affiliateCode: data.affiliateCode ? data.affiliateCode : ""
     })
-    await db.doc(`users/${data.id}`).update({
+    
+    db.doc(`users/${data.uid}`).update({
         firstName: data.firstName,
         lastName: data.lastName,
         phone: data.phone
@@ -48,5 +49,6 @@ export const approveUser = async (data) => {
 }
 
 export const deleteUnapprovedUser = async data => {
-    await db.doc(`users/${data.id}/private/info`).delete()
+    await db.doc(`users/${data.uid}/private/info`).delete()
+    return true
 }

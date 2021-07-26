@@ -8,7 +8,7 @@ import { useFormikContext } from "formik";
 //custom components
 import FieldError from "../Error/FieldError"
 
-const FormSelect = ({ name, icon=false, options, updateStuff, index, disabled=false }) =>{
+const FormSelect = ({ name, icon=false, options, index, disabled=false, update }) =>{
 
 
     const {
@@ -29,7 +29,7 @@ const FormSelect = ({ name, icon=false, options, updateStuff, index, disabled=fa
       setIndex(idx)
       toggleShow(false)
       values[name] = options[idx][1]
-      updateStuff && updateStuff(options[idx][1])
+      update && update(options[idx][1])
   }
 
   return (
@@ -64,5 +64,7 @@ const FormSelect = ({ name, icon=false, options, updateStuff, index, disabled=fa
     </>
   );
 }
+
+
 
 export default FormSelect;
