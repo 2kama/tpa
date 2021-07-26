@@ -37,28 +37,19 @@ const SelectedUserModal = ({showModal, closeModal, removeEntry=false, selectedAl
     }
 
     const alterUser = ({affiliateCode, roi, assignedTrader, role, affiliate, referralCode}) => {
+        dispatch(alterUserReducer({
+            ...selectedAlterUser,
+            roi, 
+            affiliateCode, 
+            assignedTrader,
+            role,
+            affiliate,
+            referralCode
+        }))
         if(removeEntry) {
-            dispatch(alterUserReducer({
-                ...selectedAlterUser,
-                roi, 
-                affiliateCode, 
-                assignedTrader,
-                role,
-                affiliate
-            }))
             dispatch(setAlterUsers(
                 alterUsers.filter(user => user.uid !== selectedAlterUser.uid)
             ))
-        } else {
-            dispatch(alterUserReducer({
-                ...selectedAlterUser,
-                roi, 
-                affiliateCode, 
-                assignedTrader,
-                role,
-                affiliate,
-                referralCode
-            }))
         }
         closeModal()
     }
