@@ -1,7 +1,7 @@
 import { call, put } from 'redux-saga/effects'
 import { v4 as uuidv4 } from 'uuid'
 import { enableButton } from '../../reducers/buttonState'
-import { setAlert } from '../../reducers/alerts'
+import { triggerAlert } from '../../reducers/alerts'
 import { requestUpdateBank, requestVerifyBank } from '../requests/bankVerification'
 import { removeVerify, verifiedBank } from '../../reducers/bankVerification'
 import { setAccName } from '../../reducers/user'
@@ -25,9 +25,10 @@ export function* handleVerifyBank (action) {
             const alertData = {
                 msg : "Invalid Account Details",
                 alertType : 'error',
-                id: uuidv4()
+                id: uuidv4(),
+                timeout : 8000
             }
-            yield put(setAlert(alertData))
+            yield put(triggerAlert(alertData))
             yield put(enableButton())
         }
         
@@ -35,9 +36,10 @@ export function* handleVerifyBank (action) {
         const alertData = {
             msg : "There was an error",
             alertType : 'error',
-            id: uuidv4()
+            id: uuidv4(),
+            timeout : 5000
         }
-        yield put(setAlert(alertData))
+        yield put(triggerAlert(alertData))
         yield put(enableButton())
     }
 
@@ -55,18 +57,20 @@ export function* handleUpdateBank (action) {
         const alertData = {
             msg : "Bank Detials Updated Successfully",
             alertType : 'success',
-            id: uuidv4()
+            id: uuidv4(),
+            timeout : 5000
         }
-        yield put(setAlert(alertData))
+        yield put(triggerAlert(alertData))
         yield put(enableButton())
         
     } catch (err) {
         const alertData = {
             msg : err.message,
             alertType : 'error',
-            id: uuidv4()
+            id: uuidv4(),
+            timeout : 5000
         }
-        yield put(setAlert(alertData))
+        yield put(triggerAlert(alertData))
         yield put(enableButton())
     }
 }
