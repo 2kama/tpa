@@ -55,6 +55,17 @@ exports.userCreated = functions.auth.user().onCreate(async (user) => {
     }
 
 
+    const log = {
+        log : [
+            {
+                time : new Date().getTime() + (new Date().getTimezoneOffset() * 60000),
+                info : "You created an account with TPA",
+                uid : user.uid
+            }
+        ]
+    }
+
+
     try {
 
         const promises = []
@@ -62,6 +73,7 @@ exports.userCreated = functions.auth.user().onCreate(async (user) => {
         promises.push(await db.doc(`users/${user.uid}`).set(newUser))
         promises.push(await db.doc(`users/${user.uid}/private/info`).set(privateInfo))
         promises.push(await db.doc(`users/${user.uid}/private/noty`).set(noty))
+        promises.push(await db.doc(`users/${user.uid}/private/log`).set(log))
 
         return Promise.all(promises)
 
