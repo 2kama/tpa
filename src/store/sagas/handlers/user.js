@@ -211,7 +211,7 @@ export function* handleUpdateUserBank(action) {
 
 export function* handleGetLog(action) {
 
-    if(action.uid != undefined) {
+    if(action.uid !== undefined) {
         try {
 
             const response = yield call(requestGetLog, action.uid)
