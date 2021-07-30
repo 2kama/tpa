@@ -76,12 +76,16 @@ export const getIndexOfK = (arr, k) => {
   }
 
 
-  export const timeAgo = time => {
+  export const exactTime = time => moment(time).format("lll")
+
+  export const timeAgo = (time, form="ll") => {
 
     const diff = new Date().getTime() - time
 
+
+
     if(diff >= 86400000) {
-      return moment(time).format('ll')
+      return moment(time).format(form)
     }else if(diff >= 3600000) {
       const divide = Math.round(diff/3600000)
       return `${divide} ${divide === 1 ? 'hour' : 'hours'} ago`

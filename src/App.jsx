@@ -20,6 +20,7 @@ import PageNotFound from './pages/PageNotFound'
 import UnapprovedAccounts from './pages/AdminPages/UnapprovedAccounts'
 import Account from './pages/Account'
 import ForgotPassword from './pages/ForgotPassword'
+import LogPage from './pages/LogPage'
 
 
 
@@ -32,17 +33,18 @@ const App = () => {
         <>
             <BrowserRouter>
                 <Switch>
-                    <Route path="/login" component={Login} />
+                    <Route exact path="/login" component={Login} />
                     <Route exact path="/register" component={Register} />
                     <Route exact path="/forgot-password" component={ForgotPassword} />
-                    <Route path="/hash" component={DecipherPage} />
-                    <Route path="/logout" component={Logout} />
+                    <Route exact path="/hash" component={DecipherPage} />
+                    <Route exact path="/logout" component={Logout} />
 
                     <Route exact path="/dashboard" component={UserDashboard} />
                     <Route exact path="/admin/dashboard" component={AdminDashboard} />
                     <Route exact path="/trader/dashboard" component={TraderDashboard} />
                     <Route exact path="/admin/view/users/unapproved" component={UnapprovedAccounts} />
                     <Route exact path="/account" component={Account} />
+                    <Route exact path="/log" component={LogPage} />
 
                     <Route component={PageNotFound} />
                 </Switch>

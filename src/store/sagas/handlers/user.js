@@ -1,11 +1,11 @@
 import { call, put } from 'redux-saga/effects'
-import { setUser } from '../../reducers/user'
+import { setLog, setUser } from '../../reducers/user'
 import { 
     requestGetUser, requestRegisterUser, 
     requestGetUserPrivateData, requestLoginUser, 
     requestVerifyUser, requestUpdateUser, 
-    requestUpdateKin, requestUpdateUserBank, 
-    reAuthUser, requestUpdatePassword, requestForgotPassword, requestUserNoty, requestAddNoty 
+    requestUpdateKin, requestUpdateUserBank, requestAddLog,
+    reAuthUser, requestUpdatePassword, requestForgotPassword, requestUserNoty, requestAddNoty, requestGetLog 
 } from '../requests/user'
 import { v4 as uuidv4 } from 'uuid'
 import { enableButton } from '../../reducers/buttonState'
@@ -205,6 +205,40 @@ export function* handleUpdateUserBank(action) {
         }
         yield put(triggerAlert(alertData))
         yield put(enableButton())
+    }
+}
+
+
+export function* handleGetLog(action) {
+
+    if(action.uid != undefined) {
+        try {
+
+            const response = yield call(requestGetLog, action.uid)
+            yield put(setLog(response.data().log))
+            
+            
+        } catch (err) {
+            const alertData = {
+                msg : err.message,
+                alertType : 'error',
+                id: uuidv4(),
+                timeout : 5000
+            }
+            yield put(triggerAlert(alertData))
+        }
+    }
+    
+}
+
+
+export function* handleAddLog(action) {
+    try {
+
+        yield call(requestAddLog, action.logData)
+        
+    } catch (err) {
+        
     }
 }
 
