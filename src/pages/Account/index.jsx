@@ -1,5 +1,5 @@
 import React, {  } from 'react'
-import { useSelector } from 'react-redux'
+import { shallowEqual, useSelector } from 'react-redux'
 import Authenticate from '../../components/Authenticate'
 import Footer from '../../components/Footer'
 import PageNotFound from '../PageNotFound'
@@ -17,7 +17,7 @@ const Account = () => {
         isLoading : state.isLoading,
         isApproved : state.user.isApproved,
         user : state.user
-    }))
+    }), shallowEqual)
 
 
 

@@ -1,4 +1,4 @@
-import { GET_USER, LOGIN_USER, REGISTER_USER, SET_ACCOUNT_NAME, SET_USER, UPDATE_KIN, UPDATE_PASSWORD, UPDATE_USER, UPDATE_USER_BANK, VERIFY_USER } from "../constant";
+import { ADD_LOG, ADD_NOTY, FORGOT_PASSWORD, GET_LOG, GET_USER, LOGIN_USER, REGISTER_USER, SET_ACCOUNT_NAME, SET_LOG, SET_USER, UPDATE_KIN, UPDATE_PASSWORD, UPDATE_USER, UPDATE_USER_BANK, VERIFY_USER } from "../constant";
 
 
 
@@ -10,6 +10,11 @@ export const registerUser = (userData) => ({
 export const loginUser = (userData) => ({
     type: LOGIN_USER,
     userData
+})
+
+export const forgotPassword = (userEmail) => ({
+    type: FORGOT_PASSWORD,
+    userEmail
 })
 
 export const verifyUser = () => ({
@@ -24,6 +29,11 @@ export const updateUser = (userData) => ({
 export const updateKin = (userData) => ({
     type : UPDATE_KIN,
     userData
+})
+
+export const addNoty = (notyData) => ({
+    type : ADD_NOTY,
+    notyData
 })
 
 export const updateUserBank = (userData) => ({
@@ -50,6 +60,21 @@ export const setAccName = (user) => ({
     user
 })
 
+export const setLog = (user) => ({
+    type : SET_LOG,
+    user
+})
+
+export const getLog = (uid) => ({
+    type : GET_LOG,
+    uid
+})
+
+export const addLog = (logData) => ({
+    type : ADD_LOG,
+    logData
+})
+
 
 const initialState = {
     isLoading : true
@@ -69,6 +94,11 @@ export default function user (state = initialState, action) {
                 ...state,
                 ...user,
                 isLoading: false
+            };
+        case SET_LOG:
+            return {
+                ...state,
+                log : [...user]
             }
         default:
             return state;
