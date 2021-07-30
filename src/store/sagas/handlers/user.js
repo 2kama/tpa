@@ -5,7 +5,7 @@ import {
     requestGetUserPrivateData, requestLoginUser, 
     requestVerifyUser, requestUpdateUser, 
     requestUpdateKin, requestUpdateUserBank, 
-    reAuthUser, requestUpdatePassword 
+    reAuthUser, requestUpdatePassword, requestForgotPassword 
 } from '../requests/user'
 import { v4 as uuidv4 } from 'uuid'
 import { enableButton } from '../../reducers/buttonState'
@@ -52,6 +52,33 @@ export function* handleLoginUser(action) {
     try {
         
         yield call(requestLoginUser.bind(null, action.userData))
+        yield put(enableButton())
+        
+    } catch (err) {
+        const alertData = {
+            msg : err.message,
+            alertType : 'error',
+            id: uuidv4(),
+            timeout : 5000
+        }
+        yield put(triggerAlert(alertData))
+        yield put(enableButton())
+    }
+}
+
+
+export function* handleForgotPassword(action) {
+    try {
+
+        yield call(requestForgotPassword, action.userEmail)
+
+        const alertData = {
+            msg : "A reset email has been successfully sent to your Email",
+            alertType : 'success',
+            id: uuidv4(),
+            timeout : 5000
+        }
+        yield put(triggerAlert(alertData))
         yield put(enableButton())
         
     } catch (err) {

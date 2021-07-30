@@ -19,6 +19,7 @@ import TraderDashboard from './pages/TraderPages/TraderDashboard'
 import PageNotFound from './pages/PageNotFound'
 import UnapprovedAccounts from './pages/AdminPages/UnapprovedAccounts'
 import Account from './pages/Account'
+import ForgotPassword from './pages/ForgotPassword'
 
 
 
@@ -33,6 +34,7 @@ const App = () => {
                 <Switch>
                     <Route path="/login" component={Login} />
                     <Route exact path="/register" component={Register} />
+                    <Route exact path="/forgot-password" component={ForgotPassword} />
                     <Route path="/hash" component={DecipherPage} />
                     <Route path="/logout" component={Logout} />
 

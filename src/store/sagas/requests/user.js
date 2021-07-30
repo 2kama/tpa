@@ -21,6 +21,10 @@ export const requestRegisterUser = (userData) => {
 
 }
 
+export const requestForgotPassword = (userEmail) => {
+    return auth.sendPasswordResetEmail(userEmail)
+}
+
 
 export const requestVerifyUser = () => {
     const user = auth.currentUser

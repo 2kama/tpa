@@ -1,4 +1,4 @@
-import { GET_USER, LOGIN_USER, REGISTER_USER, SET_ACCOUNT_NAME, SET_USER, UPDATE_KIN, UPDATE_PASSWORD, UPDATE_USER, UPDATE_USER_BANK, VERIFY_USER } from "../constant";
+import { FORGOT_PASSWORD, GET_USER, LOGIN_USER, REGISTER_USER, SET_ACCOUNT_NAME, SET_USER, UPDATE_KIN, UPDATE_PASSWORD, UPDATE_USER, UPDATE_USER_BANK, VERIFY_USER } from "../constant";
 
 
 
@@ -10,6 +10,11 @@ export const registerUser = (userData) => ({
 export const loginUser = (userData) => ({
     type: LOGIN_USER,
     userData
+})
+
+export const forgotPassword = (userEmail) => ({
+    type: FORGOT_PASSWORD,
+    userEmail
 })
 
 export const verifyUser = () => ({
