@@ -10,10 +10,12 @@ import {
     VERIFY_BANK, VERIFY_USER, GET_TRADERS, DELETE_UNAPPROVED_USER,
     ALTER_USER, 
     TRIGGER_ALERT,
-    FORGOT_PASSWORD
+    FORGOT_PASSWORD,
+    ADD_NOTY
 } from "../constant"
 import { handleUpdateBank, handleVerifyBank } from "./handlers/bankVerification"
 import { 
+    handleAddNoty,
     handleForgotPassword,
     handleGetUser, handleLoginUser, handleRegisterUser, 
     handleUpdateKin, handleUpdatePassword, handleUpdateUser, 
@@ -39,4 +41,5 @@ export function*  watcherSaga() {
     yield takeLatest(UPDATE_BANK, handleUpdateBank)
     yield takeEvery(TRIGGER_ALERT, handleAlert)
     yield takeLatest(FORGOT_PASSWORD, handleForgotPassword)
+    yield takeEvery(ADD_NOTY, handleAddNoty)
 }

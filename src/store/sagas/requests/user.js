@@ -48,12 +48,22 @@ export const requestGetUser = () => {
     return db.doc(`users/${auth.currentUser.uid}`).get()
 }
 
+export const requestUserNoty = () => {
+    return db.doc(`users/${auth.currentUser.uid}/private/noty`).get()
+}
+
 export const requestUpdateUser = (userData) => {
     return db.doc(`users/${auth.currentUser.uid}`).update(userData)
 }
 
 export const requestUpdateKin = (userData) => {
     return db.doc(`users/${auth.currentUser.uid}`).update(userData)
+}
+
+export const requestAddNoty = (notyData) => {
+    return db.doc(`users/${notyData.uid}/private/noty`).update({
+        noty : firebase.firestore.FieldValue.arrayUnion(notyData)
+    })
 }
 
 export const requestUpdateUserBank = (userData) => {

@@ -5,7 +5,7 @@ import {
     requestGetUserPrivateData, requestLoginUser, 
     requestVerifyUser, requestUpdateUser, 
     requestUpdateKin, requestUpdateUserBank, 
-    reAuthUser, requestUpdatePassword, requestForgotPassword 
+    reAuthUser, requestUpdatePassword, requestForgotPassword, requestUserNoty, requestAddNoty 
 } from '../requests/user'
 import { v4 as uuidv4 } from 'uuid'
 import { enableButton } from '../../reducers/buttonState'
@@ -18,9 +18,11 @@ export function* handleGetUser(action) {
 
         const response = yield call(requestGetUser)
         const response2 = yield call(requestGetUserPrivateData)
+        const response3 = yield call(requestUserNoty)
         yield put(setUser({
             ...response.data(),
             ...response2.data(),
+            ...response3.data(),
             isAuthenticated : true
         }))
         
@@ -63,6 +65,17 @@ export function* handleLoginUser(action) {
         }
         yield put(triggerAlert(alertData))
         yield put(enableButton())
+    }
+}
+
+
+export function* handleAddNoty(action) {
+    try {
+
+        yield call(requestAddNoty, action.notyData)
+        
+    } catch (err) {
+        console.log(err.message)
     }
 }
 

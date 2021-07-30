@@ -1,4 +1,4 @@
-import { FORGOT_PASSWORD, GET_USER, LOGIN_USER, REGISTER_USER, SET_ACCOUNT_NAME, SET_USER, UPDATE_KIN, UPDATE_PASSWORD, UPDATE_USER, UPDATE_USER_BANK, VERIFY_USER } from "../constant";
+import { ADD_NOTY, FORGOT_PASSWORD, GET_USER, LOGIN_USER, REGISTER_USER, SET_ACCOUNT_NAME, SET_USER, UPDATE_KIN, UPDATE_PASSWORD, UPDATE_USER, UPDATE_USER_BANK, VERIFY_USER } from "../constant";
 
 
 
@@ -29,6 +29,11 @@ export const updateUser = (userData) => ({
 export const updateKin = (userData) => ({
     type : UPDATE_KIN,
     userData
+})
+
+export const addNoty = (notyData) => ({
+    type : ADD_NOTY,
+    notyData
 })
 
 export const updateUserBank = (userData) => ({
