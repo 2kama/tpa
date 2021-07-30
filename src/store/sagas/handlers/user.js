@@ -1,15 +1,15 @@
 import { call, put } from 'redux-saga/effects'
-import { setUser } from '../../reducers/user'
+import { setLog, setUser } from '../../reducers/user'
 import { 
     requestGetUser, requestRegisterUser, 
     requestGetUserPrivateData, requestLoginUser, 
     requestVerifyUser, requestUpdateUser, 
-    requestUpdateKin, requestUpdateUserBank, 
-    reAuthUser, requestUpdatePassword 
+    requestUpdateKin, requestUpdateUserBank, requestAddLog,
+    reAuthUser, requestUpdatePassword, requestForgotPassword, requestUserNoty, requestAddNoty, requestGetLog 
 } from '../requests/user'
 import { v4 as uuidv4 } from 'uuid'
 import { enableButton } from '../../reducers/buttonState'
-import { setAlert } from '../../reducers/alerts'
+import { triggerAlert } from '../../reducers/alerts'
 
 
 
@@ -18,9 +18,11 @@ export function* handleGetUser(action) {
 
         const response = yield call(requestGetUser)
         const response2 = yield call(requestGetUserPrivateData)
+        const response3 = yield call(requestUserNoty)
         yield put(setUser({
             ...response.data(),
             ...response2.data(),
+            ...response3.data(),
             isAuthenticated : true
         }))
         
@@ -40,9 +42,10 @@ export function* handleRegisterUser(action) {
         const alertData = {
             msg : err.message,
             alertType : 'error',
-            id: uuidv4()
+            id: uuidv4(),
+            timeout : 5000
         }
-        yield put(setAlert(alertData))
+        yield put(triggerAlert(alertData))
         yield put(enableButton())
     }
 }
@@ -57,9 +60,48 @@ export function* handleLoginUser(action) {
         const alertData = {
             msg : err.message,
             alertType : 'error',
-            id: uuidv4()
+            id: uuidv4(),
+            timeout : 5000
         }
-        yield put(setAlert(alertData))
+        yield put(triggerAlert(alertData))
+        yield put(enableButton())
+    }
+}
+
+
+export function* handleAddNoty(action) {
+    try {
+
+        yield call(requestAddNoty, action.notyData)
+        
+    } catch (err) {
+        console.log(err.message)
+    }
+}
+
+
+export function* handleForgotPassword(action) {
+    try {
+
+        yield call(requestForgotPassword, action.userEmail)
+
+        const alertData = {
+            msg : "A reset email has been successfully sent to your Email",
+            alertType : 'success',
+            id: uuidv4(),
+            timeout : 5000
+        }
+        yield put(triggerAlert(alertData))
+        yield put(enableButton())
+        
+    } catch (err) {
+        const alertData = {
+            msg : err.message,
+            alertType : 'error',
+            id: uuidv4(),
+            timeout : 5000
+        }
+        yield put(triggerAlert(alertData))
         yield put(enableButton())
     }
 }
@@ -72,18 +114,20 @@ export function* handleVerifyUser(action) {
         const alertData = {
             msg : "Verification mail has been sent to your Email Address",
             alertType : 'success',
-            id: uuidv4()
+            id: uuidv4(),
+            timeout : 8000
         }
-        yield put(setAlert(alertData))
+        yield put(triggerAlert(alertData))
         yield put(enableButton())
         
     } catch (err) {
         const alertData = {
             msg : err.message,
             alertType : 'error',
-            id: uuidv4()
+            id: uuidv4(),
+            timeout : 5000
         }
-        yield put(setAlert(alertData))
+        yield put(triggerAlert(alertData))
         yield put(enableButton())
     }
 }
@@ -95,18 +139,20 @@ export function* handleUpdateUser(action) {
         const alertData = {
             msg : "Profile has been updated",
             alertType : 'success',
-            id: uuidv4()
+            id: uuidv4(),
+            timeout : 5000
         }
-        yield put(setAlert(alertData))
+        yield put(triggerAlert(alertData))
         yield put(enableButton())
         
     } catch (err) {
         const alertData = {
             msg : err.message,
             alertType : 'error',
-            id: uuidv4()
+            id: uuidv4(),
+            timeout : 5000
         }
-        yield put(setAlert(alertData))
+        yield put(triggerAlert(alertData))
         yield put(enableButton())
     }
 }
@@ -118,18 +164,20 @@ export function* handleUpdateKin(action) {
         const alertData = {
             msg : "Next of Kin Info has been updated",
             alertType : 'success',
-            id: uuidv4()
+            id: uuidv4(),
+            timeout : 4000
         }
-        yield put(setAlert(alertData))
+        yield put(triggerAlert(alertData))
         yield put(enableButton())
         
     } catch (err) {
         const alertData = {
             msg : err.message,
             alertType : 'error',
-            id: uuidv4()
+            id: uuidv4(),
+            timeout : 5000
         }
-        yield put(setAlert(alertData))
+        yield put(triggerAlert(alertData))
         yield put(enableButton())
     }
 }
@@ -142,19 +190,55 @@ export function* handleUpdateUserBank(action) {
         const alertData = {
             msg : "Banking Details have been updated",
             alertType : 'success',
-            id: uuidv4()
+            id: uuidv4(),
+            timeout : 5000
         }
-        yield put(setAlert(alertData))
+        yield put(triggerAlert(alertData))
         yield put(enableButton())
         
     } catch (err) {
         const alertData = {
             msg : err.message,
             alertType : 'error',
-            id: uuidv4()
+            id: uuidv4(),
+            timeout : 5000
         }
-        yield put(setAlert(alertData))
+        yield put(triggerAlert(alertData))
         yield put(enableButton())
+    }
+}
+
+
+export function* handleGetLog(action) {
+
+    if(action.uid != undefined) {
+        try {
+
+            const response = yield call(requestGetLog, action.uid)
+            yield put(setLog(response.data().log))
+            
+            
+        } catch (err) {
+            const alertData = {
+                msg : err.message,
+                alertType : 'error',
+                id: uuidv4(),
+                timeout : 5000
+            }
+            yield put(triggerAlert(alertData))
+        }
+    }
+    
+}
+
+
+export function* handleAddLog(action) {
+    try {
+
+        yield call(requestAddLog, action.logData)
+        
+    } catch (err) {
+        
     }
 }
 
@@ -171,9 +255,10 @@ export function* handleUpdatePassword(action) {
             const alertData = {
                 msg : "Password has been Updated",
                 alertType : 'success',
-                id: uuidv4()
+                id: uuidv4(),
+                timeout : 5000
             }
-            yield put(setAlert(alertData))
+            yield put(triggerAlert(alertData))
             yield put(enableButton())
             
         } catch (err) {
@@ -181,9 +266,10 @@ export function* handleUpdatePassword(action) {
             const alertData = {
                 msg : err.message,
                 alertType : 'error',
-                id: uuidv4()
+                id: uuidv4(),
+                timeout : 5000
             }
-            yield put(setAlert(alertData))
+            yield put(triggerAlert(alertData))
             yield put(enableButton())
             
         }
@@ -193,9 +279,10 @@ export function* handleUpdatePassword(action) {
         const alertData = {
             msg : err.message,
             alertType : 'error',
-            id: uuidv4()
+            id: uuidv4(),
+            timeout : 8000
         }
-        yield put(setAlert(alertData))
+        yield put(triggerAlert(alertData))
         yield put(enableButton())
         
     }

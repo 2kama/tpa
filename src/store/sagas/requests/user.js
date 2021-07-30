@@ -5,7 +5,7 @@ const auth = firebase.auth()
 const db = firebase.firestore()
 
 
-export const requestRegisterUser = (userData) => {
+export const requestRegisterUser = userData => {
 
     const { email, password, firstName, lastName, phone, affiliate } = userData
 
@@ -15,11 +15,11 @@ export const requestRegisterUser = (userData) => {
         lastName,
         phone,
         affiliate
-    }).then(() => {
-        return auth.createUserWithEmailAndPassword(email, password)
-    })
+    }).then(() => auth.createUserWithEmailAndPassword(email, password))
 
 }
+
+export const requestForgotPassword = userEmail => auth.sendPasswordResetEmail(userEmail)
 
 
 export const requestVerifyUser = () => {
@@ -28,40 +28,46 @@ export const requestVerifyUser = () => {
 }
 
 
-export const requestLoginUser = (userData) => {
+export const requestLoginUser = userData => {
     const { email, password } = userData
 
     return auth.signInWithEmailAndPassword(email, password)
 }
 
 
-export const requestGetUserPrivateData = () => {
-    return db.doc(`users/${auth.currentUser.uid}/private/info`).get()
-}
+export const requestGetUserPrivateData = () => db.doc(`users/${auth.currentUser.uid}/private/info`).get()
 
 
-export const requestGetUser = () => {
-    return db.doc(`users/${auth.currentUser.uid}`).get()
-}
+export const requestGetUser = () => db.doc(`users/${auth.currentUser.uid}`).get()
 
-export const requestUpdateUser = (userData) => {
-    return db.doc(`users/${auth.currentUser.uid}`).update(userData)
-}
+export const requestUserNoty = () => db.doc(`users/${auth.currentUser.uid}/private/noty`).get()
 
-export const requestUpdateKin = (userData) => {
-    return db.doc(`users/${auth.currentUser.uid}`).update(userData)
-}
+export const requestUpdateUser = userData => db.doc(`users/${auth.currentUser.uid}`).update(userData)
 
-export const requestUpdateUserBank = (userData) => {
-    return db.doc(`users/${auth.currentUser.uid}`).update(userData)
-}
+export const requestUpdateKin = userData => db.doc(`users/${auth.currentUser.uid}`).update(userData)
 
-export const reAuthUser = (password) => {
+export const requestAddNoty = notyData => db.doc(`users/${notyData.uid}/private/noty`).update(
+    {
+        noty : firebase.firestore.FieldValue.arrayUnion(notyData)
+    }
+)
+
+
+export const requestUpdateUserBank = userData => db.doc(`users/${auth.currentUser.uid}`).update(userData)
+
+export const reAuthUser = password => {
     const user = auth.currentUser
     let credentials = firebase.auth.EmailAuthProvider.credential(user.email, password)
     return user.reauthenticateWithCredential(credentials)
 }
 
-export const requestUpdatePassword = (newPassword) => {
-    return auth.currentUser.updatePassword(newPassword)
-}
+export const requestUpdatePassword = newPassword => auth.currentUser.updatePassword(newPassword)
+
+
+export const requestGetLog = uid => db.doc(`users/${uid}/private/log`).get()
+
+export const requestAddLog = logData => db.doc(`users/${logData.uid}/private/log`).update(
+    {
+        log : firebase.firestore.FieldValue.arrayUnion(logData)
+    }
+)

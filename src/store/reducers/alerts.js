@@ -1,5 +1,10 @@
-import { SET_ALERT, REMOVE_ALERT } from '../constant'
+import { SET_ALERT, REMOVE_ALERT, TRIGGER_ALERT } from '../constant'
 
+
+export const triggerAlert = (alertData) => ({
+    type: TRIGGER_ALERT,
+    alertData
+})
 
 export const setAlert = (alertData) => ({
     type: SET_ALERT,
