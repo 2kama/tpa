@@ -42,6 +42,29 @@ exports.userCreated = functions.auth.user().onCreate(async (user) => {
         affiliateCode : ""
     }
 
+    const noty = {
+        noty : [
+            {
+                title : "Welcome to TPA Capitals",
+                message : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
+                link : false,
+                time : new Date().getTime() + (new Date().getTimezoneOffset() * 60000),
+                uid : user.uid
+            }
+        ]
+    }
+
+
+    const log = {
+        log : [
+            {
+                time : new Date().getTime() + (new Date().getTimezoneOffset() * 60000),
+                info : "You created an account with TPA",
+                uid : user.uid
+            }
+        ]
+    }
+
 
     try {
 
@@ -49,6 +72,8 @@ exports.userCreated = functions.auth.user().onCreate(async (user) => {
 
         promises.push(await db.doc(`users/${user.uid}`).set(newUser))
         promises.push(await db.doc(`users/${user.uid}/private/info`).set(privateInfo))
+        promises.push(await db.doc(`users/${user.uid}/private/noty`).set(noty))
+        promises.push(await db.doc(`users/${user.uid}/private/log`).set(log))
 
         return Promise.all(promises)
 

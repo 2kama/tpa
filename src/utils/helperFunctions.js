@@ -1,4 +1,7 @@
+import moment from "moment";
 
+
+export const TIME_ZONE = new Date().getTimezoneOffset() * 60000
 
 export const BANKS = [
     ["Choose A Bank", ""],
@@ -71,3 +74,26 @@ export const getIndexOfK = (arr, k) => {
       }
     }
   }
+
+
+  export const exactTime = time => moment(time).format("lll")
+
+  export const timeAgo = (time, form="ll") => {
+
+    const diff = new Date().getTime() - time
+
+
+
+    if(diff >= 86400000) {
+      return moment(time).format(form)
+    }else if(diff >= 3600000) {
+      const divide = Math.round(diff/3600000)
+      return `${divide} ${divide === 1 ? 'hour' : 'hours'} ago`
+    }else if(diff >= 60000) {
+      const divide = Math.round(diff/60000)
+      return `${divide} ${divide === 1 ? 'minute' : 'minutes'} ago`
+    }else {
+      return 'a few seconds ago'
+    }
+
+}
