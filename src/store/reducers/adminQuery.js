@@ -5,7 +5,11 @@ import {
     SET_TRADERS,
     DELETE_UNAPPROVED_USER,
     SELECT_ALTER_USER,
-    ALTER_USER
+    ALTER_USER,
+    GET_USERS,
+    GET_AFFILIATES,
+    GET_ADMINS,
+    GET_SUPER_ADMINS
 } from '../constant';
 
 export const setAlterUsers = users => {
@@ -21,6 +25,26 @@ export const getUnapprovedUsers = () => ({
 
 export const getTraders = () => ({
     type : GET_TRADERS
+    
+})
+
+export const getUsers = () => ({
+    type : GET_USERS
+    
+})
+
+export const getAffiliates = () => ({
+    type : GET_AFFILIATES
+    
+})
+
+export const getAdmins = () => ({
+    type : GET_ADMINS
+    
+})
+
+export const getSuperAdmins = () => ({
+    type : GET_SUPER_ADMINS
     
 })
 

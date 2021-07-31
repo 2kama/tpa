@@ -18,6 +18,7 @@ import AdminDashboard from './pages/AdminPages/AdminDashboard'
 import TraderDashboard from './pages/TraderPages/TraderDashboard'
 import PageNotFound from './pages/PageNotFound'
 import UnapprovedAccounts from './pages/AdminPages/UnapprovedAccounts'
+import ApprovedAccounts from './pages/AdminPages/ApprovedAccounts'
 import Account from './pages/Account'
 import ForgotPassword from './pages/ForgotPassword'
 import LogPage from './pages/LogPage'
@@ -41,8 +42,9 @@ const App = () => {
 
                     <Route exact path="/dashboard" component={UserDashboard} />
                     <Route exact path="/admin/dashboard" component={AdminDashboard} />
-                    <Route exact path="/trader/dashboard" component={TraderDashboard} />
+                    <Route exact path="/admin/:path/view" component={ApprovedAccounts} />
                     <Route exact path="/admin/view/users/unapproved" component={UnapprovedAccounts} />
+                    <Route exact path="/trader/dashboard" component={TraderDashboard} />
                     <Route exact path="/account" component={Account} />
                     <Route exact path="/log" component={LogPage} />
 

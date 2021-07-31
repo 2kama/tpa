@@ -1,11 +1,11 @@
 import React from 'react'
 import { useSelector, useDispatch, shallowEqual } from 'react-redux'
-import BaseModal from '../../../components/Modal/BaseModal'
+import BaseModal from '../Modal/BaseModal'
 import * as Yup from 'yup'
-import { Form, FormField, FormSelect, SubmitButton } from '../../../components/Form'
-import { superAdminSettableRoles, adminSettableRoles } from '../../../utils/userRoles'
-import { alterUser as alterUserReducer, setAlterUsers, setSelectedAlterUser } from '../../../store/reducers/adminQuery';
-import { getIndexOfK } from '../../../utils/helperFunctions'
+import { Form, FormField, FormSelect, SubmitButton } from '../Form'
+import { superAdminSettableRoles, adminSettableRoles } from '../../utils/userRoles'
+import { alterUser as alterUserReducer, setAlterUsers, setSelectedAlterUser } from '../../store/reducers/adminQuery';
+import { getIndexOfK } from '../../utils/helperFunctions'
 
 const SelectedUserModal = ({showModal, closeModal, removeEntry=false, selectedAlterUser }) => {
 
@@ -36,13 +36,13 @@ const SelectedUserModal = ({showModal, closeModal, removeEntry=false, selectedAl
         }))
     }
 
-    const alterUser = ({affiliateCode, roi, assignedTrader, role, referralCode}) => {
+    const alterUser = ({affiliateCode, ROI, assignedTrader, role, referralCode}) => {
         dispatch(alterUserReducer({
             ...selectedAlterUser,
-            roi,
+            ROI,
             affiliateCode,
             assignedTrader,
-            role,
+            role: JSON.parse(role),
             referralCode
         }))
         if(removeEntry) {
@@ -60,7 +60,7 @@ const SelectedUserModal = ({showModal, closeModal, removeEntry=false, selectedAl
         email: selectedAlterUser.email,
         phone: selectedAlterUser.phone,
         affiliateCode: selectedAlterUser.affiliateCode,
-        roi: selectedAlterUser.ROI,
+        ROI: selectedAlterUser.ROI,
         role: selectedAlterUser.role,
         assignedTrader: selectedAlterUser.assignedTrader,
         referralCode: selectedAlterUser.referralCode,
@@ -102,7 +102,7 @@ const SelectedUserModal = ({showModal, closeModal, removeEntry=false, selectedAl
                 
 
                 {selectedAlterUser.role && selectedAlterUser.role.isUser && <>
-                    <FormField name="roi" placeholder="ROI" type="number" />
+                    <FormField name="ROI" placeholder="ROI" type="number" />
                     <FormSelect 
                         name="assignedTrader" 
                         index={getIndexOfK(getTraders, selectedAlterUser.assignedTrader)[0]} 
@@ -118,7 +118,7 @@ const SelectedUserModal = ({showModal, closeModal, removeEntry=false, selectedAl
                 {!removeEntry && <FormField name="referralCode" placeholder="Referral Code" type="text" />}
              
                 <div>
-                    <SubmitButton title="Approve" />
+                    <SubmitButton title={removeEntry ? "Approve": "Update"} />
                 </div>
             </Form>
         </BaseModal>

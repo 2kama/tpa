@@ -25,7 +25,12 @@ const AdminDashboard = () => {
 
                         This is the Admin Dashboard Page
                         <hr />
-                        <button onClick={() => history.push("/admin/view/users/unapproved")}>View Unapproved Accounts</button>
+                        <button onClick={() => history.push("/admin/view/users/unapproved")}>View Unapproved Accounts</button> <br />
+                        <button onClick={() => history.push("/admin/users/view")}>View User Accounts</button> <br />
+                        <button onClick={() => history.push("/admin/affiliates/view")}>View Affiliate Accounts</button> <br />
+                        <button onClick={() => history.push("/admin/traders/view")}>View Traders Accounts</button> <br />
+                        <button onClick={() => history.push("/admin/admins/view")}>View Admin Accounts</button> <br />
+                        <button onClick={() => history.push("/admin/super-admins/view")}>View Super Admin Accounts</button> <br />
 
                     </>
                 ) : <PageNotFound />)

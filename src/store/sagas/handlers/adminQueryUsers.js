@@ -1,4 +1,4 @@
-import { getAllTraders, getUnapprovedUsers, alterUser, deleteUnapprovedUser } from '../requests/adminQueryUsers'
+import { getAllTraders, getUnapprovedUsers, alterUser, deleteUnapprovedUser, getAllUsers, getAllAffiliates, getAllSuperAdmin, getAllAdmins } from '../requests/adminQueryUsers'
 import { setAlterUsers, setTraders } from '../../reducers/adminQuery'
 import { call, put } from 'redux-saga/effects'
 import { v4 as uuidv4 } from 'uuid'
@@ -29,6 +29,83 @@ export function* handleGetTraders(action) {
 
         const users = yield call(getAllTraders)
         yield put(setTraders(
+            users
+        ))
+        
+    } catch (err) {
+        const alertData = {
+            msg : err.message,
+            alertType : 'error',
+            id: uuidv4(),
+            timeout : 5000
+        }
+        yield put(triggerAlert(alertData))
+    }
+}
+
+export function* handleGetUsers(action) {
+    try {
+
+        const users = yield call(getAllUsers)
+        console.log(users)
+        yield put(setAlterUsers(
+            users
+        ))
+        
+    } catch (err) {
+        const alertData = {
+            msg : err.message,
+            alertType : 'error',
+            id: uuidv4(),
+            timeout : 5000
+        }
+        yield put(triggerAlert(alertData))
+    }
+}
+
+export function* handleGetAffiliates(action) {
+    try {
+
+        const users = yield call(getAllAffiliates)
+        yield put(setAlterUsers(
+            users
+        ))
+        
+    } catch (err) {
+        const alertData = {
+            msg : err.message,
+            alertType : 'error',
+            id: uuidv4(),
+            timeout : 5000
+        }
+        yield put(triggerAlert(alertData))
+    }
+}
+
+export function* handleGetAdmins(action) {
+    try {
+
+        const users = yield call(getAllAdmins)
+        yield put(setAlterUsers(
+            users
+        ))
+        
+    } catch (err) {
+        const alertData = {
+            msg : err.message,
+            alertType : 'error',
+            id: uuidv4(),
+            timeout : 5000
+        }
+        yield put(triggerAlert(alertData))
+    }
+}
+
+export function* handleGetSuperAdmins(action) {
+    try {
+
+        const users = yield call(getAllSuperAdmin)
+        yield put(setAlterUsers(
             users
         ))
         
