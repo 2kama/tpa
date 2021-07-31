@@ -2,11 +2,11 @@ import { takeLatest, takeEvery } from "redux-saga/effects"
 import { 
     handleGetUnapprovedUsers, handleGetTraders, handleAlterUser,
     handleDeleteUnapprovedUser, handleGetUsers, handleGetAffiliates,
-    handleGetSuperAdmins, handleGetAdmins
+    handleGetAdmins
 } from "./handlers/adminQueryUsers"
 import { 
     GET_UNAPPROVED_USERS, GET_USER, LOGIN_USER, 
-    GET_ADMINS, GET_SUPER_ADMINS, GET_AFFILIATES, GET_USERS,
+    GET_ADMINS, GET_AFFILIATES, GET_USERS,
     REGISTER_USER, UPDATE_BANK, UPDATE_KIN, 
     UPDATE_PASSWORD, UPDATE_USER, UPDATE_USER_BANK, 
     VERIFY_BANK, VERIFY_USER, GET_TRADERS, DELETE_UNAPPROVED_USER,
@@ -39,7 +39,6 @@ export function*  watcherSaga() {
     yield takeLatest(GET_USERS, handleGetUsers)
     yield takeLatest(GET_AFFILIATES, handleGetAffiliates)
     yield takeLatest(GET_ADMINS, handleGetAdmins)
-    yield takeLatest(GET_SUPER_ADMINS, handleGetSuperAdmins)
     yield takeLatest(GET_TRADERS, handleGetTraders)
     yield takeEvery(DELETE_UNAPPROVED_USER, handleDeleteUnapprovedUser)
     yield takeEvery(ALTER_USER, handleAlterUser)

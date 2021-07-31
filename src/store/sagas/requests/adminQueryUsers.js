@@ -2,78 +2,71 @@ import firebase from '../../../utils/Firebase'
 
 const db = firebase.firestore()
 
-export const getUnapprovedUsers = () => {
+export const getUnapprovedUsers = async () => {
     let unapprovedUsers = []
-    db.collectionGroup('private')
+    let data = await db.collectionGroup('private')
         .where('isApproved', '==', false)
         .orderBy('createdAt', 'desc')
         .get()
-        .then(async data => {
-            for (let user of data.docs) {
-                let userData = await db.doc(`newUser/${user.data().email}`).get()
-                unapprovedUsers.push({...userData.data(), ...user.data()})
-            }
-        })
-        return unapprovedUsers
+    for (let user of data.docs) {
+        let userData = await db.doc(`newUser/${user.data().email}`).get()
+        unapprovedUsers.push({...userData.data(), ...user.data()})
+    }
+    return unapprovedUsers
 }
 
-export const getAllTraders = () => {
+export const getAllTraders = async () => {
     let traders = []
-    db.collectionGroup('private')
+    let data = await db.collectionGroup('private')
         .where('role.isTrader', '==', true)
+        .where('isApproved', '==', true)
         .get()
-        .then(async data => {
-            for (let userInfo of data.docs) {
-                let user = await db.collection('users').doc(userInfo.data().uid).get()
-                traders.push({ ...user.data(), ...userInfo.data() })
-            }
-        })
+    for (let userInfo of data.docs) {
+        let user = await db.collection('users').doc(userInfo.data().uid).get()
+        traders.push({ ...user.data(), ...userInfo.data() })
+    }
     return traders
 }
 
-export const getAllUsers = () => {
+export const getAllUsers = async () => {
     let users = []
-    db.collectionGroup('private')
-    .where('role.isUser', '==', true)
-    .get()
-    .then(async data => {
-        for (let userInfo of data.docs) {
-            if (!userInfo.data().role.isAffiliate) {
-                let user = await db.collection('users').doc(userInfo.data().uid).get()
-                users.push({ ...user.data(), ...userInfo.data() })
-            }
+    let data = await db.collectionGroup('private')
+        .where('role.isUser', '==', true)
+        .where('isApproved', '==', true)
+        .get()
+    for (let userInfo of data.docs) {
+        if (!userInfo.data().role.isAffiliate) {
+            let user = await db.collection('users').doc(userInfo.data().uid).get()
+            users.push({ ...user.data(), ...userInfo.data() })
         }
-    })
+    }
     return users
 }
 
-export const getAllAffiliates = () => {
+export const getAllAffiliates = async () => {
     let affiliates = []
-    db.collectionGroup('private')
+    let data = await db.collectionGroup('private')
         .where('role.isAffiliate', '==', true)
+        .where('isApproved', '==', true)
         .get()
-        .then(async data => {
-            for (let userInfo of data.docs) {
-                let user = await db.collection('users').doc(userInfo.data().uid).get()
-                affiliates.push({ ...user.data(), ...userInfo.data() })
-            }
-        })
+    for (let userInfo of data.docs) {
+        let user = await db.collection('users').doc(userInfo.data().uid).get()
+        affiliates.push({ ...user.data(), ...userInfo.data() })
+    }
     return affiliates
 }
 
-export const getAllAdmins = () => {
+export const getAllAdmins = async () => {
     let admins = []
-    db.collectionGroup('private')
-    .where('role.isAdmin', '==', true)
-    .get()
-    .then(async data => {
-        for (let userInfo of data.docs) {
-            if (!userInfo.data().role.isSuperAdmin) {
-                let user = await db.collection('users').doc(userInfo.data().uid).get()
-                admins.push({ ...user.data(), ...userInfo.data() })
-            }
-        }
-    })
+    let data = await db.collectionGroup('private')
+        .where('role.isAdmin', '==', true)
+        .where('isApproved', '==', true)
+        .get()
+    for (let userInfo of data.docs) {
+        let user = await db.collection('users').doc(userInfo.data().uid).get()
+        admins.push({ ...user.data(), ...userInfo.data() })
+    }
+    console.log(admins)
     return admins
 }
 
@@ -102,8 +95,7 @@ export const alterUser = (data) => {
         isApproved: true,
         ROI: data.role.isUser && data.ROI > 0 ?  data.ROI : 0,
         assignedTrader: data.role.isUser ? data.assignedTrader : "",
-        affiliateCode: data.role.isAffliate ? data.affiliateCode : "",
-        referralCode: data.referralCode
+        affiliateCode: data.role.isAffiliate ? data.affiliateCode : ""
     })
 }
 

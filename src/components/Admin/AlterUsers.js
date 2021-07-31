@@ -6,13 +6,12 @@ import SelectedUserModal from './SelectedUserModal';
 import { setSelectedAlterUser, deleteUnapprovedUser, setAlterUsers } from '../../store/reducers/adminQuery';
 import { disableButton } from '../../store/reducers/buttonState';
 
-const AlterUsers = ({approve}) => {
+const AlterUsers = ({users, approve}) => {
 
     const dispatch = useDispatch()
     const [showModal, setShowModal] = useState(false)
-    const { alterUsers, selectedAlterUser } = useSelector(state => ({
-        selectedAlterUser: state.adminQuery.selectedAlterUser,
-        alterUsers: state.adminQuery.alterUsers
+    const { selectedAlterUser } = useSelector(state => ({
+        selectedAlterUser: state.adminQuery.selectedAlterUser
     }), shallowEqual)
 
     const openModalAndAlterUser = (user)  => {
@@ -25,23 +24,21 @@ const AlterUsers = ({approve}) => {
             dispatch(disableButton())
             dispatch(deleteUnapprovedUser(user))
             dispatch(setAlterUsers(
-                alterUsers.filter(u => u.id !== user.id)
+                users.filter(u => u.id !== user.id)
             ))
         }
     }
-
-    console.log(alterUsers)
     
     return (
         <Table
             headers={['firstName', 'lastName', 'email', 'phone', 'delete', approve ? 'approve' : 'edit']}
-            data={alterUsers.map(user => {
+            data={users.map(user => {
                 const data = {
                     ...user,
-                    'delete': <button onClick={() => deleteUser(user)}>Delete</button>,
+                    'delete': <button disabled={user.role.isSuperAdmin && selectedAlterUser.role && !selectedAlterUser.role.isSuperAdmin} onClick={() => deleteUser(user)}>Delete</button>,
                 }
                 data[approve ? 'approve' : 'edit'] = <>
-                    <button 
+                    <button disabled={user.role.isSuperAdmin && selectedAlterUser.role && !selectedAlterUser.role.isSuperAdmin}
                         onClick={() => {openModalAndAlterUser(user)}}
                     >
                         {approve ? 'approve' : 'edit'}
