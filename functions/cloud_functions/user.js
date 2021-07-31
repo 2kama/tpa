@@ -38,7 +38,7 @@ exports.userCreated = functions.auth.user().onCreate(async (user) => {
         ROI : 0,
         assignedTrader : "",
         isApproved : false,
-        referralCode : "",
+        referralCode : user.referralCode,
         affiliateCode : ""
     }
 

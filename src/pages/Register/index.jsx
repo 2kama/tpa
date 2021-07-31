@@ -27,7 +27,6 @@ const Register = () => {
     const dispatch = useDispatch()
     const { query } = useQuery()
 
-
     const { buttonDisable, isAuthenticated, isLoading } = useSelector(state => ({
         buttonDisable : state.buttonState.buttonDisable,
         isAuthenticated : state.user.isAuthenticated,
@@ -35,13 +34,13 @@ const Register = () => {
     }), shallowEqual)
 
 
-    const submitForm = ({ email, password, passwordConfirmation, affiliate, firstName, lastName, phone }) => {
+    const submitForm = ({ email, password, passwordConfirmation, referralCode, firstName, lastName, phone }) => {
 
             const userData = {
                 email,
                 password,
                 passwordConfirmation,
-                affiliate,
+                referralCode,
                 firstName,
                 lastName,
                 phone
@@ -62,70 +61,65 @@ const Register = () => {
                 !isLoading && !isAuthenticated && (
 
                     <>
-                    <div>this is Register page</div>
+                        <div>this is Register page</div>
 
-                    <Form
-                        initialValues={{ firstName: "", lastName: "", phone: "", email: "", password: "", passwordConfirmation: "", affiliate: query.affiliate || "", terms : false }}
-                        onSubmit={submitForm}
-                        validationSchema={validationSchema}
-                    >
+                        <Form
+                            initialValues={{ firstName: "", lastName: "", phone: "", email: "", password: "", passwordConfirmation: "", referralCode: query.referralCode || "", terms : false }}
+                            onSubmit={submitForm}
+                            validationSchema={validationSchema}
+                        >
 
-                        <FormField 
-                            type="text"
-                            name="firstName"
-                            placeholder="First Name"
-                        />
+                            <FormField 
+                                type="text"
+                                name="firstName"
+                                placeholder="First Name"
+                            />
 
-                        <FormField 
-                            type="text"
-                            name="lastName"
-                            placeholder="Last Name"
-                        />
+                            <FormField 
+                                type="text"
+                                name="lastName"
+                                placeholder="Last Name"
+                            />
 
-                        <FormField 
-                            type="email"
-                            name="email"
-                            placeholder="youremail@mail.com"
-                        />
+                            <FormField 
+                                type="email"
+                                name="email"
+                                placeholder="youremail@mail.com"
+                            />
 
-                        <FormField 
-                            type="text"
-                            name="phone"
-                            placeholder="080-000-0000"
-                        />
+                            <FormField 
+                                type="text"
+                                name="phone"
+                                placeholder="080-000-0000"
+                            />
 
 
-                        <FormField 
-                            type="password"
-                            name="password"
-                            placeholder="Password"
-                        />
+                            <FormField 
+                                type="password"
+                                name="password"
+                                placeholder="Password"
+                            />
 
-                        <FormField 
-                            type="password"
-                            name="passwordConfirmation"
-                            placeholder="Confirm Password"
-                        />
+                            <FormField 
+                                type="password"
+                                name="passwordConfirmation"
+                                placeholder="Confirm Password"
+                            />
 
-                        <FormField 
-                            type="text"
-                            name="affiliate"
-                            placeholder="Affiliate Code [Optional]"
-                        />
+                            <FormField 
+                                type="text"
+                                name="referralCode"
+                                placeholder="Affiliate Code [Optional]"
+                            />
 
-                        <FormCheckBox name="terms" text={termsText} />
+                            <FormCheckBox name="terms" text={termsText} />
 
-                        <SubmitButton title="Register" disable={buttonDisable} />
+                            <SubmitButton title="Register" disable={buttonDisable} />
 
-                    </Form>
+                        </Form>
                     </>
-
                 )
             }
-
-            
-
-
         </>
     )
 }
