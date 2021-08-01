@@ -66,7 +66,6 @@ export const getAllAdmins = async () => {
         let user = await db.collection('users').doc(userInfo.data().uid).get()
         admins.push({ ...user.data(), ...userInfo.data() })
     }
-    console.log(admins)
     return admins
 }
 
@@ -94,6 +93,7 @@ export const alterUser = (data) => {
         role: data.role,
         isApproved: true,
         ROI: data.role.isUser && data.ROI > 0 ?  data.ROI : 0,
+        referralCode: data.referralCode,
         assignedTrader: data.role.isUser ? data.assignedTrader : "",
         affiliateCode: data.role.isAffiliate ? data.affiliateCode : ""
     })

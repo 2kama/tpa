@@ -24,7 +24,7 @@ const AlterUsers = ({users, approve}) => {
             dispatch(disableButton())
             dispatch(deleteUnapprovedUser(user))
             dispatch(setAlterUsers(
-                users.filter(u => u.id !== user.id)
+                users.filter(u => u.uid !== user.uid)
             ))
         }
     }

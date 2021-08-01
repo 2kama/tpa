@@ -15,6 +15,8 @@ import DecipherPage from './pages/DecipherPage'
 import Logout from './pages/Logout'
 import UserDashboard from './pages/UserPages/UserDashboard'
 import AdminDashboard from './pages/AdminPages/AdminDashboard'
+import UnapprovedAccounts from './pages/AdminPages/UnapprovedAccounts/index';
+import ApprovedAccounts from './pages/AdminPages/ApprovedAccounts/index';
 import TraderDashboard from './pages/TraderPages/TraderDashboard'
 import PageNotFound from './pages/PageNotFound'
 import Account from './pages/Account'
@@ -32,14 +34,21 @@ const App = () => {
         <>
             <BrowserRouter>
                 <Switch>
+                    {/* Auth Pages */}
                     <Route exact path="/login" component={Login} />
                     <Route exact path="/register" component={Register} />
                     <Route exact path="/forgot-password" component={ForgotPassword} />
                     <Route exact path="/hash" component={DecipherPage} />
                     <Route exact path="/logout" component={Logout} />
 
+                    {/* User Pages */}
                     <Route exact path="/dashboard" component={UserDashboard} />
+
+                    {/* Admin Pages */}
                     <Route exact path="/admin/dashboard" component={AdminDashboard} />
+                    <Route exact path="/admin/dashboard/view/approved" component={ApprovedAccounts} />
+                    <Route exact path="/admin/dashboard/view/unapproved" component={UnapprovedAccounts} />
+
                     <Route exact path="/trader/dashboard" component={TraderDashboard} />
                     <Route exact path="/account" component={Account} />
                     <Route exact path="/log" component={LogPage} />

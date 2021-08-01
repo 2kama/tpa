@@ -38,7 +38,7 @@ const SelectedUserModal = ({showModal, closeModal, removeEntry=false, selectedAl
         }))
     }
 
-    const alterUser = ({affiliateCode, ROI, assignedTrader, role}) => {
+    const alterUser = ({affiliateCode, ROI, assignedTrader, role, referralCode}) => {
         try {
             role = JSON.parse(role)
         } catch (error) {
@@ -49,7 +49,8 @@ const SelectedUserModal = ({showModal, closeModal, removeEntry=false, selectedAl
             ROI,
             affiliateCode,
             assignedTrader,
-            role: role
+            role: role,
+            referralCode
         }
         dispatch(disableButton())
         dispatch(alterUserReducer(updatedUser))
@@ -73,7 +74,8 @@ const SelectedUserModal = ({showModal, closeModal, removeEntry=false, selectedAl
         affiliateCode: selectedAlterUser.affiliateCode,
         ROI: selectedAlterUser.ROI,
         role: selectedAlterUser.role,
-        assignedTrader: selectedAlterUser.assignedTrader
+        assignedTrader: selectedAlterUser.assignedTrader,
+        referralCode: selectedAlterUser.referralCode
     }
 
     return (
@@ -124,7 +126,7 @@ const SelectedUserModal = ({showModal, closeModal, removeEntry=false, selectedAl
                 {selectedAlterUser.role && selectedAlterUser.role.isAffiliate && 
                     <FormField name="affiliateCode" placeholder="Affiliate Code" type="text" />
                 }
-             
+                <FormField name="referralCode" placeholder="Referral Code" type="text" />
                 <div>
                     <SubmitButton disable={buttonDisable} title={removeEntry ? "Approve": "Update"} />
                 </div>
