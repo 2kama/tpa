@@ -7,14 +7,14 @@ const db = firebase.firestore()
 
 export const requestRegisterUser = userData => {
 
-    const { email, password, firstName, lastName, phone, affiliate } = userData
+    const { email, password, firstName, lastName, phone, referralCode } = userData
 
     db.doc(`newUser/${email}`).set({
         email,
         firstName,
         lastName,
         phone,
-        affiliate
+        referralCode
     }).then(() => auth.createUserWithEmailAndPassword(email, password))
 
 }
