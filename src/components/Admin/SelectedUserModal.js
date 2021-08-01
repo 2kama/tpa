@@ -126,7 +126,7 @@ const SelectedUserModal = ({showModal, closeModal, removeEntry=false, selectedAl
                 {selectedAlterUser.role && selectedAlterUser.role.isAffiliate && 
                     <FormField name="affiliateCode" placeholder="Affiliate Code" type="text" />
                 }
-                <FormField name="referralCode" placeholder="Referral Code" type="text" />
+                {!removeEntry && <FormField name="referralCode" placeholder="Referral Code" type="text" />}
                 <div>
                     <SubmitButton disable={buttonDisable} title={removeEntry ? "Approve": "Update"} />
                 </div>

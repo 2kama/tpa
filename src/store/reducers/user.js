@@ -98,7 +98,7 @@ export default function user (state = initialState, action) {
     switch (action.type) {
         case SET_LOADING:
             return {...state, isLoading: true}
-            case SET_LOADED:
+        case SET_LOADED:
                 return {...state, isLoading: false}
         case SET_USER:
             return {

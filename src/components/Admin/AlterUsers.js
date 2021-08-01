@@ -4,14 +4,14 @@ import { Table } from '../Table/Table';
 import { useState } from 'react';
 import SelectedUserModal from './SelectedUserModal';
 import { setSelectedAlterUser, deleteUnapprovedUser, setAlterUsers } from '../../store/reducers/adminQuery';
-import { disableButton } from '../../store/reducers/buttonState';
 
 const AlterUsers = ({users, approve}) => {
 
     const dispatch = useDispatch()
     const [showModal, setShowModal] = useState(false)
-    const { selectedAlterUser } = useSelector(state => ({
-        selectedAlterUser: state.adminQuery.selectedAlterUser
+    const { currentUser, selectedAlterUser } = useSelector(state => ({
+        selectedAlterUser: state.adminQuery.selectedAlterUser,
+        currentUser: state.user
     }), shallowEqual)
 
     const openModalAndAlterUser = (user)  => {
@@ -28,20 +28,31 @@ const AlterUsers = ({users, approve}) => {
             ))
         }
     }
+
+    const getRole = role => {
+        if (role.isAffiliate) return 'AFFILIATE'
+        if (role.isUser) return 'USER'
+        if (role.isTrader) return 'TRADER'
+        if (role.isSuperAdmin) return 'SUPER ADMIN'
+        if (role.isAdmin) return 'ADMIN'
+    }
+
+    const disableButton = user => (user.role.isSuperAdmin && selectedAlterUser.role && !selectedAlterUser.role.isSuperAdmin) || user.uid === currentUser.uid
     
     return (
         <Table
-            headers={['firstName', 'lastName', 'email', 'phone', 'delete', approve ? 'approve' : 'edit']}
+            headers={['firstName', 'lastName', 'email', 'phone', approve ? '' : 'ROLE', 'DELETE', approve ? 'APPROVE' : 'EDIT']}
             data={users.map(user => {
                 const data = {
                     ...user,
-                    'delete': <button disabled={user.role.isSuperAdmin && selectedAlterUser.role && !selectedAlterUser.role.isSuperAdmin} onClick={() => deleteUser(user)}>Delete</button>,
+                    'ROLE': getRole(user.role),
+                    'DELETE': <button disabled={disableButton(user)} onClick={() => deleteUser(user)}>DELETE</button>,
                 }
-                data[approve ? 'approve' : 'edit'] = <>
-                    <button disabled={user.role.isSuperAdmin && selectedAlterUser.role && !selectedAlterUser.role.isSuperAdmin}
+                data[approve ? 'APPROVE' : 'EDIT'] = <>
+                    <button disabled={disableButton(user)}
                         onClick={() => {openModalAndAlterUser(user)}}
                     >
-                        {approve ? 'approve' : 'edit'}
+                        {approve ? 'APPROVE' : 'EDIT'}
                     </button>
                     <SelectedUserModal
                         showModal={showModal}

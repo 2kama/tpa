@@ -5,7 +5,7 @@ export const Table = ({headers, data}) => {
         <table className="table table-striped table-hover">
             <thead>
                 <tr>
-                    {headers.map((header,idx) => <th key={idx}>{header}</th>)}
+                    {headers.map((header,idx) => <th key={idx}>{header.toUpperCase()}</th>)}
                 </tr>
             </thead>
             <tbody>

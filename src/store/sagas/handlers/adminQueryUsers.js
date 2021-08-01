@@ -2,12 +2,11 @@ import {
     getAllTraders, getUnapprovedUsers, alterUser, 
     deleteUnapprovedUser, getAllUsers, getAllAffiliates, getAllAdmins 
 } from '../requests/adminQueryUsers'
-import { setAlterUsers, setTraders } from '../../reducers/adminQuery'
+import { setAlterUsers, setTraders, setLoaded } from '../../reducers/adminQuery'
 import { call, put } from 'redux-saga/effects'
 import { v4 as uuidv4 } from 'uuid'
 import { triggerAlert } from '../../reducers/alerts'
 import { enableButton } from '../../reducers/buttonState'
-import { setLoaded } from '../../reducers/user';
 
 export function* handleGetUnapprovedUsers(action) {
     try {
