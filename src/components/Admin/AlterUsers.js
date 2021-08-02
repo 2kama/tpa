@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch, shallowEqual } from 'react-redux'
-import { Table } from '../Table/Table';
+import { Table } from '../Table';
 import { useState } from 'react';
 import SelectedUserModal from './SelectedUserModal';
 import { setSelectedAlterUser, deleteUserData, setAlterUsers } from '../../store/reducers/adminQuery';
