@@ -1,6 +1,6 @@
 import { 
     getAllTraders, getUnapprovedUsers, alterUser, 
-    deleteUnapprovedUser, getAllUsers, getAllAffiliates, getAllAdmins 
+    deleteUserData, getAllUsers, getAllAffiliates, getAllAdmins 
 } from '../requests/adminQueryUsers'
 import { setAlterUsers, setTraders, setLoaded } from '../../reducers/adminQuery'
 import { call, put } from 'redux-saga/effects'
@@ -130,9 +130,9 @@ export function* handleAlterUser(action) {
     yield put(enableButton())
 }
 
-export function* handleDeleteUnapprovedUser(action) {
+export function* handleDeleteUserData(action) {
     try {
-        yield call(deleteUnapprovedUser,  action.user)
+        yield call(deleteUserData,  action.user)
         const alertData = {
             msg : `${action.user.firstName} ${action.user.lastName} has been deleted`,
             alertType : 'success',

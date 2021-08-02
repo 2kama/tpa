@@ -7,7 +7,7 @@ import AlterUsers from '../../../components/Admin/AlterUsers';
 
 const UnapprovedAccounts = () => {
     const dispatch = useDispatch()
-    const { role, isLoading, alterUsers } = useSelector(state => ({
+    const { role, isLoading, alterUsers, traders } = useSelector(state => ({
         role : state.user.role,
         isLoading : state.adminQuery.isLoading,
         alterUsers: state.adminQuery.alterUsers,
@@ -30,7 +30,10 @@ const UnapprovedAccounts = () => {
                     <>
                         Unapproved Users
                         <hr />
-                        {!isLoading ? alterUsers.length > 0 ? <AlterUsers users={alterUsers} approve={true} /> : <>No Unapproved Accounts</>: <>Loading...</>}
+                        {!isLoading ? alterUsers.length > 0 ? <AlterUsers 
+                            users={alterUsers} 
+                            approve={true} 
+                            traders={traders} /> : <>No Unapproved Accounts</>: <>Loading...</>}
                     </>
                 ) : <PageNotFound />)
             }

@@ -3,7 +3,7 @@ import {
     GET_UNAPPROVED_USERS, 
     GET_TRADERS, 
     SET_TRADERS,
-    DELETE_UNAPPROVED_USER,
+    DELETE_USER_DATA,
     SELECT_ALTER_USER,
     ALTER_USER,
     GET_USERS,
@@ -63,8 +63,8 @@ export const alterUser = (user) => ({
     user
 })
 
-export const deleteUnapprovedUser = (user) => ({
-    type : DELETE_UNAPPROVED_USER,
+export const deleteUserData = (user) => ({
+    type : DELETE_USER_DATA,
     user
 })
 

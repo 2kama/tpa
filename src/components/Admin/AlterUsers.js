@@ -3,9 +3,9 @@ import { useSelector, useDispatch, shallowEqual } from 'react-redux'
 import { Table } from '../Table/Table';
 import { useState } from 'react';
 import SelectedUserModal from './SelectedUserModal';
-import { setSelectedAlterUser, deleteUnapprovedUser, setAlterUsers } from '../../store/reducers/adminQuery';
+import { setSelectedAlterUser, deleteUserData, setAlterUsers } from '../../store/reducers/adminQuery';
 
-const AlterUsers = ({users, approve}) => {
+const AlterUsers = ({users, approve, traders}) => {
 
     const dispatch = useDispatch()
     const [showModal, setShowModal] = useState(false)
@@ -22,7 +22,7 @@ const AlterUsers = ({users, approve}) => {
     const deleteUser = (user) => {
         if (window.confirm("Are you sure you want to delete this account?")) {
             dispatch(disableButton())
-            dispatch(deleteUnapprovedUser(user))
+            dispatch(deleteUserData(user))
             dispatch(setAlterUsers(
                 users.filter(u => u.uid !== user.uid)
             ))
@@ -31,24 +31,34 @@ const AlterUsers = ({users, approve}) => {
 
     const getRole = role => {
         if (role.isAffiliate) return 'AFFILIATE'
-        if (role.isUser) return 'USER'
+        if (role.isUser) return 'NORMAL USER'
         if (role.isTrader) return 'TRADER'
         if (role.isSuperAdmin) return 'SUPER ADMIN'
         if (role.isAdmin) return 'ADMIN'
     }
 
-    const disableButton = user => (user.role.isSuperAdmin && selectedAlterUser.role && !selectedAlterUser.role.isSuperAdmin) || user.uid === currentUser.uid
+    const disableButton = user =>  (user.role.isSuperAdmin && !currentUser.role.isSuperAdmin) || user.uid === currentUser.uid
+    
+    const headers = [
+        {dataKey: "firstName", headerText: "First Name"},
+        {dataKey: "lastName", headerText: "Last Name"},
+        {dataKey: "email", headerText: "Email"},
+        {dataKey: "phone", headerText: "Phone"},
+        {dataKey: approve ? '' : 'role', headerText: approve ? '' : 'Role'},
+        {dataKey: 'delete', headerText: 'Delete'},
+        {dataKey: approve ? 'approve' : 'edit', headerText: approve ? 'Approve' : 'Edit'},
+    ]
     
     return (
         <Table
-            headers={['firstName', 'lastName', 'email', 'phone', approve ? '' : 'ROLE', 'DELETE', approve ? 'APPROVE' : 'EDIT']}
+            headers={headers}
             data={users.map(user => {
                 const data = {
                     ...user,
-                    'ROLE': getRole(user.role),
-                    'DELETE': <button disabled={disableButton(user)} onClick={() => deleteUser(user)}>DELETE</button>,
+                    'role': getRole(user.role),
+                    'delete': <button disabled={disableButton(user)} onClick={() => deleteUser(user)}>DELETE</button>,
                 }
-                data[approve ? 'APPROVE' : 'EDIT'] = <>
+                data[approve ? 'approve' : 'edit'] = <>
                     <button disabled={disableButton(user)}
                         onClick={() => {openModalAndAlterUser(user)}}
                     >
@@ -56,6 +66,7 @@ const AlterUsers = ({users, approve}) => {
                     </button>
                     <SelectedUserModal
                         showModal={showModal}
+                        traders={traders}
                         closeModal={() => {dispatch(setSelectedAlterUser({})); setShowModal(false)}}
                         selectedAlterUser={selectedAlterUser}
                         removeEntry={approve ? true : false}

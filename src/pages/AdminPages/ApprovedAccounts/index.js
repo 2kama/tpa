@@ -41,7 +41,10 @@ const ApprovedAccounts = () => {
                         <button onClick={() => {dispatch(setAlterUsers(traders))}}>View Traders Accounts</button> <br />
                         <button onClick={() => {update(getAdmins);}}>View Admin Accounts</button> <br />
                         <hr />
-                        {!isLoading ? alterUsers.length > 0 ? <AlterUsers users={alterUsers} approve={false} /> : <>No Approved Accounts For this category</>: <>Loading...</>}
+                        {!isLoading ? alterUsers.length > 0 ? <AlterUsers 
+                            traders={traders} 
+                            users={alterUsers} 
+                            approve={false} /> : <>No Approved Accounts For this category</>: <>Loading...</>}
                     </>
                 ) : <PageNotFound />)
             }

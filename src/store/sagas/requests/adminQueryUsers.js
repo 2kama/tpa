@@ -99,7 +99,6 @@ export const alterUser = (data) => {
     })
 }
 
-export const deleteUnapprovedUser = data => {
+export const deleteUserData = data => {
     return db.doc(`users/${data.uid}/private/info`).delete()
-
 }

@@ -1,28 +1,16 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
 import Authenticate from '../../../components/Authenticate'
 import PageNotFound from '../../PageNotFound'
-import { useDispatch, shallowEqual } from 'react-redux';
-import { getTraders } from "../../../store/reducers/adminQuery";
-import { setIsLoading } from '../../../store/reducers/user';
+import { shallowEqual } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 const AdminDashboard = () => {
-    const dispatch = useDispatch()
     const { role, isLoading } = useSelector(state => ({
         role : state.user.role,
-        isLoading : state.user.isLoading,
-        alterUsers: state.adminQuery.alterUsers,
-        traders: state.adminQuery.traders,
+        isLoading : state.user.isLoading
     }), shallowEqual)
-
-    useEffect(() => {
-        dispatch(setIsLoading());
-        dispatch(getTraders())
-        // eslint-disable-next-line
-    }, [])
         
-
     return(
         <>
             <Authenticate inside={true} />

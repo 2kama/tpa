@@ -8,13 +8,12 @@ import { alterUser as alterUserReducer, setAlterUsers, setSelectedAlterUser } fr
 import { getIndexOfK } from '../../utils/helperFunctions'
 import { disableButton } from '../../store/reducers/buttonState';
 
-const SelectedUserModal = ({showModal, closeModal, removeEntry=false, selectedAlterUser }) => {
+const SelectedUserModal = ({showModal, closeModal, removeEntry=false, selectedAlterUser, traders }) => {
 
     const dispatch = useDispatch()
-    const {  buttonDisable, traders, alterUsers, role } = useSelector(state => ({
+    const { buttonDisable, alterUsers, role } = useSelector(state => ({
         alterUsers: state.adminQuery.alterUsers,
         buttonDisable : state.buttonState.buttonDisable,
-        traders: state.adminQuery.traders,
         role : state.user.role
     }), shallowEqual)
 
