@@ -2,31 +2,30 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import Authenticate from '../../../components/Authenticate'
 import PageNotFound from '../../PageNotFound'
-import { useHistory } from 'react-router-dom';
-
+import { shallowEqual } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const AdminDashboard = () => {
-    const history = useHistory()
     const { role, isLoading } = useSelector(state => ({
         role : state.user.role,
-        isLoading : state.isLoading
-    }))
+        isLoading : state.user.isLoading
+    }), shallowEqual)
         
-
     return(
         <>
             <Authenticate inside={true} />
 
             {
-                !isLoading && role && (
+                role && (
                 
-                role.isAdmin ? (
+                !isLoading && role.isAdmin ? (
                     <>
 
                         This is the Admin Dashboard Page
                         <hr />
-                        <button onClick={() => history.push("/admin/view/users/unapproved")}>View Unapproved Accounts</button>
-
+                        <Link to="/admin/dashboard/view/approved">View Approved Accounts</Link> <br />
+                        <Link to="/admin/dashboard/view/unapproved">View Unapproved Accounts</Link> <br />
+                        <hr />
                     </>
                 ) : <PageNotFound />)
 

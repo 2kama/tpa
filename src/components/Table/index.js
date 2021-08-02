@@ -5,7 +5,7 @@ export const Table = ({headers, data}) => {
         <table className="table table-striped table-hover">
             <thead>
                 <tr>
-                    {headers.map((header,idx) => <th key={idx}>{header}</th>)}
+                    {headers.map((header,idx) => <th key={idx}>{header.headerText || header.dataKey}</th>)}
                 </tr>
             </thead>
             <tbody>
@@ -14,7 +14,7 @@ export const Table = ({headers, data}) => {
                         return (
                             <tr key={idx}>
                                 {headers.map((header, idx) => {
-                                   return ele[header] && <td key={idx}>{ele[header]}</td>
+                                   return ele[header.dataKey] && <td key={idx}>{ele[header.dataKey]}</td>
                                 })}
                             </tr>
                         )

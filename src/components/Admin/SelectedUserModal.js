@@ -1,18 +1,19 @@
 import React from 'react'
 import { useSelector, useDispatch, shallowEqual } from 'react-redux'
-import BaseModal from '../../../components/Modal/BaseModal'
+import BaseModal from '../Modal/BaseModal'
 import * as Yup from 'yup'
-import { Form, FormField, FormSelect, SubmitButton } from '../../../components/Form'
-import { superAdminSettableRoles, adminSettableRoles } from '../../../utils/userRoles'
-import { alterUser as alterUserReducer, setAlterUsers, setSelectedAlterUser } from '../../../store/reducers/adminQuery';
-import { getIndexOfK } from '../../../utils/helperFunctions'
+import { Form, FormField, FormSelect, SubmitButton } from '../Form'
+import { superAdminSettableRoles, adminSettableRoles } from '../../utils/userRoles'
+import { alterUser as alterUserReducer, setAlterUsers, setSelectedAlterUser } from '../../store/reducers/adminQuery';
+import { getIndexOfK } from '../../utils/helperFunctions'
+import { disableButton } from '../../store/reducers/buttonState';
 
-const SelectedUserModal = ({showModal, closeModal, removeEntry=false, selectedAlterUser }) => {
+const SelectedUserModal = ({showModal, closeModal, removeEntry=false, selectedAlterUser, traders }) => {
 
     const dispatch = useDispatch()
-    const {  traders, alterUsers, role } = useSelector(state => ({
+    const { buttonDisable, alterUsers, role } = useSelector(state => ({
         alterUsers: state.adminQuery.alterUsers,
-        traders: state.adminQuery.traders,
+        buttonDisable : state.buttonState.buttonDisable,
         role : state.user.role
     }), shallowEqual)
 
@@ -24,7 +25,7 @@ const SelectedUserModal = ({showModal, closeModal, removeEntry=false, selectedAl
         firstName: Yup.string().required().min(3).label("First Name"),
         lastName: Yup.string().required().min(3).label("Last Name"),
         phone: Yup.string().required().label("Phone Number"),
-        roi: selectedAlterUser.role && selectedAlterUser.role.isUser && Yup.number().required().min(0).max(100).label("ROI"),
+        ROI: selectedAlterUser.role && selectedAlterUser.role.isUser && Yup.number().required().min(1).max(100).label("ROI"),
         affiliateCode: selectedAlterUser.role && selectedAlterUser.role.isAffiliate && Yup.string().required().length(6).label("Affiliate Code"),
         assignedTrader: selectedAlterUser.role && selectedAlterUser.role.isUser && Yup.string().required().label("Assigned Trader"),
     })
@@ -36,15 +37,25 @@ const SelectedUserModal = ({showModal, closeModal, removeEntry=false, selectedAl
         }))
     }
 
-    const alterUser = ({affiliateCode, roi, assignedTrader, role, referralCode}) => {
-        dispatch(alterUserReducer({
+    const alterUser = ({affiliateCode, ROI, assignedTrader, role, referralCode}) => {
+        try {
+            role = JSON.parse(role)
+        } catch (error) {
+            // do nothing
+        }
+        const updatedUser = {
             ...selectedAlterUser,
-            roi,
+            ROI,
             affiliateCode,
             assignedTrader,
-            role,
+            role: role,
             referralCode
-        }))
+        }
+        dispatch(disableButton())
+        dispatch(alterUserReducer(updatedUser))
+        dispatch(setAlterUsers(
+            alterUsers.map(user => user.uid === selectedAlterUser.uid ? updatedUser : user)
+        ))
         if(removeEntry) {
             dispatch(setAlterUsers(
                 alterUsers.filter(user => user.uid !== selectedAlterUser.uid)
@@ -60,10 +71,10 @@ const SelectedUserModal = ({showModal, closeModal, removeEntry=false, selectedAl
         email: selectedAlterUser.email,
         phone: selectedAlterUser.phone,
         affiliateCode: selectedAlterUser.affiliateCode,
-        roi: selectedAlterUser.ROI,
+        ROI: selectedAlterUser.ROI,
         role: selectedAlterUser.role,
         assignedTrader: selectedAlterUser.assignedTrader,
-        referralCode: selectedAlterUser.referralCode,
+        referralCode: selectedAlterUser.referralCode
     }
 
     return (
@@ -102,7 +113,7 @@ const SelectedUserModal = ({showModal, closeModal, removeEntry=false, selectedAl
                 
 
                 {selectedAlterUser.role && selectedAlterUser.role.isUser && <>
-                    <FormField name="roi" placeholder="ROI" type="number" />
+                    <FormField name="ROI" placeholder="ROI" type="number" />
                     <FormSelect 
                         name="assignedTrader" 
                         index={getIndexOfK(getTraders, selectedAlterUser.assignedTrader)[0]} 
@@ -114,11 +125,9 @@ const SelectedUserModal = ({showModal, closeModal, removeEntry=false, selectedAl
                 {selectedAlterUser.role && selectedAlterUser.role.isAffiliate && 
                     <FormField name="affiliateCode" placeholder="Affiliate Code" type="text" />
                 }
-
                 {!removeEntry && <FormField name="referralCode" placeholder="Referral Code" type="text" />}
-             
                 <div>
-                    <SubmitButton title="Approve" />
+                    <SubmitButton disable={buttonDisable} title={removeEntry ? "Approve": "Update"} />
                 </div>
             </Form>
         </BaseModal>

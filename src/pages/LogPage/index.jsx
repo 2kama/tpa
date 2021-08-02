@@ -5,7 +5,7 @@ import { getLog } from '../../store/reducers/user'
 
 import Authenticate from '../../components/Authenticate'
 import PageNotFound from '../PageNotFound'
-import { Table } from '../../components/Table/Table'
+import { Table } from '../../components/Table'
 import { exactTime, TIME_ZONE } from '../../utils/helperFunctions'
 
 
@@ -44,7 +44,7 @@ const LogPage = () => {
                         <div>log page</div>
 
                         <Table 
-                            headers={["time", "info"]}
+                            headers={[{dataKey: "time", headerText: "Time"}, {dataKey: "info", headerText: "Info"}]}
                             data={log.reverse().map(lg => (
                                 {
                                     ...lg,

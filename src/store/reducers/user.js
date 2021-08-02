@@ -1,4 +1,9 @@
-import { ADD_LOG, ADD_NOTY, FORGOT_PASSWORD, GET_LOG, GET_USER, LOGIN_USER, REGISTER_USER, SET_ACCOUNT_NAME, SET_LOG, SET_USER, UPDATE_KIN, UPDATE_PASSWORD, UPDATE_USER, UPDATE_USER_BANK, VERIFY_USER } from "../constant";
+import { 
+    ADD_LOG, ADD_NOTY, FORGOT_PASSWORD, GET_LOG, GET_USER, 
+    LOGIN_USER, REGISTER_USER, SET_ACCOUNT_NAME, SET_LOG, 
+    SET_USER, UPDATE_KIN, UPDATE_PASSWORD, UPDATE_USER, 
+    UPDATE_USER_BANK, VERIFY_USER, SET_LOADING, SET_LOADED
+} from "../constant";
 
 
 
@@ -75,6 +80,14 @@ export const addLog = (logData) => ({
     logData
 })
 
+export const setIsLoading = () => ({
+    type : SET_LOADING
+})
+
+export const setLoaded = () => ({
+    type : SET_LOADED
+})
+
 
 const initialState = {
     isLoading : true
@@ -83,6 +96,10 @@ const initialState = {
 export default function user (state = initialState, action) {
     let { user } = action
     switch (action.type) {
+        case SET_LOADING:
+            return {...state, isLoading: true}
+        case SET_LOADED:
+                return {...state, isLoading: false}
         case SET_USER:
             return {
                 ...state,

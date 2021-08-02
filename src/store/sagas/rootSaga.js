@@ -1,13 +1,15 @@
 import { takeLatest, takeEvery } from "redux-saga/effects"
 import { 
     handleGetUnapprovedUsers, handleGetTraders, handleAlterUser,
-    handleDeleteUnapprovedUser 
+    handleDeleteUserData, handleGetUsers, handleGetAffiliates,
+    handleGetAdmins
 } from "./handlers/adminQueryUsers"
 import { 
     GET_UNAPPROVED_USERS, GET_USER, LOGIN_USER, 
+    GET_ADMINS, GET_AFFILIATES, GET_USERS,
     REGISTER_USER, UPDATE_BANK, UPDATE_KIN, 
     UPDATE_PASSWORD, UPDATE_USER, UPDATE_USER_BANK, 
-    VERIFY_BANK, VERIFY_USER, GET_TRADERS, DELETE_UNAPPROVED_USER,
+    VERIFY_BANK, VERIFY_USER, GET_TRADERS, DELETE_USER_DATA,
     ALTER_USER, 
     TRIGGER_ALERT,
     FORGOT_PASSWORD,
@@ -34,8 +36,11 @@ export function*  watcherSaga() {
     yield takeLatest(LOGIN_USER, handleLoginUser)
     yield takeLatest(VERIFY_USER, handleVerifyUser)
     yield takeLatest(GET_UNAPPROVED_USERS, handleGetUnapprovedUsers)
+    yield takeLatest(GET_USERS, handleGetUsers)
+    yield takeLatest(GET_AFFILIATES, handleGetAffiliates)
+    yield takeLatest(GET_ADMINS, handleGetAdmins)
     yield takeLatest(GET_TRADERS, handleGetTraders)
-    yield takeEvery(DELETE_UNAPPROVED_USER, handleDeleteUnapprovedUser)
+    yield takeEvery(DELETE_USER_DATA, handleDeleteUserData)
     yield takeEvery(ALTER_USER, handleAlterUser)
     yield takeLatest(UPDATE_USER, handleUpdateUser)
     yield takeLatest(UPDATE_KIN, handleUpdateKin)
