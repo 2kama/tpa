@@ -6,3 +6,4 @@ export { default as SubmitButton } from "./SubmitButton";
 export { default as TextareaField } from "./TextareaField"
 export { default as FormToggle } from "./FormToggle"
 export { default as FormSelect } from "./FormSelect"
+export { default as FormUpload } from './FormUpload'

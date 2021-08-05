@@ -1,9 +1,11 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin')
 
+const db = admin.firestore()
+
 exports.userCreated = functions.auth.user().onCreate(async (user) => {
 
-    const db = admin.firestore()
+    
 
     const newUser = {
         firstName : "",
@@ -24,10 +26,10 @@ exports.userCreated = functions.auth.user().onCreate(async (user) => {
         createdAt : new Date().getTime() + (new Date().getTimezoneOffset() * 60000),
         email : user.email,
         wallet : {
-            pending : 0,
+            pendingDebit : 0,
+            pendingCredit : 0,
             available : 0
         },
-        walletTransactions : [],
         role : {
             isAdmin : false,
             isSuperAdmin : false,
@@ -81,11 +83,15 @@ exports.userCreated = functions.auth.user().onCreate(async (user) => {
         return console.log(err)
     }
 
-})
+});
+
+
 
 exports.deleteUnapprovedUser = functions.firestore.document("/users/{userId}/private/info").onDelete(async (data, context) => {
+
+
     try {
-        await admin.firestore().doc(`users/${data.data().uid}`).delete();
+        await db.doc(`users/${data.data().uid}`).delete();
         const user = await admin.auth().getUserByEmail(data.data().email)
         await admin.auth().deleteUser(user.uid);
     } catch (error) {
@@ -93,3 +99,35 @@ exports.deleteUnapprovedUser = functions.firestore.document("/users/{userId}/pri
     }
 });
 
+
+
+
+exports.sendTransaction = functions.firestore.document('transactions/{txID}').onCreate(async (data, context) => {
+
+
+    const {uid, txType, amount, reference} = data.data()
+    const checkType = ["deCapitalization", "roi", "affiliateBonus"]
+
+    try {
+
+        db.doc(`users/${uid}/private/info`).get().then(doc => {
+
+            const {pendingCredit, pendingDebit, available} = doc.data().wallet
+
+            newWallet = {
+                pendingCredit : txType == "credit" ? pendingCredit + amount : pendingCredit,
+                pendingDebit : txType == "debit" ? pendingDebit + amount : pendingDebit,
+                available : checkType.indexOf(txType) != -1 ? available + amount : txType == "deCapitalizationFee" || txType == "debit" ? available - amount : available
+            }
+
+            db.doc(`users/${uid}/private/info`).update({
+                wallet : newWallet
+            })
+        }).then(() => db.doc(`transactions/${reference}`).update({ status : "inProgress" }))
+        
+    } catch (err) {
+        console.log(err)
+    }
+
+
+});

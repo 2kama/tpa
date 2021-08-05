@@ -15,3 +15,4 @@ const user = require('./cloud_functions/user')
 
 exports.userCreated = user.userCreated;
 exports.deleteUnapprovedUser = user.deleteUnapprovedUser;
+exports.sendTransaction = user.sendTransaction;

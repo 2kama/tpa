@@ -22,6 +22,8 @@ import PageNotFound from './pages/PageNotFound'
 import Account from './pages/Account'
 import ForgotPassword from './pages/ForgotPassword'
 import LogPage from './pages/LogPage'
+import UserWallet from './pages/UserPages/UserWallet'
+import Transactions from './pages/AdminPages/Transactions'
 
 
 
@@ -45,9 +47,11 @@ const App = () => {
                     <Route exact path="/dashboard" component={UserDashboard} />
 
                     {/* Admin Pages */}
+                    <Route exact path="/wallet" component={UserWallet} />
                     <Route exact path="/admin/dashboard" component={AdminDashboard} />
-                    <Route exact path="/admin/dashboard/view/approved" component={ApprovedAccounts} />
-                    <Route exact path="/admin/dashboard/view/unapproved" component={UnapprovedAccounts} />
+                    <Route exact path="/admin/view/approved" component={ApprovedAccounts} />
+                    <Route exact path="/admin/view/unapproved" component={UnapprovedAccounts} />
+                    <Route exact path="/admin/view/transactions" component={Transactions} />
 
                     <Route exact path="/trader/dashboard" component={TraderDashboard} />
                     <Route exact path="/account" component={Account} />

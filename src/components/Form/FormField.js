@@ -10,7 +10,7 @@ import FieldError from "../Error/FieldError"
 
 
 
-const AppFormField = ({ name, type, placeholder = "", icon = false, disabled = false, hidden = false }) =>{
+const AppFormField = ({ name, type="text", placeholder = "", icon = false, disabled = false, hidden = false }) =>{
   const {
     handleBlur,
     handleChange,

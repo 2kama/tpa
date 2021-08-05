@@ -3,19 +3,19 @@ import { useSelector, useDispatch, shallowEqual } from 'react-redux'
 import { Table } from '../Table';
 import { useState } from 'react';
 import SelectedUserModal from './SelectedUserModal';
-import { setSelectedAlterUser, deleteUserData, setAlterUsers } from '../../store/reducers/adminQuery';
+import { setSelectedAlterContent, deleteUserData, setAlterUsers } from '../../store/reducers/adminQuery';
 
 const AlterUsers = ({users, approve, traders}) => {
 
     const dispatch = useDispatch()
     const [showModal, setShowModal] = useState(false)
-    const { currentUser, selectedAlterUser } = useSelector(state => ({
-        selectedAlterUser: state.adminQuery.selectedAlterUser,
+    const { currentUser, selectedAlterContent } = useSelector(state => ({
+        selectedAlterContent: state.adminQuery.selectedAlterContent,
         currentUser: state.user
     }), shallowEqual)
 
     const openModalAndAlterUser = (user)  => {
-        dispatch(setSelectedAlterUser({...user}))
+        dispatch(setSelectedAlterContent({...user}))
         setShowModal(true)
     }
 
@@ -67,8 +67,8 @@ const AlterUsers = ({users, approve, traders}) => {
                     <SelectedUserModal
                         showModal={showModal}
                         traders={traders}
-                        closeModal={() => {dispatch(setSelectedAlterUser({})); setShowModal(false)}}
-                        selectedAlterUser={selectedAlterUser}
+                        closeModal={() => {dispatch(setSelectedAlterContent({})); setShowModal(false)}}
+                        selectedAlterContent={selectedAlterContent}
                         removeEntry={approve ? true : false}
                     />
                 </>

@@ -1,15 +1,16 @@
 import { call, put } from 'redux-saga/effects'
-import { setLog, setUser } from '../../reducers/user'
+import { addLog, setLog, setUser, updateTransaction } from '../../reducers/user'
 import { 
     requestGetUser, requestRegisterUser, 
     requestGetUserPrivateData, requestLoginUser, 
     requestVerifyUser, requestUpdateUser, 
     requestUpdateKin, requestUpdateUserBank, requestAddLog,
-    reAuthUser, requestUpdatePassword, requestForgotPassword, requestUserNoty, requestAddNoty, requestGetLog 
+    reAuthUser, requestUpdatePassword, requestForgotPassword, requestUserNoty, requestAddNoty, requestGetLog, requestSendTransaction, requestGetTransaction 
 } from '../requests/user'
 import { v4 as uuidv4 } from 'uuid'
 import { enableButton } from '../../reducers/buttonState'
 import { triggerAlert } from '../../reducers/alerts'
+import { thousands_separators, TIME_ZONE } from '../../../utils/helperFunctions'
 
 
 
@@ -36,7 +37,7 @@ export function* handleRegisterUser(action) {
     try {
 
         yield call(requestRegisterUser.bind(null, action.userData))
-        yield put(enableButton())
+        
         
     } catch (err) {
         const alertData = {
@@ -46,15 +47,15 @@ export function* handleRegisterUser(action) {
             timeout : 5000
         }
         yield put(triggerAlert(alertData))
-        yield put(enableButton())
+        
     }
+    yield put(enableButton())
 }
 
 export function* handleLoginUser(action) {
     try {
         
         yield call(requestLoginUser.bind(null, action.userData))
-        yield put(enableButton())
         
     } catch (err) {
         const alertData = {
@@ -64,8 +65,8 @@ export function* handleLoginUser(action) {
             timeout : 5000
         }
         yield put(triggerAlert(alertData))
-        yield put(enableButton())
     }
+    yield put(enableButton())
 }
 
 
@@ -92,7 +93,6 @@ export function* handleForgotPassword(action) {
             timeout : 5000
         }
         yield put(triggerAlert(alertData))
-        yield put(enableButton())
         
     } catch (err) {
         const alertData = {
@@ -102,8 +102,8 @@ export function* handleForgotPassword(action) {
             timeout : 5000
         }
         yield put(triggerAlert(alertData))
-        yield put(enableButton())
     }
+    yield put(enableButton())
 }
 
 
@@ -118,7 +118,6 @@ export function* handleVerifyUser(action) {
             timeout : 8000
         }
         yield put(triggerAlert(alertData))
-        yield put(enableButton())
         
     } catch (err) {
         const alertData = {
@@ -128,8 +127,8 @@ export function* handleVerifyUser(action) {
             timeout : 5000
         }
         yield put(triggerAlert(alertData))
-        yield put(enableButton())
     }
+    yield put(enableButton())
 }
 
 
@@ -143,7 +142,6 @@ export function* handleUpdateUser(action) {
             timeout : 5000
         }
         yield put(triggerAlert(alertData))
-        yield put(enableButton())
         
     } catch (err) {
         const alertData = {
@@ -153,8 +151,8 @@ export function* handleUpdateUser(action) {
             timeout : 5000
         }
         yield put(triggerAlert(alertData))
-        yield put(enableButton())
     }
+    yield put(enableButton())
 }
 
 
@@ -168,7 +166,6 @@ export function* handleUpdateKin(action) {
             timeout : 4000
         }
         yield put(triggerAlert(alertData))
-        yield put(enableButton())
         
     } catch (err) {
         const alertData = {
@@ -178,8 +175,8 @@ export function* handleUpdateKin(action) {
             timeout : 5000
         }
         yield put(triggerAlert(alertData))
-        yield put(enableButton())
     }
+    yield put(enableButton())
 }
 
 
@@ -194,7 +191,6 @@ export function* handleUpdateUserBank(action) {
             timeout : 5000
         }
         yield put(triggerAlert(alertData))
-        yield put(enableButton())
         
     } catch (err) {
         const alertData = {
@@ -204,8 +200,8 @@ export function* handleUpdateUserBank(action) {
             timeout : 5000
         }
         yield put(triggerAlert(alertData))
-        yield put(enableButton())
     }
+    yield put(enableButton())
 }
 
 
@@ -259,7 +255,6 @@ export function* handleUpdatePassword(action) {
                 timeout : 5000
             }
             yield put(triggerAlert(alertData))
-            yield put(enableButton())
             
         } catch (err) {
 
@@ -270,7 +265,6 @@ export function* handleUpdatePassword(action) {
                 timeout : 5000
             }
             yield put(triggerAlert(alertData))
-            yield put(enableButton())
             
         }
         
@@ -283,7 +277,102 @@ export function* handleUpdatePassword(action) {
             timeout : 8000
         }
         yield put(triggerAlert(alertData))
-        yield put(enableButton())
         
     }
+    yield put(enableButton())
+}
+
+
+
+export function* handleGetTransaction(action) {
+
+    if(action.uid !== undefined) {
+
+        try {
+            const data = yield call(requestGetTransaction, action.uid)
+            yield put(updateTransaction(data))
+
+        } catch (err) {
+
+            const alertData = {
+                msg : err.message,
+                alertType : 'error',
+                id: uuidv4(),
+                timeout : 5000
+            }
+            yield put(triggerAlert(alertData))
+            
+        }
+        
+
+    }
+
+}
+
+
+
+export function* handleSendTransaction(action) {
+
+    const { transactionData } = action
+
+    try {
+        const reference = `Tx-${uuidv4()}`
+        const time = new Date().getTime() + TIME_ZONE
+
+        const mTranctionData = {
+            reference,
+            txType : transactionData.txType,
+            uid : transactionData.uid,
+            amount : transactionData.amount,
+            receipt : transactionData.receipt,
+            reason : "",
+            status : "sending",
+            time
+        }
+
+        const setInfo = () => {
+
+            switch (transactionData.type) {
+                case "credit":
+                    return `You made a credit transaction [${reference}] of ${thousands_separators(transactionData.amount.toFixed(2))}`;
+                case "debit":
+                    return `You made a debit request [${reference}] of ${thousands_separators(transactionData.amount.toFixed(2))}`;
+                default:
+                    return "nothing"
+            }
+
+        }
+
+        const logData = {
+            time,
+            uid : transactionData.uid,
+            info : setInfo()
+        }
+
+        yield call(requestSendTransaction, mTranctionData)
+        yield call(addLog, logData)
+        yield put(updateTransaction(transactionData.walletTransactions.length > 0 ? [mTranctionData, ...transactionData.walletTransactions] : [mTranctionData]))
+
+
+        const alertData = {
+            msg : 'Transaction was Successfully Submitted',
+            alertType : 'success',
+            id: uuidv4(),
+            timeout : 5000
+        }
+        yield put(triggerAlert(alertData))
+
+
+        
+    } catch (err) {
+        const alertData = {
+            msg : err.message,
+            alertType : 'error',
+            id: uuidv4(),
+            timeout : 8000
+        }
+        yield put(triggerAlert(alertData))
+    }
+    yield put(enableButton())
+
 }

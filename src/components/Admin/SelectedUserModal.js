@@ -4,11 +4,11 @@ import BaseModal from '../Modal/BaseModal'
 import * as Yup from 'yup'
 import { Form, FormField, FormSelect, SubmitButton } from '../Form'
 import { superAdminSettableRoles, adminSettableRoles } from '../../utils/userRoles'
-import { alterUser as alterUserReducer, setAlterUsers, setSelectedAlterUser } from '../../store/reducers/adminQuery';
+import { alterUser as alterUserReducer, setAlterUsers, setSelectedAlterContent } from '../../store/reducers/adminQuery';
 import { getIndexOfK } from '../../utils/helperFunctions'
 import { disableButton } from '../../store/reducers/buttonState';
 
-const SelectedUserModal = ({showModal, closeModal, removeEntry=false, selectedAlterUser, traders }) => {
+const SelectedUserModal = ({showModal, closeModal, removeEntry=false, selectedAlterContent, traders }) => {
 
     const dispatch = useDispatch()
     const { buttonDisable, alterUsers, role } = useSelector(state => ({
@@ -25,14 +25,14 @@ const SelectedUserModal = ({showModal, closeModal, removeEntry=false, selectedAl
         firstName: Yup.string().required().min(3).label("First Name"),
         lastName: Yup.string().required().min(3).label("Last Name"),
         phone: Yup.string().required().label("Phone Number"),
-        ROI: selectedAlterUser.role && selectedAlterUser.role.isUser && Yup.number().required().min(1).max(100).label("ROI"),
-        affiliateCode: selectedAlterUser.role && selectedAlterUser.role.isAffiliate && Yup.string().required().length(6).label("Affiliate Code"),
-        assignedTrader: selectedAlterUser.role && selectedAlterUser.role.isUser && Yup.string().required().label("Assigned Trader"),
+        ROI: selectedAlterContent.role && selectedAlterContent.role.isUser && Yup.number().required().min(1).max(100).label("ROI"),
+        affiliateCode: selectedAlterContent.role && selectedAlterContent.role.isAffiliate && Yup.string().required().length(6).label("Affiliate Code"),
+        assignedTrader: selectedAlterContent.role && selectedAlterContent.role.isUser && Yup.string().required().label("Assigned Trader"),
     })
 
     const update = (newValue) => {
-        dispatch(setSelectedAlterUser({
-            ...selectedAlterUser,
+        dispatch(setSelectedAlterContent({
+            ...selectedAlterContent,
             role : JSON.parse(newValue)
         }))
     }
@@ -44,7 +44,7 @@ const SelectedUserModal = ({showModal, closeModal, removeEntry=false, selectedAl
             // do nothing
         }
         const updatedUser = {
-            ...selectedAlterUser,
+            ...selectedAlterContent,
             ROI,
             affiliateCode,
             assignedTrader,
@@ -54,11 +54,11 @@ const SelectedUserModal = ({showModal, closeModal, removeEntry=false, selectedAl
         dispatch(disableButton())
         dispatch(alterUserReducer(updatedUser))
         dispatch(setAlterUsers(
-            alterUsers.map(user => user.uid === selectedAlterUser.uid ? updatedUser : user)
+            alterUsers.map(user => user.uid === selectedAlterContent.uid ? updatedUser : user)
         ))
         if(removeEntry) {
             dispatch(setAlterUsers(
-                alterUsers.filter(user => user.uid !== selectedAlterUser.uid)
+                alterUsers.filter(user => user.uid !== selectedAlterContent.uid)
             ))
         }
         closeModal()
@@ -66,20 +66,22 @@ const SelectedUserModal = ({showModal, closeModal, removeEntry=false, selectedAl
 
 
     const initialFormValues = {
-        firstName: selectedAlterUser.firstName,
-        lastName: selectedAlterUser.lastName,
-        email: selectedAlterUser.email,
-        phone: selectedAlterUser.phone,
-        affiliateCode: selectedAlterUser.affiliateCode,
-        ROI: selectedAlterUser.ROI,
-        role: selectedAlterUser.role,
-        assignedTrader: selectedAlterUser.assignedTrader,
-        referralCode: selectedAlterUser.referralCode
+        firstName: selectedAlterContent.firstName,
+        lastName: selectedAlterContent.lastName,
+        email: selectedAlterContent.email,
+        phone: selectedAlterContent.phone,
+        affiliateCode: selectedAlterContent.affiliateCode,
+        ROI: selectedAlterContent.ROI,
+        role: selectedAlterContent.role,
+        assignedTrader: selectedAlterContent.assignedTrader,
+        referralCode: selectedAlterContent.referralCode
     }
+
+    console.log(getTraders)
 
     return (
         <BaseModal 
-            title={`Update ${selectedAlterUser.email}'s account`}
+            title={`Update ${selectedAlterContent.email}'s account`}
             show={showModal}
             close={closeModal}
             closeText="Cancel"
@@ -97,14 +99,14 @@ const SelectedUserModal = ({showModal, closeModal, removeEntry=false, selectedAl
                 <FormField name="email" type="email" disabled />
                 <FormField name="phone" type="text" disabled />
 
-               {selectedAlterUser.role && <FormSelect 
+               {selectedAlterContent.role && <FormSelect 
                     name="role" 
                     index={getIndexOfK(role.isSuperAdmin ? superAdminSettableRoles : adminSettableRoles, JSON.stringify({
-                        isAdmin : selectedAlterUser.role.isAdmin,
-                        isAffiliate : selectedAlterUser.role.isAffiliate,
-                        isSuperAdmin : selectedAlterUser.role.isSuperAdmin,
-                        isTrader : selectedAlterUser.role.isTrader,
-                        isUser : selectedAlterUser.role.isUser
+                        isAdmin : selectedAlterContent.role.isAdmin,
+                        isAffiliate : selectedAlterContent.role.isAffiliate,
+                        isSuperAdmin : selectedAlterContent.role.isSuperAdmin,
+                        isTrader : selectedAlterContent.role.isTrader,
+                        isUser : selectedAlterContent.role.isUser
                     }))[0]} 
                     options={role.isSuperAdmin ? superAdminSettableRoles : adminSettableRoles} 
                     update={update}
@@ -112,17 +114,17 @@ const SelectedUserModal = ({showModal, closeModal, removeEntry=false, selectedAl
 
                 
 
-                {selectedAlterUser.role && selectedAlterUser.role.isUser && <>
+                {selectedAlterContent.role && selectedAlterContent.role.isUser && <>
                     <FormField name="ROI" placeholder="ROI" type="number" />
                     <FormSelect 
                         name="assignedTrader" 
-                        index={getIndexOfK(getTraders, selectedAlterUser.assignedTrader)[0]} 
+                        index={getIndexOfK(getTraders, selectedAlterContent.assignedTrader)[0]} 
                         options={getTraders}
                     /> 
                 </>
                 }
 
-                {selectedAlterUser.role && selectedAlterUser.role.isAffiliate && 
+                {selectedAlterContent.role && selectedAlterContent.role.isAffiliate && 
                     <FormField name="affiliateCode" placeholder="Affiliate Code" type="text" />
                 }
                 {!removeEntry && <FormField name="referralCode" placeholder="Referral Code" type="text" />}
