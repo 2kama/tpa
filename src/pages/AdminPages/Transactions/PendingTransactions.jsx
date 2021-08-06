@@ -36,6 +36,8 @@ const PendingTransactions = ({
 
     const processTransaction = ({ reason, status }) => {
 
+        dispatch(disableButton())
+
         const transactionResponse = {
             processedTransactions,
             pendingTransactions,
@@ -47,7 +49,7 @@ const PendingTransactions = ({
         }
 
         dispatch(sendTransactionResponse(transactionResponse))
-        dispatch(disableButton())
+        
 
         closeShowResponse()
 

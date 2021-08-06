@@ -43,6 +43,9 @@ const Wallet = ({ wallet, uid, walletTransactions }) => {
 
     const submitForm = ({ amount, receipt }) => {
 
+        dispatch(disableButton())
+        setShowTopUp(false)
+
         const transactionData = {
             txType : receiptNeeded ? "credit" : "debit",
             uid,
@@ -57,8 +60,7 @@ const Wallet = ({ wallet, uid, walletTransactions }) => {
             available : receiptNeeded ? wallet.available : wallet.available - amount
         }
 
-        dispatch(sendTransaction(transactionData))
-        dispatch(disableButton())
+        dispatch(sendTransaction(transactionData))       
         dispatch(updateWallet(newWallet))
     }
 
@@ -106,8 +108,8 @@ const Wallet = ({ wallet, uid, walletTransactions }) => {
             <div>Pending Debit : {thousands_separators(wallet.pendingDebit.toFixed(2))}</div>
 
 
-            <button onClick={e => creditFunc()}>Top Up</button>
-            <button onClick={e => debitFunc()}>Request Withdrawal</button>
+            <button onClick={() => creditFunc()}>Top Up</button>
+            <button onClick={() => debitFunc()}>Request Withdrawal</button>
         </>
     )
 }

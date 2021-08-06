@@ -36,9 +36,9 @@ const FormUpload = ({ name, icon = false, disabled = false, hidden = false, size
 
  
 
-    const onChange = () => {
+    const onChange = (e) => {
 
-        let file = document.querySelector(`#uploadFile`).files[0]
+        let file = e.target.files[0]
 
         getUploadError(false, "no-error")
 
@@ -94,7 +94,7 @@ const FormUpload = ({ name, icon = false, disabled = false, hidden = false, size
                     icon && <FontAwesomeIcon icon={icon} />
                 }
                 <input
-                    onChange={onChange}
+                    onChange={e => onChange(e)}
                     type="file"
                     disabled={disabled}
                     hidden={hidden}
