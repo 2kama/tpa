@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 //custom components
 import FieldError from "../Error/FieldError"
 
-const TextareaField = ({ name, placeholder="", rows=5, maxlength=500, icon=false, disabled=false }) =>{
+const TextareaField = ({ name, placeholder="", rows=5, maxlength=500, icon=false, disabled=false, hidden=false }) =>{
   const {
     handleBlur,
     handleChange,
@@ -31,6 +31,7 @@ const TextareaField = ({ name, placeholder="", rows=5, maxlength=500, icon=false
         maxLength={maxlength}
         value={values[name]}
         disabled={disabled}
+        hidden={hidden}
       ></textarea>
       <FieldError error={errors[name]} visible={touched[name]} />
 

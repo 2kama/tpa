@@ -11,11 +11,10 @@ import FieldError from "../Error/FieldError"
 const FormCheckBox = ({ name, text, disabled=false }) => {
 
     const {
-        errors,
-        touched
+        errors
       } = useFormikContext();
 
-      let { values } = useFormikContext()
+      let { values, touched } = useFormikContext()
 
     const[checked, setChecked] = useState(values[name])
 
@@ -23,22 +22,30 @@ const FormCheckBox = ({ name, text, disabled=false }) => {
     const toggleCheckBox = () => {
         values[name] = !values[name]
         setChecked(!checked)
+
+        if(values[name]) {
+            touched[name] = false
+        }
     }
 
     const doNothing = () => {}
 
+    const isError = errors[name] && touched[name]
+
     return(
         <>
 
-            <div className="formInput">
-                <div className={`picker${disabled ? ' no-touch' : ''}`} onClick={e => disabled ? doNothing() : toggleCheckBox()}>
+            <div className={`formInput d-flex flex-row${isError ? ' error' : ''}`}>
+                <div className={`iconArea${disabled ? ' no-' : ' clickable'}`} onClick={e => disabled ? doNothing() : toggleCheckBox()}>
                     {
-                        checked ? <FontAwesomeIcon icon="check-circle" className="picked" /> : <FontAwesomeIcon icon={['far', 'check-circle']} className={`not-picked ${touched[name] ? 'pls-pick' : ''}`} />
+                        checked ? <FontAwesomeIcon icon="check-square" className="picked" /> : <FontAwesomeIcon icon={['far', 'square']} className="not-picked" />
                     }
                     
                 </div>
-                <div className="picker-title">{text}</div>
-                <FieldError error={errors[name]} visible={touched[name]} />
+                <div className="inputArea d-flex flex-column">
+                    <label>{isError ? errors[name] : <div className="pb-2"></div>}</label>
+                    <div className="picker-title">{text}</div>
+                </div>
             </div>
 
         </>

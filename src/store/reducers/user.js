@@ -1,9 +1,7 @@
-import { 
-    ADD_LOG, ADD_NOTY, FORGOT_PASSWORD, GET_LOG, GET_USER, 
-    LOGIN_USER, REGISTER_USER, SET_ACCOUNT_NAME, SET_LOG, 
-    SET_USER, UPDATE_KIN, UPDATE_PASSWORD, UPDATE_USER, 
-    UPDATE_USER_BANK, VERIFY_USER, SET_LOADING, SET_LOADED
-} from "../constant";
+import { ADD_LOG, ADD_NOTY, FORGOT_PASSWORD, GET_LOG, GET_TRANSACTION, GET_USER, 
+    LOGIN_USER, REGISTER_USER, SEND_TRANSACTION, SET_ACCOUNT_NAME, SET_LOG, SET_USER, 
+    UPDATE_KIN, UPDATE_PASSWORD, UPDATE_TRANSACTION, UPDATE_USER, UPDATE_USER_BANK, 
+    UPDATE_WALLET, VERIFY_USER, SET_LOADING, SET_LOADED } from "../constant";
 
 
 
@@ -88,6 +86,26 @@ export const setLoaded = () => ({
     type : SET_LOADED
 })
 
+export const sendTransaction = (transactionData) => ({
+    type : SEND_TRANSACTION,
+    transactionData
+})
+
+export const updateTransaction = (user) => ({
+    type : UPDATE_TRANSACTION,
+    user
+})
+
+export const updateWallet = (user) => ({
+    type : UPDATE_WALLET,
+    user
+})
+
+export const getTransaction = (uid) => ({
+    type : GET_TRANSACTION,
+    uid
+})
+
 
 const initialState = {
     isLoading : true
@@ -116,6 +134,16 @@ export default function user (state = initialState, action) {
             return {
                 ...state,
                 log : [...user]
+            };
+        case UPDATE_TRANSACTION:
+            return {
+                ...state,
+                walletTransactions : [...user]
+            };
+        case UPDATE_WALLET:
+            return {
+                ...state,
+                wallet : {...user}
             }
         default:
             return state;

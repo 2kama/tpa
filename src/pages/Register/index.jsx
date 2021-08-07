@@ -7,6 +7,10 @@ import { disableButton } from '../../store/reducers/buttonState'
 import { Form, FormCheckBox, FormField, SubmitButton } from '../../components/Form'
 import { registerUser } from '../../store/reducers/user'
 import { useQuery } from '../../utils/query';
+import { Col, Container, Row } from 'react-bootstrap'
+import Card from '../../components/Card'
+import { Link } from 'react-router-dom'
+import Footer from '../../components/Footer'
 
 
 const validationSchema = Yup.object().shape({
@@ -22,7 +26,7 @@ const validationSchema = Yup.object().shape({
 
 const Register = () => {
 
-    const termsText = "I agree to the terms and Conditions"
+    const termsText = <span>I agree to the <a href="/">terms and Conditions</a></span>
 
     const dispatch = useDispatch()
     const { query } = useQuery()
@@ -57,11 +61,19 @@ const Register = () => {
         <>
             <Authenticate inside={false} />
 
+            <Container fluid className="wall">
+
+
+
+
             {
                 !isLoading && !isAuthenticated && (
 
-                    <>
-                        <div>this is Register page</div>
+                    <Col md={{ span:8, offset:2 }} className="auth">
+                        
+                        <Card className="p-5 mx-auto align-middle">
+
+
 
                         <Form
                             initialValues={{ firstName: "", lastName: "", phone: "", email: "", password: "", passwordConfirmation: "", referralCode: query.referralCode || "", terms : false }}
@@ -69,57 +81,102 @@ const Register = () => {
                             validationSchema={validationSchema}
                         >
 
-                            <FormField 
-                                type="text"
-                                name="firstName"
-                                placeholder="First Name"
-                            />
+                            <Row>
 
-                            <FormField 
-                                type="text"
-                                name="lastName"
-                                placeholder="Last Name"
-                            />
+                                <Col md={6}>
 
-                            <FormField 
-                                type="email"
-                                name="email"
-                                placeholder="youremail@mail.com"
-                            />
+                                    <FormField 
+                                        name="firstName"
+                                        label="First Name"
+                                        placeholder="John"
+                                        icon={['far', 'user']}
+                                    />
 
-                            <FormField 
-                                type="text"
-                                name="phone"
-                                placeholder="080-000-0000"
-                            />
+                                    <FormField 
+                                        name="lastName"
+                                        label="Last Name"
+                                        placeholder="Doe"
+                                        icon={['far', 'user']}
+                                    />
+
+                                    <FormField 
+                                        type="email"
+                                        name="email"
+                                        placeholder="youremail@mail.com"
+                                        label="Email"
+                                        icon="at"
+                                    />
+
+                                    <FormField 
+                                        name="phone"
+                                        placeholder="080-000-0000"
+                                        label="Tel. Number"
+                                        icon="phone"
+                                    />
+
+                                </Col>
 
 
-                            <FormField 
-                                type="password"
-                                name="password"
-                                placeholder="Password"
-                            />
+                                <Col md={6}>
 
-                            <FormField 
-                                type="password"
-                                name="passwordConfirmation"
-                                placeholder="Confirm Password"
-                            />
+                                    <FormField 
+                                        type="password"
+                                        name="password"
+                                        placeholder="******"
+                                        label="Password"
+                                        icon="unlock-alt"
+                                    />
 
-                            <FormField 
-                                type="text"
-                                name="referralCode"
-                                placeholder="Affiliate Code [Optional]"
-                            />
+                                    <FormField 
+                                        type="password"
+                                        name="passwordConfirmation"
+                                        placeholder="******"
+                                        label="Confirm Password"
+                                        icon="unlock-alt"
+                                    />
 
-                            <FormCheckBox name="terms" text={termsText} />
+                                    <FormField 
+                                        name="referralCode"
+                                        placeholder="#####"
+                                        label="Referral code [Optional]"
+                                        icon="hashtag"
+                                    />
 
-                            <SubmitButton title="Register" disable={buttonDisable} />
+                                    <FormCheckBox name="terms" text={termsText} />
 
+                                </Col>
+
+
+                                <Col md={{ span : 6, offset : 3}}>
+
+                                    <div className="spacer"></div>
+
+                                    <SubmitButton title="Register" disable={buttonDisable} />
+
+                                    <span className="formNote text-center">
+                                        Already have an account ? <Link to="/login">Login</Link>
+                                    </span>
+
+                                </Col>
+
+
+                            </Row>
+
+                            
                         </Form>
-                    </>
+
+                        </Card>
+
+                        
+                    </Col>
                 )
             }
+
+
+
+            </Container>
+
+            <Footer />
         </>
     )
 }

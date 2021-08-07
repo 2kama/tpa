@@ -1,0 +1,37 @@
+body {
+    font-size: 14px;
+    background: $body_background;
+    color: $text_default;
+    overflow-x: hidden;
+    font-family: 'Como-Medium', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.wall {
+    padding: 10px 70px;
+    margin: 0;
+    min-height: 100vh;
+}
+
+.mainCard {
+    width: 100%;
+    background: $white;
+    border-radius: 4px;
+    box-sizing: border-box;
+    box-shadow: 0 8px 15px 20px $body_background;
+    float: left;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.spacer {
+    margin-top: 20px;
+}
+
+.errorPlate {
+    width: 100%;
+    bottom: 0;
+    padding: 0;
+    margin: 0;
+}

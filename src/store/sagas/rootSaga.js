@@ -2,7 +2,10 @@ import { takeLatest, takeEvery } from "redux-saga/effects"
 import { 
     handleGetUnapprovedUsers, handleGetTraders, handleAlterUser,
     handleDeleteUserData, handleGetUsers, handleGetAffiliates,
-    handleGetAdmins
+    handleGetAdmins,
+    handleGetProcessedTransactions,
+    handleGetPendingTransactions,
+    handleSendTransactionResponse
 } from "./handlers/adminQueryUsers"
 import { 
     GET_UNAPPROVED_USERS, GET_USER, LOGIN_USER, 
@@ -15,7 +18,12 @@ import {
     FORGOT_PASSWORD,
     ADD_NOTY,
     GET_LOG,
-    ADD_LOG
+    ADD_LOG,
+    SEND_TRANSACTION,
+    GET_TRANSACTION,
+    GET_PROCESSED_TRANSACTIONS,
+    GET_PENDING_TRANSACTIONS,
+    SEND_TRANSACTION_RESPONSE
 } from "../constant"
 import { handleUpdateBank, handleVerifyBank } from "./handlers/bankVerification"
 import { 
@@ -23,7 +31,9 @@ import {
     handleAddNoty,
     handleForgotPassword,
     handleGetLog,
+    handleGetTransaction,
     handleGetUser, handleLoginUser, handleRegisterUser, 
+    handleSendTransaction, 
     handleUpdateKin, handleUpdatePassword, handleUpdateUser, 
     handleUpdateUserBank, handleVerifyUser 
 } from "./handlers/user"
@@ -52,5 +62,11 @@ export function*  watcherSaga() {
     yield takeLatest(FORGOT_PASSWORD, handleForgotPassword)
     yield takeEvery(ADD_NOTY, handleAddNoty)
     yield takeLatest(GET_LOG, handleGetLog)
-    yield takeLatest(ADD_LOG, handleAddLog)
+    yield takeEvery(ADD_LOG, handleAddLog)
+    yield takeLatest(SEND_TRANSACTION, handleSendTransaction)
+    yield takeLatest(GET_TRANSACTION, handleGetTransaction)
+    yield takeLatest(GET_PROCESSED_TRANSACTIONS, handleGetProcessedTransactions)
+    yield takeLatest(GET_PENDING_TRANSACTIONS, handleGetPendingTransactions)
+    yield takeEvery(SEND_TRANSACTION_RESPONSE, handleSendTransactionResponse)
+
 }

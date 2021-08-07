@@ -4,23 +4,19 @@ import {
     GET_TRADERS, 
     SET_TRADERS,
     DELETE_USER_DATA,
-    SELECT_ALTER_USER,
+    SELECT_ALTER_CONTENT,
     ALTER_USER,
     GET_USERS,
     GET_AFFILIATES,
     GET_ADMINS,
     GET_SUPER_ADMINS,
-    SET_LOADED,
-    SET_LOADING
+    GET_PENDING_TRANSACTIONS,
+    SET_PENDING_TRANSACTIONS,
+    GET_PROCESSED_TRANSACTIONS,
+    SET_PROCESSED_TRANSACTIONS,
+    SEND_TRANSACTION_RESPONSE,
+    TRANSACTION_CHECKED
 } from '../constant';
-
-export const setIsLoading = () => ({
-    type : SET_LOADING
-})
-
-export const setLoaded = () => ({
-    type : SET_LOADED
-})
 
 export const setAlterUsers = users => {
     return {
@@ -73,30 +69,60 @@ export const setTraders = (users) => ({
     users
 })
 
-export const setSelectedAlterUser = (user) => ({
-    type : SELECT_ALTER_USER,
+export const setSelectedAlterContent = (user) => ({
+    type : SELECT_ALTER_CONTENT,
     user
 })
 
+export const getPendingTransactions = () => ({
+    type : GET_PENDING_TRANSACTIONS
+})
+
+export const setPendingTransactions = (transactions) => ({
+    type : SET_PENDING_TRANSACTIONS,
+    transactions
+})
+
+export const getProcessedTransactions = () => ({
+    type : GET_PROCESSED_TRANSACTIONS
+})
+
+export const setProcessedTransactions = (transactions) => ({
+    type : SET_PROCESSED_TRANSACTIONS,
+    transactions
+})
+
+export const sendTransactionResponse = (transactionResponse) => ({
+    type : SEND_TRANSACTION_RESPONSE,
+    transactionResponse
+})
+
+export const transactionChecked = (transactions) => ({
+    type : TRANSACTION_CHECKED,
+    transactions
+})
+
 const initState={
-    alterUsers: [],
-    traders: [],
-    selectedAlterUser: {},
-    isLoading: false
+    selectedAlterContent: {}
 }
 
 export default function adminQuery (state = initState, action) {
     switch (action.type) {
-        case SET_LOADING:
-            return {...state, isLoading: true}
-        case SET_LOADED:
-                return {...state, isLoading: false}
         case FETCH_ALTER_USERS:
             return {...state, alterUsers: action.users};
-            case SET_TRADERS:
-                return {...state, traders: action.users};
-            case SELECT_ALTER_USER:
-                return {...state, selectedAlterUser: action.user}
+        case SET_TRADERS:
+            return {...state, traders: action.users};
+        case SELECT_ALTER_CONTENT:
+            return {...state, selectedAlterContent: action.user};
+        case TRANSACTION_CHECKED:
+            return {
+                ...state, 
+                ...action.transactions
+            };
+        case SET_PROCESSED_TRANSACTIONS:
+            return {...state, processedTransactions : action.transactions};
+        case SET_PENDING_TRANSACTIONS:
+            return {...state, pendingTransactions: action.transactions}
         default:
             return state;
     }

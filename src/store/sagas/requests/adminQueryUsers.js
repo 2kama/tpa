@@ -102,3 +102,67 @@ export const alterUser = (data) => {
 export const deleteUserData = data => {
     return db.doc(`users/${data.uid}/private/info`).delete()
 }
+
+
+export const requestGetPendingTransactions = () => {
+    let pendingTransactions = []
+    db.collection('transactions').where("status", "==", "inProgress").orderBy("time", "asc")
+    .get()
+    .then(async data => {
+
+        for (let transactionsInfo of data.docs) {
+            let user = await db.doc(`users/${transactionsInfo.data().uid}`).get()
+            pendingTransactions.push({ ...transactionsInfo.data(), ...user.data() })
+        }
+
+    })
+    return pendingTransactions
+}
+
+
+
+export const requestGetProcessedTransactions = () => {
+    let processedTransactions = []
+    db.collection('transactions').where("status", "in", ['declined', 'approved']).orderBy("time", "desc")
+    .get()
+    .then(async data => {
+
+        for (let transactionsInfo of data.docs) {
+            let user = await db.doc(`users/${transactionsInfo.data().uid}`).get()
+            processedTransactions.push({ ...transactionsInfo.data(), ...user.data() })
+        }
+
+    })
+
+    return processedTransactions
+}
+
+
+export const requestSendTransactionResponse = transactionResponse => {
+
+    const {reference, status, reason, uid, txType, amount} = transactionResponse
+
+    db.doc(`transactions/${reference}`).update({
+        status,
+        reason
+    }).then(() => {
+
+        db.doc(`users/${uid}/private/info`).get().then(doc => {
+
+            const {pendingCredit, pendingDebit, available} = doc.data().wallet
+
+            const newWallet = {
+                pendingCredit : txType === "credit" ? pendingCredit - amount : pendingCredit,
+                pendingDebit : txType === "debit" ? pendingDebit - amount : pendingDebit,
+                available : status === "approved" ? (txType === "credit" ? available + amount : available) : (txType === "credit" ? available : available + amount)
+            }
+
+            return db.doc(`users/${uid}/private/info`).update({
+                wallet : newWallet
+            })
+
+        })
+
+    })
+
+}

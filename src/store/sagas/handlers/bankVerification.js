@@ -24,7 +24,7 @@ export function* handleVerifyBank (action) {
         if(data.account_name === undefined) {
             const alertData = {
                 msg : "Invalid Account Details",
-                alertType : 'error',
+                alertType : 'danger',
                 id: uuidv4(),
                 timeout : 8000
             }
@@ -35,7 +35,7 @@ export function* handleVerifyBank (action) {
     } catch (err) {
         const alertData = {
             msg : "There was an error",
-            alertType : 'error',
+            alertType : 'danger',
             id: uuidv4(),
             timeout : 5000
         }
@@ -66,7 +66,7 @@ export function* handleUpdateBank (action) {
     } catch (err) {
         const alertData = {
             msg : err.message,
-            alertType : 'error',
+            alertType : 'danger',
             id: uuidv4(),
             timeout : 5000
         }

@@ -71,3 +71,19 @@ export const requestAddLog = logData => db.doc(`users/${logData.uid}/private/log
         log : firebase.firestore.FieldValue.arrayUnion(logData)
     }
 )
+
+export const requestSendTransaction = transactionData => db.doc(`transactions/${transactionData.reference}`).set(transactionData)
+
+export const requestGetTransaction = async (uid) => {
+
+    let walletTransactions = []
+
+    let data = await db.collection('transactions').where("uid", "==", uid).orderBy("time", "desc").get()
+
+    for(let trans of data.docs) {
+        walletTransactions.push({...trans.data()})
+    }
+
+    return walletTransactions
+
+}

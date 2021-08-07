@@ -1,8 +1,8 @@
 import { 
     getAllTraders, getUnapprovedUsers, alterUser, 
-    deleteUserData, getAllUsers, getAllAffiliates, getAllAdmins 
+    deleteUserData, getAllUsers, getAllAffiliates, getAllAdmins, requestGetPendingTransactions, requestGetProcessedTransactions, requestSendTransactionResponse 
 } from '../requests/adminQueryUsers'
-import { setAlterUsers, setTraders, setLoaded } from '../../reducers/adminQuery'
+import { setAlterUsers, setTraders, setPendingTransactions, setProcessedTransactions, transactionChecked } from '../../reducers/adminQuery'
 import { call, put } from 'redux-saga/effects'
 import { v4 as uuidv4 } from 'uuid'
 import { triggerAlert } from '../../reducers/alerts'
@@ -14,12 +14,11 @@ export function* handleGetUnapprovedUsers(action) {
         yield put(setAlterUsers(
             users
         ))
-        yield put(setLoaded())
         
     } catch (err) {
         const alertData = {
             msg : err.message,
-            alertType : 'error',
+            alertType : 'danger',
             id: uuidv4(),
             timeout : 5000
         }
@@ -34,12 +33,11 @@ export function* handleGetTraders(action) {
         yield put(setTraders(
             users
             ))
-            yield put(setLoaded())
         
         } catch (err) {
             const alertData = {
                 msg : err.message,
-                alertType : 'error',
+                alertType : 'danger',
                 id: uuidv4(),
                 timeout : 5000
             }
@@ -54,12 +52,11 @@ export function* handleGetTraders(action) {
             yield put(setAlterUsers(
                 users
             ))
-            yield put(setLoaded())
             
         } catch (err) {
         const alertData = {
             msg : err.message,
-            alertType : 'error',
+            alertType : 'danger',
             id: uuidv4(),
             timeout : 5000
         }
@@ -74,12 +71,11 @@ export function* handleGetAffiliates(action) {
         yield put(setAlterUsers(
             users
         ))
-        yield put(setLoaded())
             
     } catch (err) {
         const alertData = {
             msg : err.message,
-            alertType : 'error',
+            alertType : 'danger',
             id: uuidv4(),
             timeout : 5000
         }
@@ -94,12 +90,11 @@ export function* handleGetAdmins(action) {
         yield put(setAlterUsers(
             users
         ))
-        yield put(setLoaded())
         
     } catch (err) {
         const alertData = {
             msg : err.message,
-            alertType : 'error',
+            alertType : 'danger',
             id: uuidv4(),
             timeout : 5000
         }
@@ -121,7 +116,7 @@ export function* handleAlterUser(action) {
     } catch (err) {
         const alertData = {
             msg : err.message,
-            alertType : 'error',
+            alertType : 'danger',
             id: uuidv4(),
             timeout : 5000
         }
@@ -143,11 +138,95 @@ export function* handleDeleteUserData(action) {
     } catch (err) {
         const alertData = {
             msg : err.message,
-            alertType : 'error',
+            alertType : 'danger',
             id: uuidv4(),
             timeout : 5000
         }
         yield put(triggerAlert(alertData))
     }
+    yield put(enableButton())
+}
+
+
+export function* handleGetPendingTransactions(action) {
+
+
+    try {
+
+        const pendingTransactions = yield call(requestGetPendingTransactions)
+        yield put(setPendingTransactions(pendingTransactions))
+        
+    } catch (err) {
+        const alertData = {
+            msg : err.message,
+            alertType : 'danger',
+            id: uuidv4(),
+            timeout : 5000
+        }
+        yield put(triggerAlert(alertData))
+    }
+
+}
+
+
+export function* handleGetProcessedTransactions(action) {
+
+
+    try {
+
+        const processedTransactions = yield call(requestGetProcessedTransactions)
+        yield put(setProcessedTransactions(processedTransactions))
+        
+    } catch (err) {
+        const alertData = {
+            msg : err.message,
+            alertType : 'danger',
+            id: uuidv4(),
+            timeout : 5000
+        }
+        yield put(triggerAlert(alertData))
+    }
+
+}
+
+
+export function* handleSendTransactionResponse(action) {
+
+    const { data, pendingTransactions, processedTransactions } = action.transactionResponse
+
+    try {
+
+        yield call(requestSendTransactionResponse, data)
+
+        yield put(transactionChecked(
+             {
+                 processedTransactions : processedTransactions.length > 0 ? [data, ...processedTransactions] : [data],
+                 pendingTransactions : pendingTransactions.filter(transaction => transaction.reference !== data.reference)
+             }
+            
+            
+            ))
+
+        const alertData = {
+            msg : `Transaction was sucessfully ${data.status}`,
+            alertType : 'success',
+            id: uuidv4(),
+            timeout : 5000
+        }
+        yield put(triggerAlert(alertData))
+
+        
+    } catch (err) {
+
+        const alertData = {
+            msg : err.message,
+            alertType : 'danger',
+            id: uuidv4(),
+            timeout : 5000
+        }
+        yield put(triggerAlert(alertData))
+        
+    }
+
     yield put(enableButton())
 }
