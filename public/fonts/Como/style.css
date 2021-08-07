@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'Como-Regular';
+    src: local('Como Regular'), local('Como-Regular'),
+        url('Como.woff2') format('woff2'),
+        url('Como.woff') format('woff'),
+        url('Como.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+  }

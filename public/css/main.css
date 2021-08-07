@@ -1,0 +1,88 @@
+@import url(../fonts/Como-Light/style.css);
+@import url(../fonts/Como/style.css);
+@import url(../fonts/Como-SemiBold/style.css);
+@import url(../fonts/Como-Medium/style.css);
+body {
+  font-size: 14px;
+  background: whitesmoke;
+  color: #272626;
+  overflow-x: hidden;
+  font-family: 'Como-Medium', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+.wall {
+  padding: 10px 70px;
+  margin: 0;
+  min-height: 100vh; }
+
+.mainCard {
+  width: 100%;
+  background: #fff;
+  border-radius: 4px;
+  box-sizing: border-box;
+  box-shadow: 0 8px 15px 20px whitesmoke;
+  float: left; }
+
+.clickable {
+  cursor: pointer; }
+
+.spacer {
+  margin-top: 20px; }
+
+.errorPlate {
+  width: 100%;
+  bottom: 0;
+  padding: 0;
+  margin: 0; }
+
+.formInput {
+  width: 100%;
+  background: whitesmoke;
+  border-radius: 3px;
+  margin-bottom: 10px;
+  padding: 15px 20px 11px 20px; }
+  .formInput .iconArea {
+    padding: 13px 10px 0px 10px;
+    float: left;
+    width: 50px;
+    box-sizing: border-box; }
+    .formInput .iconArea svg {
+      font-size: 20px;
+      color: #3a5663; }
+  .formInput .inputArea {
+    width: 100%; }
+    .formInput .inputArea label {
+      font-size: 13px;
+      color: #979797; }
+    .formInput .inputArea input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      font-size: 17px;
+      padding: 0; }
+      .formInput .inputArea input:focus {
+        border: none;
+        outline: none; }
+        .formInput .inputArea input:focus::-webkit-input-placeholder {
+          color: transparent; }
+  .formInput.error .iconArea svg {
+    color: #9f1d1d; }
+  .formInput.error .inputArea label {
+    color: #9f1d1d; }
+
+.formNote {
+  margin-top: 20px;
+  width: 100%;
+  float: left; }
+
+button {
+  width: 100%;
+  color: #fff;
+  padding: 15px;
+  border: none;
+  outline: none;
+  text-transform: uppercase;
+  border-radius: 5px; }
+  button.submitButton {
+    background: #006699; }
+  button:hover {
+    opacity: 0.9; }

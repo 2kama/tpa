@@ -18,7 +18,7 @@ export function* handleGetUnapprovedUsers(action) {
     } catch (err) {
         const alertData = {
             msg : err.message,
-            alertType : 'error',
+            alertType : 'danger',
             id: uuidv4(),
             timeout : 5000
         }
@@ -37,7 +37,7 @@ export function* handleGetTraders(action) {
         } catch (err) {
             const alertData = {
                 msg : err.message,
-                alertType : 'error',
+                alertType : 'danger',
                 id: uuidv4(),
                 timeout : 5000
             }
@@ -56,7 +56,7 @@ export function* handleGetTraders(action) {
         } catch (err) {
         const alertData = {
             msg : err.message,
-            alertType : 'error',
+            alertType : 'danger',
             id: uuidv4(),
             timeout : 5000
         }
@@ -75,7 +75,7 @@ export function* handleGetAffiliates(action) {
     } catch (err) {
         const alertData = {
             msg : err.message,
-            alertType : 'error',
+            alertType : 'danger',
             id: uuidv4(),
             timeout : 5000
         }
@@ -94,7 +94,7 @@ export function* handleGetAdmins(action) {
     } catch (err) {
         const alertData = {
             msg : err.message,
-            alertType : 'error',
+            alertType : 'danger',
             id: uuidv4(),
             timeout : 5000
         }
@@ -116,7 +116,7 @@ export function* handleAlterUser(action) {
     } catch (err) {
         const alertData = {
             msg : err.message,
-            alertType : 'error',
+            alertType : 'danger',
             id: uuidv4(),
             timeout : 5000
         }
@@ -138,7 +138,7 @@ export function* handleDeleteUserData(action) {
     } catch (err) {
         const alertData = {
             msg : err.message,
-            alertType : 'error',
+            alertType : 'danger',
             id: uuidv4(),
             timeout : 5000
         }
@@ -159,7 +159,7 @@ export function* handleGetPendingTransactions(action) {
     } catch (err) {
         const alertData = {
             msg : err.message,
-            alertType : 'error',
+            alertType : 'danger',
             id: uuidv4(),
             timeout : 5000
         }
@@ -180,7 +180,7 @@ export function* handleGetProcessedTransactions(action) {
     } catch (err) {
         const alertData = {
             msg : err.message,
-            alertType : 'error',
+            alertType : 'danger',
             id: uuidv4(),
             timeout : 5000
         }
@@ -220,7 +220,7 @@ export function* handleSendTransactionResponse(action) {
 
         const alertData = {
             msg : err.message,
-            alertType : 'error',
+            alertType : 'danger',
             id: uuidv4(),
             timeout : 5000
         }

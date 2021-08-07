@@ -1,0 +1,71 @@
+.formInput {
+    width: 100%;
+    background: $body_background;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    padding: 15px 20px 11px 20px;
+
+    .iconArea {
+        padding: 13px 10px 0px 10px;
+        float: left;
+        width: 50px;
+        box-sizing: border-box;
+
+        svg {
+            font-size: 20px;
+            color: $primary_color_teal;
+        }
+    }
+
+    .inputArea {
+        width: 100%;
+
+        label {
+            font-size: 13px;
+            color: rgb(151, 151, 151);
+        }
+
+        input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            font-size: 17px;
+            padding: 0;
+
+            &:focus {
+                border: none;
+                outline: none;
+
+                &::-webkit-input-placeholder {
+                    color: transparent;
+                }
+            }
+        }
+
+    }
+
+    &.error {
+
+        .iconArea {
+            svg {
+                color: $error_color;
+            }
+        }
+
+        .inputArea {
+            label {
+                color: $error_color;
+            }
+        }
+
+    }
+
+    
+}
+
+
+.formNote {
+    margin-top: 20px;
+    width: 100%;
+    float: left;
+}

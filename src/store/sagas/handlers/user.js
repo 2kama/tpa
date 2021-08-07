@@ -42,7 +42,7 @@ export function* handleRegisterUser(action) {
     } catch (err) {
         const alertData = {
             msg : err.message,
-            alertType : 'error',
+            alertType : 'danger',
             id: uuidv4(),
             timeout : 5000
         }
@@ -60,7 +60,7 @@ export function* handleLoginUser(action) {
     } catch (err) {
         const alertData = {
             msg : err.message,
-            alertType : 'error',
+            alertType : 'danger',
             id: uuidv4(),
             timeout : 5000
         }
@@ -97,7 +97,7 @@ export function* handleForgotPassword(action) {
     } catch (err) {
         const alertData = {
             msg : err.message,
-            alertType : 'error',
+            alertType : 'danger',
             id: uuidv4(),
             timeout : 5000
         }
@@ -122,7 +122,7 @@ export function* handleVerifyUser(action) {
     } catch (err) {
         const alertData = {
             msg : err.message,
-            alertType : 'error',
+            alertType : 'danger',
             id: uuidv4(),
             timeout : 5000
         }
@@ -146,7 +146,7 @@ export function* handleUpdateUser(action) {
     } catch (err) {
         const alertData = {
             msg : err.message,
-            alertType : 'error',
+            alertType : 'danger',
             id: uuidv4(),
             timeout : 5000
         }
@@ -170,7 +170,7 @@ export function* handleUpdateKin(action) {
     } catch (err) {
         const alertData = {
             msg : err.message,
-            alertType : 'error',
+            alertType : 'danger',
             id: uuidv4(),
             timeout : 5000
         }
@@ -195,7 +195,7 @@ export function* handleUpdateUserBank(action) {
     } catch (err) {
         const alertData = {
             msg : err.message,
-            alertType : 'error',
+            alertType : 'danger',
             id: uuidv4(),
             timeout : 5000
         }
@@ -217,7 +217,7 @@ export function* handleGetLog(action) {
         } catch (err) {
             const alertData = {
                 msg : err.message,
-                alertType : 'error',
+                alertType : 'danger',
                 id: uuidv4(),
                 timeout : 5000
             }
@@ -260,7 +260,7 @@ export function* handleUpdatePassword(action) {
 
             const alertData = {
                 msg : err.message,
-                alertType : 'error',
+                alertType : 'danger',
                 id: uuidv4(),
                 timeout : 5000
             }
@@ -272,7 +272,7 @@ export function* handleUpdatePassword(action) {
 
         const alertData = {
             msg : err.message,
-            alertType : 'error',
+            alertType : 'danger',
             id: uuidv4(),
             timeout : 8000
         }
@@ -296,7 +296,7 @@ export function* handleGetTransaction(action) {
 
             const alertData = {
                 msg : err.message,
-                alertType : 'error',
+                alertType : 'danger',
                 id: uuidv4(),
                 timeout : 5000
             }
@@ -367,7 +367,7 @@ export function* handleSendTransaction(action) {
     } catch (err) {
         const alertData = {
             msg : err.message,
-            alertType : 'error',
+            alertType : 'danger',
             id: uuidv4(),
             timeout : 8000
         }

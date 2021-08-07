@@ -3,8 +3,9 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {  } from '@fortawesome/free-brands-svg-icons'   
-import { faCheckCircle as farCheckCircle, faCircle as farCircle } from '@fortawesome/free-regular-svg-icons'
-import { faExclamationCircle, faCircle, faToggleOff, faToggleOn, faCheckCircle } from '@fortawesome/free-solid-svg-icons'
+import { faCircle as farCircle, faUser as farUser, faSquare as farSquare } from '@fortawesome/free-regular-svg-icons'
+import { faExclamationCircle, faCircle, faToggleOff, faToggleOn, faAt, faPhone,
+        faUnlockAlt, faHashtag, faCheckSquare } from '@fortawesome/free-solid-svg-icons'
 
 
 
@@ -27,7 +28,8 @@ import Transactions from './pages/AdminPages/Transactions'
 
 
 
-library.add(faExclamationCircle, farCheckCircle, faCircle, farCircle, faToggleOn, faToggleOff, faCheckCircle)
+library.add(faExclamationCircle, faCircle, farCircle, faToggleOn, faToggleOff, faAt, farUser, faPhone,
+    faUnlockAlt, faHashtag, farSquare, faCheckSquare)
 
 
 
