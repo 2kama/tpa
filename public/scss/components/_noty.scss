@@ -1,0 +1,62 @@
+.notyToggle {
+    z-index: 300;
+    width: 50px;
+    height: 50px;
+    box-sizing: border-box;
+    padding: 14px;
+    right: 75px;
+
+    svg {
+        font-size: 25px;
+    }
+}
+
+.notification {
+    z-index: 300;
+    width: 300px;
+    right: -300px;
+    @include crossBrowser(transition, all 0.5s linear);
+    height: 100vh;
+    background: #fff;
+    margin-top: 50px;
+    overflow-y: auto;
+
+    h5 {
+        width: 100%;
+    }
+
+    &.show {
+        right: 0;
+        @include crossBrowser(transition, all 0.5s linear);
+    }
+
+    .notyTab {
+        width: 100%;
+        border-bottom: 1px solid #ddd;
+        float: left;
+
+        a {
+            text-decoration: none;
+            width: 100%;
+        }
+
+        strong {
+            font-size: 12px;
+            color: $primary_color_blue;
+        }
+
+        p {
+            color: rgb(115, 113, 113);
+        }
+
+        span {
+            font-size: 10px;
+            float: right;
+            color: $text_default;
+        }
+
+        &.unRead, &:hover {
+            background: rgba(0, 102, 153, 0.05);
+        }
+    }
+}

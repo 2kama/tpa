@@ -2,11 +2,13 @@ import React from 'react'
 import { useSelector, shallowEqual, useDispatch } from 'react-redux'
 import * as Yup from 'yup'
 
-import Authenticate from '../../components/Authenticate'
 import { disableButton } from '../../store/reducers/buttonState'
 import { Form, FormField, SubmitButton } from '../../components/Form'
 import { forgotPassword } from '../../store/reducers/user'
-import Footer from '../../components/Footer'
+import { Col, Container, Row } from 'react-bootstrap'
+import Card from '../../components/Card'
+import { Link } from 'react-router-dom'
+import PageWrapper from '../../components/PageWrapper'
 
 
 const validationSchema = Yup.object().shape({
@@ -35,37 +37,64 @@ const ForgotPassword = () => {
 
 
     return(
-        <>
-            <Authenticate inside={false} />
+        <PageWrapper 
+            inside={false} 
+            isAuthenticated={isAuthenticated} 
+            isLoading={isLoading}
+        >
 
-            {
-                !isLoading && !isAuthenticated && (
+                    <Container fluid className="wall">
 
-                    <>
-                    <div>this is forgot password page</div>
+                    <Col md={{ span:4, offset:4 }}>
+                        
+                        <Card className="position-absolute top-50 start-50 translate-middle p-5 auth">
 
-                    <Form
-                        initialValues={{ email: "" }}
-                        onSubmit={submitForm}
-                        validationSchema={validationSchema}
-                    >
+                            <Form
+                                initialValues={{ email: "" }}
+                                onSubmit={submitForm}
+                                validationSchema={validationSchema}
+                            >
 
-                        <FormField 
-                            type="email"
-                            name="email"
-                            placeholder="youremail@mail.com"
-                        />
+                                <Row>
 
-                        <SubmitButton title="Send Reset Email" disable={buttonDisable} />
+                                    <Col md={12}>
 
-                    </Form>
-                    </>
+                                    <FormField 
+                                        type="email"
+                                        name="email"
+                                        placeholder="youremail@mail.com"
+                                        icon="at"
+                                        label="Email"
+                                    />
 
-                )
-            }
+                                    </Col>
 
-            <Footer />
-        </>
+
+                                    <Col md={12}>
+
+                                        <div className="spacer"></div>
+
+                                        <SubmitButton title="Send Reset Email" disable={buttonDisable} />
+
+                                        <span className="formNote text-center">
+                                            Back to <Link to="/login">Login</Link>
+                                        </span>
+
+                                    </Col>
+
+
+                                </Row>
+
+
+                            </Form>
+
+                        </Card>
+
+                        
+                    </Col>
+                    </Container>
+
+        </PageWrapper>
     )
 }
 

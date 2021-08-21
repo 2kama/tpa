@@ -4,6 +4,7 @@ import { Table } from '../Table';
 import { useState } from 'react';
 import SelectedUserModal from './SelectedUserModal';
 import { setSelectedAlterContent, deleteUserData, setAlterUsers } from '../../store/reducers/adminQuery';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const AlterUsers = ({users, approve, traders}) => {
 
@@ -44,7 +45,7 @@ const AlterUsers = ({users, approve, traders}) => {
         {dataKey: "lastName", headerText: "Last Name"},
         {dataKey: "email", headerText: "Email"},
         {dataKey: "phone", headerText: "Phone"},
-        {dataKey: approve ? '' : 'role', headerText: approve ? '' : 'Role'},
+        {dataKey: 'role', headerText: 'Role'},
         {dataKey: 'delete', headerText: 'Delete'},
         {dataKey: approve ? 'approve' : 'edit', headerText: approve ? 'Approve' : 'Edit'},
     ]
@@ -55,14 +56,14 @@ const AlterUsers = ({users, approve, traders}) => {
             data={users.map(user => {
                 const data = {
                     ...user,
-                    'role': getRole(user.role),
-                    'delete': <button disabled={disableButton(user)} onClick={() => deleteUser(user)}>DELETE</button>,
+                    'role': approve ? 'New Account' : getRole(user.role),
+                    'delete': <button className="btn-danger btn" disabled={disableButton(user)} onClick={() => deleteUser(user)}><FontAwesomeIcon icon="trash-alt" /></button>,
                 }
                 data[approve ? 'approve' : 'edit'] = <>
-                    <button disabled={disableButton(user)}
+                    <button className="btn btn-secondary" disabled={disableButton(user)}
                         onClick={() => {openModalAndAlterUser(user)}}
                     >
-                        {approve ? 'APPROVE' : 'EDIT'}
+                        {approve ? <FontAwesomeIcon icon="check" /> : <FontAwesomeIcon icon="user-edit" />}
                     </button>
                     <SelectedUserModal
                         showModal={showModal}

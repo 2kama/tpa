@@ -1,39 +1,35 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import Authenticate from '../../../components/Authenticate'
-import PageNotFound from '../../PageNotFound'
 import { shallowEqual } from 'react-redux';
-import { Link } from 'react-router-dom';
+import PageWrapper from '../../../components/PageWrapper';
+import { Container } from 'react-bootstrap';
 
 const AdminDashboard = () => {
-    const { role, isLoading } = useSelector(state => ({
+    const { role, isLoading, isApproved } = useSelector(state => ({
         role : state.user.role,
-        isLoading : state.user.isLoading
+        isLoading : state.user.isLoading,
+        isApproved : state.user.isApproved
     }), shallowEqual)
         
     return(
-        <>
-            <Authenticate inside={true} />
-
-            {
-                role && (
-                
-                !isLoading && role.isAdmin ? (
-                    <>
-
-                        This is the Admin Dashboard Page
-                        <hr />
-                        <Link to="/admin/dashboard/view/approved">View Approved Accounts</Link> <br />
-                        <Link to="/admin/dashboard/view/unapproved">View Unapproved Accounts</Link> <br />
-                        <hr />
-                    </>
-                ) : <PageNotFound />)
+        <PageWrapper 
+            inside={true} 
+            role={role} 
+            account="isAdmin" 
+            onPage="01"
+            isLoading={isLoading}
+            isApproved={isApproved}
+        >
 
 
-            }
-            
-            
-        </>
+            <Container fluid className="wall">
+
+                    This is the Admin Dashboard Page
+
+            </Container>
+
+                        
+           </PageWrapper>
     )
 }
 

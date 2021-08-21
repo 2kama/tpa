@@ -47,8 +47,6 @@ const NextOfKin = ({ user }) => {
 
     return(
         <>
-            <h4>Next of Kin</h4>
-
 
                 <Form
                         initialValues={{ 
@@ -62,37 +60,42 @@ const NextOfKin = ({ user }) => {
                     >
 
                         <FormField 
-                            type="text"
                             name="kinFirstName"
                             placeholder="First Name"
                             disabled={!editable}
+                            label="First Name"
+                            icon={["far", "user"]}
                         />
 
                         <FormField 
-                            type="text"
                             name="kinLastName"
                             placeholder="Last Name"
                             disabled={!editable}
+                            label="Last Name"
+                            icon={["far", "user"]}
                         />
 
                         <FormField 
-                            type="text"
                             name="kinMiddleName"
                             placeholder="Middle Name"
                             disabled={!editable}
+                            label="Middle Name"
+                            icon={["far", "user"]}
                         />
 
                         <FormField 
-                            type="text"
                             name="KinPhone"
                             placeholder="080-000-0000"
                             disabled={!editable}
+                            label="Tel No"
+                            icon="phone"
                         />
 
-
+                        <div className="spacer"></div>
                         {editable && <SubmitButton title="Submit Update" disable={buttonDisable} />}
-                        {editable && <span onClick={e => toggleEdit(false)}>Cancel</span>}
-                        {!editable && <span onClick={e => toggleEdit(true)}>Edit Info</span>}
+                        <div className="spacer"></div>
+                        {editable && <span className="pointer text-danger" onClick={e => toggleEdit(false)}>Cancel</span>}
+                        {!editable && <span className="pointer text-success" onClick={e => toggleEdit(true)}>Edit Info</span>}
 
                     </Form>
 

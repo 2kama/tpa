@@ -1,0 +1,21 @@
+.navbar {
+
+    background: $body_background;
+    z-index: 200;
+
+    .container-fluid {
+        padding-left: 80px;
+        padding-right: 10px;
+    }
+
+    svg {
+        font-size: 20px;
+        margin-left: 30px;
+    }
+    
+}
+
+
+.navbar-expand .navbar-nav .dropdown-menu {
+   right : 0;
+}

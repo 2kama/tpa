@@ -3,9 +3,10 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {  } from '@fortawesome/free-brands-svg-icons'   
-import { faCircle as farCircle, faUser as farUser, faSquare as farSquare } from '@fortawesome/free-regular-svg-icons'
-import { faExclamationCircle, faCircle, faToggleOff, faToggleOn, faAt, faPhone,
-        faUnlockAlt, faHashtag, faCheckSquare } from '@fortawesome/free-solid-svg-icons'
+import { faCircle as farCircle, faUser as farUser, faSquare as farSquare, faBell as farBell } from '@fortawesome/free-regular-svg-icons'
+import { faExclamationCircle, faCircle, faToggleOff, faToggleOn, faAt, faPhone,faLayerGroup, faWallet, faUniversity, faCloudUploadAlt,
+        faUnlockAlt, faHashtag, faCheckSquare, faUser, faBell, faBars, faClipboard, faTimes, faSignOutAlt, faExchangeAlt, faParagraph,
+    faUserPlus, faTrashAlt, faCheck, faUserEdit, faUserTag, faPercent, faPeopleArrows, faUsers  } from '@fortawesome/free-solid-svg-icons'
 
 
 
@@ -28,8 +29,9 @@ import Transactions from './pages/AdminPages/Transactions'
 
 
 
-library.add(faExclamationCircle, faCircle, farCircle, faToggleOn, faToggleOff, faAt, farUser, faPhone,
-    faUnlockAlt, faHashtag, farSquare, faCheckSquare)
+library.add(faExclamationCircle, faCircle, farCircle, faToggleOn, faToggleOff, faAt, farUser, faPhone, faLayerGroup, faWallet, faUniversity, faCloudUploadAlt,
+    faUnlockAlt, faHashtag, farSquare, faCheckSquare, faUser, farBell, faBell, faBars, faClipboard, faTimes, faSignOutAlt, faExchangeAlt, faParagraph,
+    faUserPlus, faTrashAlt, faCheck, faUserEdit, faUserTag, faPercent, faPeopleArrows, faUsers )
 
 
 

@@ -1,27 +1,26 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, shallowEqual, useDispatch } from 'react-redux'
 
-import Authenticate from '../../../components/Authenticate'
-import Footer from '../../../components/Footer'
 import BaseModal from '../../../components/Modal/BaseModal'
 import { getPendingTransactions, getProcessedTransactions} from '../../../store/reducers/adminQuery'
-import PageNotFound from '../../PageNotFound'
 import PendingTransactions from './PendingTransactions'
 import ProcessedTransactions from './ProcessedTransactions'
-
+import PageWrapper from '../../../components/PageWrapper'
+import { Container, Row, Tab, Tabs } from 'react-bootstrap'
 
 
 
 const Transactions = () => {
 
 
-    const { role, isLoading, pendingTransactions, processedTransactions, selectedAlterContent, buttonDisable } = useSelector(state => ({
+    const { role, isLoading, pendingTransactions, processedTransactions, selectedAlterContent, buttonDisable, isApproved } = useSelector(state => ({
         role : state.user.role,
         isLoading : state.user.isLoading,
         pendingTransactions : state.adminQuery.pendingTransactions,
         processedTransactions : state.adminQuery.processedTransactions,
         selectedAlterContent : state.adminQuery.selectedAlterContent,
-        buttonDisable : state.buttonState.buttonDisable
+        buttonDisable : state.buttonState.buttonDisable,
+        isApproved : state.user.isApproved
     }), shallowEqual)
 
     const [show, setShow] = useState(false)
@@ -53,6 +52,7 @@ const Transactions = () => {
 
     const header = [
         {dataKey:"time", headerText:"Time"}, 
+        {dataKey:"reference", headerText:"Tx"},
         {dataKey:"name", headerText:"Name"}, 
         {dataKey:"txType", headerText:"txType"},
         {dataKey:"amount", headerText:"Amount"}, 
@@ -60,27 +60,33 @@ const Transactions = () => {
     ]
         
     return(
-        <>
-            <Authenticate inside={true} />
+        <PageWrapper 
+            inside={true} 
+            role={role} 
+            account="isAdmin" 
+            onPage="11"
+            isLoading={isLoading}
+            isApproved={isApproved}
+        >
 
-            {
-                role && (
-                
-                !isLoading && role.isAdmin ? (
-                    <>
+
+            <BaseModal
+                title={modalContent.title}
+                show={show}
+                close={() => setShow(false)}
+                closeText="Close"
+                size={modalContent.size}
+            >
+                {modalContent.content}
+            </BaseModal>
 
 
+            <Container fluid className="wall">
+                <Row>
 
-                        <BaseModal
-                            title={modalContent.title}
-                            show={show}
-                            close={() => setShow(false)}
-                            closeText="Close"
-                            size={modalContent.size}
-                        >
-                            {modalContent.content}
-                        </BaseModal>
+                <Tabs defaultActiveKey="pending" id="uncontrolled-tab-example" className="mb-3">
 
+                    <Tab eventKey="pending" title="Pending Transactions">
 
                         <PendingTransactions 
                             pendingTransactions={pendingTransactions}
@@ -90,27 +96,30 @@ const Transactions = () => {
                             header={header}
                             setContent={setContent}
                         />
+                        
+                    </Tab>
 
+                    <Tab eventKey="processed" title="Processed Transactions">
 
                         <ProcessedTransactions 
                             processedTransactions={processedTransactions}
                             header={header}
                             setContent={setContent}
                         />
+                        
+                    </Tab>
+
+                </Tabs>
+
+
+                </Row>
+            </Container>
+
+                       
 
 
                         
-                    </>
-                ) : <PageNotFound />)
-
-
-            }
-
-
-            <Footer />
-            
-            
-        </>
+        </PageWrapper>
     )
 }
 

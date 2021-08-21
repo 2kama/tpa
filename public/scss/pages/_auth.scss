@@ -1,3 +1,11 @@
 .auth {
-    
+    width: 480px;
+
+    @include mQ(767px) {
+        width: 80%;
+    }
+}
+
+.auth-2 {
+    width: 80%;
 }

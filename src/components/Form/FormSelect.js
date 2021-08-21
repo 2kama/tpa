@@ -5,10 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Modal } from "react-bootstrap";
 import { useFormikContext } from "formik";
 
-//custom components
-import FieldError from "../Error/FieldError"
 
-const FormSelect = ({ name, icon=false, options, index, disabled=false, update }) =>{
+const FormSelect = ({ name, icon=false, options, index, disabled=false, update, hidden = false, label="" }) =>{
 
 
     const {
@@ -32,31 +30,38 @@ const FormSelect = ({ name, icon=false, options, index, disabled=false, update }
       update && update(options[idx][1])
   }
 
+  const isError = errors[name] && touched[name]
+
   return (
     <>
-        <Modal centered show={show} onHide={e => toggleShow(!show)} size="md">
+        <Modal centered show={show} onHide={e => toggleShow(!show)} size="md" className="optionsModal">
             <Modal.Body>
-                <div className="card">
+                <div>
 
                     {
-                        options.map((tag, idx) => <div onClick={e => choose(idx)} key={tag[1]} className={`optionsTag`}>{tag[0]}</div>)
+                        options.map((tag, idx) => <div onClick={e => choose(idx)} key={tag[1]} className={`optionsTag pointer`}>{tag[0]}</div>)
                     }
                 </div>
              </Modal.Body>
         </Modal>
 
-        <div className={`formInput`} onClick={e => disabled ? doNothing() : toggleShow(true)}>
-            {
-                icon && <FontAwesomeIcon icon={icon} />
-            }
-        
-            <input
-            value={options[currentIndex][0]}
-            type="text"   
-            disabled={true} 
-            />
+        <div className={`formInput pointer d-flex flex-row${disabled ? ' disabled' : ''}${isError ? ' error' : ''}`} onClick={e => disabled ? doNothing() : toggleShow(true)}>
+        {
+            icon && <div className="iconArea"><FontAwesomeIcon icon={icon} /></div>
+        }
 
-            <FieldError error={errors[name]} visible={touched[name]} />
+         <div className="inputArea d-flex flex-column pointer">
+                <label>{isError ? errors[name] : label}</label>
+                
+                    <input
+                    value={options[currentIndex][0]}
+                    type="text"   
+                    disabled={true} 
+                    className="pointer"
+                    />
+
+            </div>
+
         
         </div>
 

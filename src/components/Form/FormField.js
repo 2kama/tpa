@@ -20,7 +20,7 @@ const AppFormField = ({ name, type="text", label="", placeholder = "", icon = fa
   return (
     <>
 
-     <div className={`formInput d-flex flex-row${isError ? ' error' : ''}`}>
+     <div className={`formInput d-flex flex-row${disabled ? ' disabled' : ''}${isError ? ' error' : ''}`}>
         {
             icon && <div className="iconArea"><FontAwesomeIcon icon={icon} /></div>
         }

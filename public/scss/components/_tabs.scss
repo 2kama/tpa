@@ -1,0 +1,27 @@
+.tabCard {
+    min-height: 600px;
+    
+}
+
+
+.nav-tabs {
+
+    border: none;
+    
+
+    a.nav-link {
+        color: $primary_color_blue;
+        font-family: 'Como-SemiBold';
+        border: none;
+
+        &.active {
+            font-size: 17px;
+            border-bottom: 2px solid $primary_color_blue;
+            background: transparent;
+        }
+    }
+}
+
+.tab-content {
+    padding-top: 20px;
+}

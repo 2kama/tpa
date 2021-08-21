@@ -4,10 +4,8 @@ import React from "react";
 import { useFormikContext } from "formik";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-//custom components
-import FieldError from "../Error/FieldError"
 
-const TextareaField = ({ name, placeholder="", rows=5, maxlength=500, icon=false, disabled=false, hidden=false }) =>{
+const TextareaField = ({ name, placeholder="", rows=5, maxlength=500, icon=false, disabled=false, hidden=false, label="" }) =>{
   const {
     handleBlur,
     handleChange,
@@ -16,12 +14,16 @@ const TextareaField = ({ name, placeholder="", rows=5, maxlength=500, icon=false
     values,
   } = useFormikContext();
 
+
+  const isError = errors[name] && touched[name]
+
   return (
-    <div className={`formInput ${errors[name] && touched[name] ? 'error' : ''}`}>
+    <div className={`formInput d-flex flex-row${disabled ? ' disabled' : ''}${isError ? ' error' : ''}`}>
         {
-            icon && <FontAwesomeIcon icon={icon} />
+            icon && <div className="iconArea"><FontAwesomeIcon icon={icon} /></div>
         }
-      
+      <div className="inputArea d-flex flex-column">
+          <label>{isError ? errors[name] : label}</label>
       <textarea
         onBlur={handleBlur}
         onChange={handleChange}
@@ -33,8 +35,9 @@ const TextareaField = ({ name, placeholder="", rows=5, maxlength=500, icon=false
         disabled={disabled}
         hidden={hidden}
       ></textarea>
-      <FieldError error={errors[name]} visible={touched[name]} />
 
+      
+      </div>
     
     </div>
   );
