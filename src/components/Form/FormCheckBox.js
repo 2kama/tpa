@@ -4,9 +4,6 @@ import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useFormikContext } from "formik";
 
-//custom components
-import FieldError from "../Error/FieldError"
-
 
 const FormCheckBox = ({ name, text, disabled=false }) => {
 

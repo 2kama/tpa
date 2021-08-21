@@ -142,26 +142,37 @@ export const requestSendTransactionResponse = transactionResponse => {
 
     const {reference, status, reason, uid, txType, amount} = transactionResponse
 
-    db.doc(`transactions/${reference}`).update({
-        status,
-        reason
-    }).then(() => {
+    
+    
+    db.doc(`users/${uid}/private/info`).get().then(doc => {
 
-        db.doc(`users/${uid}/private/info`).get().then(doc => {
+        const {pendingCredit, pendingDebit, available, realFund} = doc.data().wallet
 
-            const {pendingCredit, pendingDebit, available} = doc.data().wallet
+        const newWallet = {
+            pendingCredit : txType === "credit" ? pendingCredit - amount : pendingCredit,
+            pendingDebit : txType === "debit" ? pendingDebit - amount : pendingDebit,
+            available : status === "approved" ? (txType === "credit" ? available + amount : available) : (txType === "credit" ? available : available + amount),
+            realFund : status === "approved" ? (txType === "credit" ? realFund + amount : realFund - amount) : (realFund)
+        }
 
-            const newWallet = {
-                pendingCredit : txType === "credit" ? pendingCredit - amount : pendingCredit,
-                pendingDebit : txType === "debit" ? pendingDebit - amount : pendingDebit,
-                available : status === "approved" ? (txType === "credit" ? available + amount : available) : (txType === "credit" ? available : available + amount)
-            }
+        if(newWallet.realFund >= 0) {
 
-            return db.doc(`users/${uid}/private/info`).update({
+            db.doc(`users/${uid}/private/info`).update({
                 wallet : newWallet
+            }).then(() => {
+    
+                db.doc(`transactions/${reference}`).update({
+                    status,
+                    reason
+                })
+                return true
             })
 
-        })
+        }else {
+            return false
+        }
+
+        
 
     })
 

@@ -3,7 +3,7 @@ import { useSelector, shallowEqual, useDispatch } from 'react-redux'
 import * as Yup from 'yup'
 
 
-import { disableButton } from '../../store/reducers/buttonState'
+import { disableButton, enableButton } from '../../store/reducers/buttonState'
 import { Form, FormField, FormSelect, SubmitButton } from '../../components/Form'
 import { removeVerify, updateBank, verifyBank } from '../../store/reducers/bankVerification'
 import { BANKS, getIndexOfK } from '../../utils/helperFunctions'
@@ -43,22 +43,28 @@ const BankDetails = ({ user }) => {
 
     return(
         <>
-            <h4>Banking Details</h4>
 
 
             <BaseModal 
-                title={`Is this Bank Information Correct`}
+                title={`Is this Bank Information Correct?`}
                 show={showVerify}
-                close={() => dispatch(removeVerify())}
+                close={() => {dispatch(removeVerify()); dispatch(enableButton())}}
                 closeText="No"
                 size="sm"
             >
 
-                Bank Name : {BANKS[getIndexOfK(BANKS, bankVerification.bankName)[0]][0]} <br />
-                Account Number : {bankVerification.accountNumber} <br />
-                Account Name : {bankVerification.accountName}
+                <p>
+                    <strong>Bank Name: </strong>{BANKS[getIndexOfK(BANKS, bankVerification.bankName)[0]][0]}
+                </p>
 
-                <button onClick={e => dispatch(updateBank({
+                <p>
+                    <strong>Account Number: </strong>{bankVerification.accountNumber}
+                </p>
+
+                <p>
+                    <strong>Account Holder: </strong>{bankVerification.accountName}
+                </p>
+                <button className="submitButton" onClick={e => dispatch(updateBank({
                     bankName : bankVerification.bankName,
                     accountNumber : bankVerification.accountNumber,
                     accountName : bankVerification.accountName
@@ -69,7 +75,8 @@ const BankDetails = ({ user }) => {
                 <Form
                         initialValues={{ 
                             bankName,
-                            accountNumber
+                            accountNumber,
+                            accountName
                         }}
                         onSubmit={submitForm}
                         validationSchema={validationSchema}
@@ -81,21 +88,32 @@ const BankDetails = ({ user }) => {
                             options={BANKS}
                             index={getIndexOfK(BANKS, bankName)[0]}
                             disabled={!editable}
+                            label="Bank Name"
+                            icon="university"
                         />
 
                         <FormField 
-                            type="text"
                             name="accountNumber"
                             placeholder="Bank Account Number"
                             disabled={!editable}
+                            label="Account Number"
+                            icon="hashtag"
                         />
-                        {!editable && <div>{accountName}</div>}
 
+                        {!editable && <FormField 
+                            name="accountName"
+                            placeholder="Account Holder"
+                            disabled={true}
+                            label="Account Holder"
+                            icon={["far", "user"]}
+                        />}
 
+                        <div className="spacer"></div>
 
                         {editable && <SubmitButton title="Verify Bank Account" disable={showVerify} />}
-                        {editable && <span onClick={e => toggleEdit(false)}>Cancel</span>}
-                        {!editable && <span onClick={e => toggleEdit(true)}>Update Bank Info</span>}
+                        <div className="spacer"></div>
+                        {editable && <span className="pointer text-danger" onClick={e => toggleEdit(false)}>Cancel</span>}
+                        {!editable && <span className="pointer text-success" onClick={e => toggleEdit(true)}>Update Bank Info</span>}
                     </Form>
 
 

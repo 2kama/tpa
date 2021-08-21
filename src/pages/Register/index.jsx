@@ -2,7 +2,6 @@ import React from 'react'
 import { useSelector, shallowEqual, useDispatch } from 'react-redux'
 import * as Yup from 'yup'
 
-import Authenticate from '../../components/Authenticate'
 import { disableButton } from '../../store/reducers/buttonState'
 import { Form, FormCheckBox, FormField, SubmitButton } from '../../components/Form'
 import { registerUser } from '../../store/reducers/user'
@@ -10,7 +9,7 @@ import { useQuery } from '../../utils/query';
 import { Col, Container, Row } from 'react-bootstrap'
 import Card from '../../components/Card'
 import { Link } from 'react-router-dom'
-import Footer from '../../components/Footer'
+import PageWrapper from '../../components/PageWrapper'
 
 
 const validationSchema = Yup.object().shape({
@@ -58,20 +57,17 @@ const Register = () => {
 
 
     return(
-        <>
-            <Authenticate inside={false} />
+        <PageWrapper 
+            inside={false} 
+            isAuthenticated={isAuthenticated} 
+            isLoading={isLoading}
+        >
 
-            <Container fluid className="wall">
+                    <Container fluid className="wall">
 
-
-
-
-            {
-                !isLoading && !isAuthenticated && (
-
-                    <Col md={{ span:8, offset:2 }} className="auth">
+                    <Col md={{ span:8, offset:2 }}>
                         
-                        <Card className="p-5 mx-auto align-middle">
+                        <Card className="position-absolute top-50 start-50 translate-middle p-5 auth-2">
 
 
 
@@ -169,15 +165,8 @@ const Register = () => {
 
                         
                     </Col>
-                )
-            }
-
-
-
-            </Container>
-
-            <Footer />
-        </>
+                    </Container>
+        </PageWrapper>
     )
 }
 

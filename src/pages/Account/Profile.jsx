@@ -47,7 +47,6 @@ const Profile = ({ user }) => {
 
     return(
         <>
-            <h4>Profile</h4>
 
 
                 <Form
@@ -64,24 +63,27 @@ const Profile = ({ user }) => {
                     >
 
                         <FormField 
-                            type="text"
                             name="firstName"
                             placeholder="First Name"
                             disabled={!editable}
+                            label="First Name"
+                            icon={["far", "user"]}
                         />
 
                         <FormField 
-                            type="text"
                             name="lastName"
                             placeholder="Last Name"
                             disabled={!editable}
+                            label="Last Name"
+                            icon={["far", "user"]}
                         />
 
                         <FormField 
-                            type="text"
                             name="middleName"
                             placeholder="Middle Name"
                             disabled={!editable}
+                            label="Middle Name"
+                            icon={["far", "user"]}
                         />
 
                         <FormField 
@@ -89,28 +91,33 @@ const Profile = ({ user }) => {
                             name="email"
                             placeholder="youremail@mail.com"
                             disabled={true}
+                            label="Email"
+                            icon="at"
                         />
 
                         <FormField 
-                            type="text"
                             name="phone"
                             placeholder="080-000-0000"
                             disabled={!editable}
+                            label="Tel No"
+                            icon="phone"
                         />
 
                         {user.role.isAffiliate && 
                             <FormField 
-                                type="text"
                                 name="affiliateCode"
                                 placeholder="Affiliate Code"
                                 disabled={true}
+                                label="Affiliate Code"
+                                icon="hashtag"
                             />
                         }
-
+                        <div className="spacer"></div>
 
                         {editable && <SubmitButton title="Submit Update" disable={buttonDisable} />}
-                        {editable && <span onClick={e => toggleEdit(false)}>Cancel</span>}
-                        {!editable && <span onClick={e => toggleEdit(true)}>Edit Profile</span>}
+                        <div className="spacer"></div>
+                        {editable && <span className="pointer text-danger" onClick={e => toggleEdit(false)}>Cancel</span>}
+                        {!editable && <span className="pointer text-success" onClick={e => toggleEdit(true)}>Edit Profile</span>}
 
                     </Form>
 

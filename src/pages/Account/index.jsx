@@ -1,12 +1,12 @@
 import React, {  } from 'react'
 import { shallowEqual, useSelector } from 'react-redux'
-import Authenticate from '../../components/Authenticate'
-import Footer from '../../components/Footer'
-import PageNotFound from '../PageNotFound'
 import BankDetails from './BankDetails'
 import ChangePassword from './ChangePassword'
 import NextOfKin from './NextOfKin'
 import Profile from './Profile'
+import PageWrapper from '../../components/PageWrapper'
+import { Tabs, Tab, Col, Row, Container } from 'react-bootstrap'
+import Card from '../../components/Card'
 
 
 
@@ -22,38 +22,60 @@ const Account = () => {
 
 
     return(
-        <>
-            <Authenticate inside={true} />
+        <PageWrapper 
+            inside={true} 
+            role={role} 
+            account="general" 
+            onPage="02"
+            isLoading={isLoading}
+            isApproved={isApproved}
+        >
 
-            {
-                !isLoading && role && (
-                
-                isApproved ? (
-                    <>
+        <Container fluid className="wall">
 
-                        <h2>Accounts Page</h2>
+            <Row>
 
+            
+            
+                <Card className=" p-5 tabCard">
+
+                <Col md={6}>
+                    
+                <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example" className="mb-3">
+                    <Tab eventKey="profile" title="Profile">
                         <Profile user={user} />
+                    </Tab>
 
-                        {role.isUser && (
-                            <>
-                                <NextOfKin user={user} />
-                                <BankDetails user={user} />
-                            </>
-                            
-                        )}
-
+                    <Tab eventKey="kin" title="Next of Kin" disabled={role && role.isUser ? false : true}>
+                        <NextOfKin user={user} />
+                    </Tab>
+                    <Tab eventKey="bank" title="Bank Details" disabled={role && role.isUser ? false : true}>
+                         <BankDetails user={user} />
+                     </Tab>
+                              
+                    <Tab eventKey="password" title="Change Password">
                         <ChangePassword />
+                    </Tab>
+                </Tabs>
+                </Col>
 
-                    </>
-                ) : <PageNotFound />)
 
-
-            }
+                </Card>
             
-            
-            <Footer />
-        </>
+            </Row>
+
+        
+
+        </Container>
+
+
+                        
+
+                        
+
+                        
+
+        </PageWrapper>
     )
 }
 

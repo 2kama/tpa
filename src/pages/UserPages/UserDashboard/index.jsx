@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import Authenticate from '../../../components/Authenticate'
-import PageNotFound from '../../PageNotFound'
+import { Container } from 'react-bootstrap'
+import PageWrapper from '../../../components/PageWrapper'
 
 
 const UserDashboard = () => {
@@ -13,25 +13,21 @@ const UserDashboard = () => {
     }))
 
     return(
-        <>
-            <Authenticate inside={true} />
+        <PageWrapper 
+            inside={true} 
+            role={role} 
+            account="isUser" 
+            onPage="01"
+            isLoading={isLoading}
+            isApproved={isApproved}
+        >
 
-            {
-                !isLoading && role && (
-                
-                role.isUser && isApproved ? (
-                    <>
-
-                        This is the User Dashboard Page
-
-                    </>
-                ) : <PageNotFound />)
-
-
-            }
-            
-            
-        </>
+            <Container fluid className="wall">
+                This is the User Dashboard Page
+            </Container>
+                        
+                        
+        </PageWrapper>
     )
 }
 

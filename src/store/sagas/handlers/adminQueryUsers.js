@@ -196,24 +196,40 @@ export function* handleSendTransactionResponse(action) {
 
     try {
 
-        yield call(requestSendTransactionResponse, data)
+        const response = yield call(requestSendTransactionResponse, data)
 
-        yield put(transactionChecked(
-             {
-                 processedTransactions : processedTransactions.length > 0 ? [data, ...processedTransactions] : [data],
-                 pendingTransactions : pendingTransactions.filter(transaction => transaction.reference !== data.reference)
-             }
-            
-            
-            ))
+        if(response) {
 
-        const alertData = {
-            msg : `Transaction was sucessfully ${data.status}`,
-            alertType : 'success',
-            id: uuidv4(),
-            timeout : 5000
+            yield put(transactionChecked(
+                {
+                    processedTransactions : processedTransactions.length > 0 ? [data, ...processedTransactions] : [data],
+                    pendingTransactions : pendingTransactions.filter(transaction => transaction.reference !== data.reference)
+                }
+               
+               
+               ))
+   
+           const alertData = {
+               msg : `Transaction was sucessfully ${data.status}`,
+               alertType : 'success',
+               id: uuidv4(),
+               timeout : 5000
+           }
+           yield put(triggerAlert(alertData))
+
+        }else {
+
+            const alertData = {
+                msg : `User doesn't have sufficient funds.`,
+                alertType : 'danger',
+                id: uuidv4(),
+                timeout : 8000
+            }
+            yield put(triggerAlert(alertData))
+
         }
-        yield put(triggerAlert(alertData))
+
+        
 
         
     } catch (err) {

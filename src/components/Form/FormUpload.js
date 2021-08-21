@@ -5,15 +5,15 @@ import { v4 as uuidv4 } from 'uuid'
 //third party components
 import { useFormikContext } from "formik";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { ProgressBar } from 'react-bootstrap'
 
 
 //custom components
-import FieldError from "../Error/FieldError"
 
 const storage = firebase.storage().ref()
 
 
-const FormUpload = ({ name, icon = false, disabled = false, hidden = false, sizeLimit, fileDestination, fileType }) => {
+const FormUpload = ({ name, icon = false, disabled = false, hidden = false, sizeLimit, fileDestination, fileType, label="" }) => {
 
       let { values, errors } = useFormikContext()
       const { touched } = useFormikContext()
@@ -39,7 +39,7 @@ const FormUpload = ({ name, icon = false, disabled = false, hidden = false, size
     const onChange = (e) => {
 
         let file = e.target.files[0]
-
+        setProgress(0)
         getUploadError(false, "no-error")
 
         if(file !== undefined) {
@@ -84,31 +84,35 @@ const FormUpload = ({ name, icon = false, disabled = false, hidden = false, size
         
     }
 
-
+    const isError = (errors[name] && touched[name]) || showError
 
     return(
         <>
 
-                <div className={`formInput${errors[name] && (touched[name] || showError) ? 'error' : ''}`}>
+        <div className={`formInput d-flex flex-row${disabled ? ' disabled' : ''}${isError ? ' error' : ''}`}>
                 {
-                    icon && <FontAwesomeIcon icon={icon} />
+                    icon && <div className="iconArea"><FontAwesomeIcon icon={icon} /></div>
                 }
-                <input
-                    onChange={e => onChange(e)}
-                    type="file"
-                    disabled={disabled}
-                    hidden={hidden}
-                    id="uploadFile"
-                />
-                <input
-                    hidden
-                    disabled
-                    name={name}
-                    value={values[name]}
-                />
-                    <div>{progress}%</div>
-                <FieldError error={errors[name]} visible={touched[name] || showError} />
-                </div>
+
+                <div className="inputArea d-flex flex-column">
+                    <label>{isError ? errors[name] : label}</label>
+                    <input
+                        onChange={e => onChange(e)}
+                        type="file"
+                        disabled={disabled}
+                        hidden={hidden}
+                        id="uploadFile"
+                    />
+                    <input
+                        hidden
+                        disabled
+                        name={name}
+                        value={values[name]}
+                    />
+                        
+              </div>
+        </div>
+        { progress > 0 && <ProgressBar striped variant="success" now={progress} className="formProgress" /> }
             
         </>
     )

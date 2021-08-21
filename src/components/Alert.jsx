@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, Container, Row } from 'react-bootstrap'
+import { Col, Row } from 'react-bootstrap'
 import { shallowEqual } from 'react-redux'
 import { useSelector } from 'react-redux'
 
@@ -20,7 +20,7 @@ const Alert = () => {
                 <div className="position-absolute errorPlate">
                     <Row>
                         {
-                            alerts.map(alert => <Col md={{ span:6, offset:3}} className={`alert alert-${alert.alertType}`} key={alert.id}>{alert.msg}</Col>)
+                            alerts.map(alert => <Col md={{ span:6, offset:3}} className={`text-center alert alert-${alert.alertType}`} key={alert.id}>{alert.msg}</Col>)
                         }
                     </Row>
                 </div>

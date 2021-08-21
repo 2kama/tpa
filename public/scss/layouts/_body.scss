@@ -7,9 +7,13 @@ body {
 }
 
 .wall {
-    padding: 10px 70px;
+    padding: 60px 70px;
     margin: 0;
-    min-height: 100vh;
+    min-height: 90vh;
+
+    @include mQ(767px) {
+        padding: 60px 5px;
+    }
 }
 
 .mainCard {
@@ -35,3 +39,16 @@ body {
     padding: 0;
     margin: 0;
 }
+
+.pointer {
+    cursor: pointer;
+}
+
+.sectionH4 {
+    margin-top: 30px;
+    margin-bottom: 20px;
+    color: $primary_color_blue;
+}
+
+
+

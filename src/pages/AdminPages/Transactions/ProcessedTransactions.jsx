@@ -1,6 +1,7 @@
 import React from 'react'
 import { Table } from '../../../components/Table'
 import { thousands_separators, timeAgo, TIME_ZONE } from '../../../utils/helperFunctions'
+import { Col } from 'react-bootstrap'
 
 const ProcessedTransactions = ({
     processedTransactions,
@@ -11,7 +12,7 @@ const ProcessedTransactions = ({
 
     return(
         <>
-                    <div>Processed Transactions</div>
+                    
                         {
                             processedTransactions && (
                                 processedTransactions.length > 0 ?
@@ -24,21 +25,21 @@ const ProcessedTransactions = ({
                                             'amount' :  `N${thousands_separators(trans.amount.toFixed(2))}`,
                                             'status' : trans.status === "declined" ? 
                                                 <>
-                                                    <span onClick={() => setContent("Reason for Decline", "sm", trans.reason)}>Declined ?</span>
+                                                    <div className="text-danger pointer" onClick={() => setContent("Reason for Decline", "sm", trans.reason)}>Declined ?</div>
                                                 </> 
                                                 
-                                                : <span>{trans.status}</span>,
+                                                : <div className="text-success">{trans.status}</div>,
                                             'name' : `${trans.firstName} ${trans.lastName}`,
                                             'receipt' : trans.txType === "credit" ?
                                                 <>
-                                                    <span onClick={() => setContent("Uploaded Receipt", "md", <img alt="reciept" src={trans.receipt} />)}>REciept</span>
+                                                    <div className="text-secondary pointer" onClick={() => setContent("Uploaded Receipt", "md", <img style={{width:"100%"}} alt="reciept" src={trans.receipt} />)}>Reciept</div>
                                                 </> 
                                                 : "N/A"
                                         }
                                     ))}
                                 /> 
 
-                                : <div>No Processed Transactions</div>
+                                : <Col md={{span:4,offset:4}} className="btn-secondary rounded p-2 text-center">No Processed Transactions</Col>
                             )
                         }
         </>

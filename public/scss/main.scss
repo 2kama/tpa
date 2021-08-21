@@ -6,21 +6,29 @@
 @import url(../fonts/Como-Medium/style.css);
 
 @import
-    'abstracts/variables';
+    './abstracts/variables',
+    './abstracts/mixins';
 
 
 
 @import
-    'layouts/body';
+    './layouts/header',
+    './layouts/body',
+    './layouts/leftNav';
 
 
 @import 
-    'components/form',
-    'components/button';
+    './components/form',
+    './components/button',
+    './components/animations',
+    './components/noty',
+    './components/tabs',
+    './components/table';
 
 
 @import 
-    'pages/auth';
+    './pages/auth',
+    './pages/wallet';
 
 
-//ll.,njfgfertee
+//ll.,ddddfgfgrrddddnnnn

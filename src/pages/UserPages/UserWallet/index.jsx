@@ -1,14 +1,13 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import Authenticate from '../../../components/Authenticate'
 import { getTransaction } from '../../../store/reducers/user'
-import PageNotFound from '../../PageNotFound'
 import Wallet from './Wallet'
-import Footer from '../../../components/Footer'
 import { Table } from '../../../components/Table'
 import { thousands_separators, timeAgo, TIME_ZONE } from '../../../utils/helperFunctions'
 import BaseModal from '../../../components/Modal/BaseModal'
 import { useState } from 'react'
+import PageWrapper from '../../../components/PageWrapper'
+import { Container, Row, Col } from 'react-bootstrap'
 
 
 const UserWallet = () => {
@@ -45,18 +44,24 @@ const UserWallet = () => {
     }, [uid, dispatch])
 
     return(
-        <>
-            <Authenticate inside={true} />
+        <PageWrapper 
+            inside={true} 
+            role={role} 
+            account="isUser" 
+            onPage="04"
+            isLoading={isLoading}
+            isApproved={isApproved}
+        >
 
-            {
-                !isLoading && role && (
-                
-                role.isUser && isApproved ? (
-                    <>
+
+                <Container fluid className="wall">
+                    <Row className="pt-3">
+
+                    
 
                         <Wallet wallet={wallet} uid={uid} walletTransactions={walletTransactions} />
 
-                        <div>Recent Transactions</div>
+                        <h4 className="sectionH4">Recent Transactions</h4>
 
                         <BaseModal
                             title={modalContent.title}
@@ -75,6 +80,7 @@ const UserWallet = () => {
                                     <Table
                                         headers={[
                                             {dataKey : "time", headerText : "Time"}, 
+                                            {dataKey : "reference", headerText : "Tx"}, 
                                             {dataKey : "txType", headerText : "Tx Type"}, 
                                             {dataKey:"amount", headerText:"Amount"}, 
                                             {dataKey:"receipt", headerText: "Receipt"}, 
@@ -87,17 +93,17 @@ const UserWallet = () => {
                                             'amount' :  `N${thousands_separators(trans.amount.toFixed(2))}`,
                                             'status' : trans.status === "declined" ? 
                                                 <>
-                                                    <span onClick={() => setContent("Reason for Decline", "sm", trans.reason)}>Declined ?</span>
+                                                    <div className="text-danger pointer" onClick={() => setContent("Reason for Decline", "sm", trans.reason)}>Declined ?</div>
                                                 </> 
                                                 
                                                 : trans.status === "sending" ? 
 
-                                                    new Date().getTime() - (trans.time - TIME_ZONE) > 3600000 ? <span>failed</span> : <span>{trans.status}</span>
+                                                    new Date().getTime() - (trans.time - TIME_ZONE) > 3600000 ? <div className="text-danger">failed</div> : <div className="text-warning">{trans.status}</div>
 
-                                                : <span>{trans.status}</span>,
+                                                : <div className={trans.status === "inProgress" ? "text-primary" : "text-success"}>{trans.status}</div>,
                                             'receipt' : trans.txType === "credit" ?
                                                 <>
-                                                    <span onClick={() => setContent("Uploaded Receipt", "md", <img alt="reciept" src={trans.receipt} />)}>REciept</span>
+                                                    <div className="text-secondary pointer" onClick={() => setContent("Uploaded Receipt", "md", <img style={{width:"100%"}} alt="reciept" src={trans.receipt} />)}>Reciept</div>
                                                 </> 
                                                 : "N/A"
 
@@ -106,19 +112,14 @@ const UserWallet = () => {
 
                                 :
 
-                                "There are no Transactions"
+                                <Col md={{span:4,offset:4}} className="btn-secondary rounded p-2 text-center">There are no transactions</Col>
                             )
                         }
 
-                    </>
-                ) : <PageNotFound />)
+                </Row>
+                </Container>
 
-
-            }
-            
-            <Footer />
-            
-        </>
+        </PageWrapper>
     )
 }
 

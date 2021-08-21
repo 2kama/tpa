@@ -2,6 +2,19 @@
 @import url(../fonts/Como/style.css);
 @import url(../fonts/Como-SemiBold/style.css);
 @import url(../fonts/Como-Medium/style.css);
+.navbar {
+  background: whitesmoke;
+  z-index: 200; }
+  .navbar .container-fluid {
+    padding-left: 80px;
+    padding-right: 10px; }
+  .navbar svg {
+    font-size: 20px;
+    margin-left: 30px; }
+
+.navbar-expand .navbar-nav .dropdown-menu {
+  right: 0; }
+
 body {
   font-size: 14px;
   background: whitesmoke;
@@ -10,9 +23,12 @@ body {
   font-family: 'Como-Medium', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
 
 .wall {
-  padding: 10px 70px;
+  padding: 60px 70px;
   margin: 0;
-  min-height: 100vh; }
+  min-height: 90vh; }
+  @media screen and (max-width: 767px) {
+    .wall {
+      padding: 60px 5px; } }
 
 .mainCard {
   width: 100%;
@@ -34,12 +50,87 @@ body {
   padding: 0;
   margin: 0; }
 
+.pointer {
+  cursor: pointer; }
+
+.sectionH4 {
+  margin-top: 30px;
+  margin-bottom: 20px;
+  color: #006699; }
+
+.navToggle {
+  z-index: 300;
+  width: 50px;
+  height: 50px;
+  box-sizing: border-box;
+  padding: 14px;
+  background: #3a5663; }
+  .navToggle svg {
+    font-size: 25px;
+    color: whitesmoke; }
+
+.leftNav {
+  z-index: 300;
+  width: 250px;
+  background: #3a5663;
+  height: 100vh;
+  top: 50px;
+  -webkit-transition: all 0.5s linear;
+  -ms-transition: all 0.5s linear;
+  -o-transition: all 0.5s linear;
+  transition: all 0.5s linear; }
+  @media screen and (max-width: 767px) {
+    .leftNav {
+      -webkit-transition: all 0.5s linear;
+      -ms-transition: all 0.5s linear;
+      -o-transition: all 0.5s linear;
+      transition: all 0.5s linear; } }
+  .leftNav.navIn {
+    width: 50px;
+    -webkit-transition: all 0.5s linear;
+    -ms-transition: all 0.5s linear;
+    -o-transition: all 0.5s linear;
+    transition: all 0.5s linear; }
+    @media screen and (max-width: 767px) {
+      .leftNav.navIn {
+        width: 250px;
+        margin-left: -250px;
+        -webkit-transition: all 0.5s linear;
+        -ms-transition: all 0.5s linear;
+        -o-transition: all 0.5s linear;
+        transition: all 0.5s linear; }
+        .leftNav.navIn ul li a span {
+          display: block; } }
+    .leftNav.navIn ul li a span {
+      display: none; }
+  .leftNav ul {
+    list-style-type: none;
+    width: 100%;
+    padding: 0;
+    margin: 0; }
+    .leftNav ul li {
+      width: 100%; }
+      .leftNav ul li:hover {
+        background: rgba(0, 0, 0, 0.2); }
+      .leftNav ul li.onPage {
+        background: rgba(0, 0, 0, 0.2); }
+      .leftNav ul li a {
+        text-decoration: none;
+        color: whitesmoke; }
+        .leftNav ul li a svg {
+          font-size: 20px; }
+        .leftNav ul li a span {
+          margin-left: 10px;
+          font-size: 17px; }
+
 .formInput {
   width: 100%;
   background: whitesmoke;
   border-radius: 3px;
   margin-bottom: 10px;
   padding: 15px 20px 11px 20px; }
+  .formInput.disabled {
+    background: transparent; }
   .formInput .iconArea {
     padding: 13px 10px 0px 10px;
     float: left;
@@ -53,16 +144,16 @@ body {
     .formInput .inputArea label {
       font-size: 13px;
       color: #979797; }
-    .formInput .inputArea input {
+    .formInput .inputArea input, .formInput .inputArea textarea {
       width: 100%;
       background: transparent;
       border: none;
       font-size: 17px;
       padding: 0; }
-      .formInput .inputArea input:focus {
+      .formInput .inputArea input:focus, .formInput .inputArea textarea:focus {
         border: none;
         outline: none; }
-        .formInput .inputArea input:focus::-webkit-input-placeholder {
+        .formInput .inputArea input:focus::-webkit-input-placeholder, .formInput .inputArea textarea:focus::-webkit-input-placeholder {
           color: transparent; }
   .formInput.error .iconArea svg {
     color: #9f1d1d; }
@@ -73,6 +164,23 @@ body {
   margin-top: 20px;
   width: 100%;
   float: left; }
+
+.formProgress {
+  height: 3px;
+  margin-top: -15px; }
+
+.optionsModal .modal-dialog .modal-content {
+  max-height: 600px;
+  overflow-y: auto; }
+  .optionsModal .modal-dialog .modal-content .optionsTag {
+    padding: 10px 20px; }
+    .optionsModal .modal-dialog .modal-content .optionsTag:hover {
+      background: rgba(0, 102, 153, 0.05); }
+
+.modal-title {
+  width: 100%;
+  font-size: 17px;
+  color: #006699; }
 
 button {
   width: 100%;
@@ -86,3 +194,117 @@ button {
     background: #006699; }
   button:hover {
     opacity: 0.9; }
+  button:disabled {
+    background: #d2d0d0; }
+
+a.button {
+  text-decoration: none;
+  color: #fff;
+  padding: 15px;
+  border-radius: 5px;
+  text-transform: uppercase; }
+
+.pageLoader {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden; }
+  .pageLoader .ani {
+    width: 250px;
+    height: 250px; }
+
+.approvalWaiting {
+  width: 100%; }
+
+.notyToggle {
+  z-index: 300;
+  width: 50px;
+  height: 50px;
+  box-sizing: border-box;
+  padding: 14px;
+  right: 75px; }
+  .notyToggle svg {
+    font-size: 25px; }
+
+.notification {
+  z-index: 300;
+  width: 300px;
+  right: -300px;
+  -webkit-transition: all 0.5s linear;
+  -ms-transition: all 0.5s linear;
+  -o-transition: all 0.5s linear;
+  transition: all 0.5s linear;
+  height: 100vh;
+  background: #fff;
+  margin-top: 50px;
+  overflow-y: auto; }
+  .notification h5 {
+    width: 100%; }
+  .notification.show {
+    right: 0;
+    -webkit-transition: all 0.5s linear;
+    -ms-transition: all 0.5s linear;
+    -o-transition: all 0.5s linear;
+    transition: all 0.5s linear; }
+  .notification .notyTab {
+    width: 100%;
+    border-bottom: 1px solid #ddd;
+    float: left; }
+    .notification .notyTab a {
+      text-decoration: none;
+      width: 100%; }
+    .notification .notyTab strong {
+      font-size: 12px;
+      color: #006699; }
+    .notification .notyTab p {
+      color: #737171; }
+    .notification .notyTab span {
+      font-size: 10px;
+      float: right;
+      color: #272626; }
+    .notification .notyTab.unRead, .notification .notyTab:hover {
+      background: rgba(0, 102, 153, 0.05); }
+
+.tabCard {
+  min-height: 600px; }
+
+.nav-tabs {
+  border: none; }
+  .nav-tabs a.nav-link {
+    color: #006699;
+    font-family: 'Como-SemiBold';
+    border: none; }
+    .nav-tabs a.nav-link.active {
+      font-size: 17px;
+      border-bottom: 2px solid #006699;
+      background: transparent; }
+
+.tab-content {
+  padding-top: 20px; }
+
+thead {
+  background: #3a5663;
+  color: #fff; }
+
+tbody tr {
+  background: #fff;
+  border-bottom: 3px solid whitesmoke; }
+  tbody tr td {
+    padding-top: 15px !important;
+    padding-bottom: 15px !important; }
+
+.auth {
+  width: 480px; }
+  @media screen and (max-width: 767px) {
+    .auth {
+      width: 80%; } }
+
+.auth-2 {
+  width: 80%; }
+
+.walletButton {
+  font-family: 'Como-SemiBold';
+  background: rgba(255, 255, 255, 0.3);
+  height: 40px;
+  width: 40px;
+  float: right;
+  margin-top: -15px; }

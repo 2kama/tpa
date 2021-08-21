@@ -7,6 +7,7 @@ import { superAdminSettableRoles, adminSettableRoles } from '../../utils/userRol
 import { alterUser as alterUserReducer, setAlterUsers, setSelectedAlterContent } from '../../store/reducers/adminQuery';
 import { getIndexOfK } from '../../utils/helperFunctions'
 import { disableButton } from '../../store/reducers/buttonState';
+import { Col, Row } from 'react-bootstrap'
 
 const SelectedUserModal = ({showModal, closeModal, removeEntry=false, selectedAlterContent, traders }) => {
 
@@ -77,7 +78,6 @@ const SelectedUserModal = ({showModal, closeModal, removeEntry=false, selectedAl
         referralCode: selectedAlterContent.referralCode
     }
 
-    console.log(getTraders)
 
     return (
         <BaseModal 
@@ -92,14 +92,24 @@ const SelectedUserModal = ({showModal, closeModal, removeEntry=false, selectedAl
                 onSubmit={alterUser}
                 validationSchema={validationSchema}
              >
+                <Row>
 
 
-                <FormField  name="firstName" type="text" disabled />
-                <FormField name="lastName" type="text" disabled />
-                <FormField name="email" type="email" disabled />
-                <FormField name="phone" type="text" disabled />
+                <Col md={6}>
+                    <FormField  label="First Name" icon={["far", "user"]} name="firstName" disabled />
+                
+                    <FormField label="Last Name" icon={["far", "user"]} name="lastName" disabled />
+                
+                    <FormField label="Email" icon="at" name="email" type="email" disabled />
 
-               {selectedAlterContent.role && <FormSelect 
+                    <FormField label="Tel No" icon="phone" name="phone" disabled />
+                </Col>
+
+                <Col md={6}>
+                
+                    {selectedAlterContent.role && <FormSelect 
+                    label="Assign Role"
+                    icon="user-tag"
                     name="role" 
                     index={getIndexOfK(role.isSuperAdmin ? superAdminSettableRoles : adminSettableRoles, JSON.stringify({
                         isAdmin : selectedAlterContent.role.isAdmin,
@@ -112,23 +122,33 @@ const SelectedUserModal = ({showModal, closeModal, removeEntry=false, selectedAl
                     update={update}
                 />}
 
+                    {selectedAlterContent.role && selectedAlterContent.role.isUser && <>
+
+                        <FormField label="Return of Investment %" icon="percent" name="ROI" placeholder="ROI" type="number" />
+
+                        <FormSelect 
+                            name="assignedTrader" 
+                            icon="people-arrows"
+                            label="Assign to Trader"
+                            index={getIndexOfK(getTraders, selectedAlterContent.assignedTrader)[0]} 
+                            options={getTraders}
+                        /> 
+                    </>
+                    }
+
+                    {selectedAlterContent.role && selectedAlterContent.role.isAffiliate && 
+                        <FormField label="Affiliate Code" icon="hashtag" name="affiliateCode" placeholder="Affiliate Code" />
+                    }
+                    {!removeEntry && <FormField name="referralCode" placeholder="Referral Code" label="Assigned Affiliate" icon="hashtag" />}
+
+
+                </Col>
                 
 
-                {selectedAlterContent.role && selectedAlterContent.role.isUser && <>
-                    <FormField name="ROI" placeholder="ROI" type="number" />
-                    <FormSelect 
-                        name="assignedTrader" 
-                        index={getIndexOfK(getTraders, selectedAlterContent.assignedTrader)[0]} 
-                        options={getTraders}
-                    /> 
-                </>
-                }
-
-                {selectedAlterContent.role && selectedAlterContent.role.isAffiliate && 
-                    <FormField name="affiliateCode" placeholder="Affiliate Code" type="text" />
-                }
-                {!removeEntry && <FormField name="referralCode" placeholder="Referral Code" type="text" />}
+                </Row>
+                
                 <div>
+                    <div className="spacer"></div>
                     <SubmitButton disable={buttonDisable} title={removeEntry ? "Approve": "Update"} />
                 </div>
             </Form>

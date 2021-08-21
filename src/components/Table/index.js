@@ -2,7 +2,9 @@ import React from 'react'
 
 export const Table = ({headers, data}) => {
     return (
-        <table className="table table-striped table-hover">
+        <div className="table-responsive">
+
+        <table className="table">
             <thead>
                 <tr>
                     {headers.map((header,idx) => <th key={idx}>{header.headerText || header.dataKey}</th>)}
@@ -22,5 +24,8 @@ export const Table = ({headers, data}) => {
                 }
             </tbody>
         </table>
+
+        </div>
+        
     )
 }

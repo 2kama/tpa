@@ -2,14 +2,14 @@ import React from 'react'
 import { useSelector, shallowEqual, useDispatch } from 'react-redux'
 import * as Yup from 'yup'
 
-import Authenticate from '../../components/Authenticate'
+
 import { disableButton } from '../../store/reducers/buttonState'
 import { Form, FormField, SubmitButton } from '../../components/Form'
 import { loginUser } from '../../store/reducers/user'
 import { Col, Container, Row } from 'react-bootstrap'
 import Card from '../../components/Card'
 import { Link } from 'react-router-dom'
-import Footer from '../../components/Footer'
+import PageWrapper from '../../components/PageWrapper'
 
 const validationSchema = Yup.object().shape({
     email: Yup.string().required().email().label("Email"),
@@ -43,83 +43,80 @@ const Login = () => {
 
 
     return(
-        <>
-            <Authenticate inside={false} />
 
-
+        <PageWrapper 
+            inside={false} 
+            isAuthenticated={isAuthenticated} 
+            isLoading={isLoading}
+        >
 
             <Container fluid className="wall">
 
+            <Col md={{ span:4, offset:4 }}>
+                
+                <Card className="position-absolute top-50 start-50 translate-middle p-5 auth">
 
-            {
-                !isLoading && !isAuthenticated && (
+                    <Form
+                        initialValues={{ email: "", password: "" }}
+                        onSubmit={submitForm}
+                        validationSchema={validationSchema}
+                    >
 
-                    <Col md={{ span:4, offset:4 }} className="auth">
-                        
-                        <Card className="p-5 mx-auto align-middle">
+                        <Row>
 
+                            <Col md={12}>
 
+                                <FormField 
+                                    type="email"
+                                    name="email"
+                                    placeholder="youremail@mail.com"
+                                    label="Email"
+                                    icon="at"
+                                />
 
-                        <Form
-                            initialValues={{ email: "", password: "" }}
-                            onSubmit={submitForm}
-                            validationSchema={validationSchema}
-                        >
+                                <FormField 
+                                    type="password"
+                                    name="password"
+                                    placeholder="******"
+                                    label="Password"
+                                    icon="unlock-alt"
+                                />
 
-                            <Row>
-
-                                <Col md={12}>
-
-                                    <FormField 
-                                        type="email"
-                                        name="email"
-                                        placeholder="youremail@mail.com"
-                                        label="Email"
-                                        icon="at"
-                                    />
-
-                                    <FormField 
-                                        type="password"
-                                        name="password"
-                                        placeholder="******"
-                                        label="Password"
-                                        icon="unlock-alt"
-                                    />
-
-                                </Col>
+                            </Col>
 
 
-                                <Col md={12}>
+                            <Col md={12}>
 
-                                    <div className="spacer"></div>
+                                <div className="spacer"></div>
 
-                                    <SubmitButton title="Login" disable={buttonDisable} />
+                                <SubmitButton title="Login" disable={buttonDisable} />
 
-                                    <span className="formNote text-center">
-                                        Don't have an account ? <Link to="/register">Register Here</Link>
-                                    </span>
+                                <span className="formNote text-center">
+                                    Don't have an account ? <Link to="/register">Register Here</Link>
+                                </span>
 
-                                </Col>
+                                <span className="formNote text-center">
+                                    <Link to="/forgot-password">Forgot Password</Link>
+                                </span>
 
-
-                            </Row>
-
-
-                        </Form>
-
-                        </Card>
-
-                        
-                    </Col>
-                )
-            }
+                            </Col>
 
 
+                        </Row>
 
+
+                    </Form>
+
+                </Card>
+
+                
+            </Col>
             </Container>
 
-            <Footer />
-        </>
+
+        </PageWrapper>
+
+        
     )
 }
 

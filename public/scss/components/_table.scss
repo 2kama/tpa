@@ -1,0 +1,16 @@
+thead {
+    background: $primary_color_teal;
+    color: #fff;
+}
+
+tbody {
+    tr {
+        background: #fff;
+        border-bottom: 3px solid $body_background;
+
+        td {
+            padding-top: 15px !important;
+            padding-bottom: 15px !important;
+        }
+    }
+}

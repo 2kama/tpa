@@ -28,7 +28,8 @@ exports.userCreated = functions.auth.user().onCreate(async (user) => {
         wallet : {
             pendingDebit : 0,
             pendingCredit : 0,
-            available : 0
+            available : 0,
+            realFund : 0
         },
         role : {
             isAdmin : false,
@@ -114,16 +115,24 @@ exports.sendTransaction = functions.firestore.document('transactions/{txID}').on
 
             const {pendingCredit, pendingDebit, available} = doc.data().wallet
 
-            newWallet = {
-                pendingCredit : txType == "credit" ? pendingCredit + amount : pendingCredit,
-                pendingDebit : txType == "debit" ? pendingDebit + amount : pendingDebit,
-                available : checkType.indexOf(txType) != -1 ? available + amount : txType == "deCapitalizationFee" || txType == "debit" ? available - amount : available
+            if( txType == "debit" && (amount > available)) {
+
+            }else {
+
+                newWallet = {
+                    pendingCredit : txType == "credit" ? pendingCredit + amount : pendingCredit,
+                    pendingDebit : txType == "debit" ? pendingDebit + amount : pendingDebit,
+                    available : checkType.indexOf(txType) != -1 ? available + amount : txType == "deCapitalizationFee" || txType == "debit" ? available - amount : available
+                }
+    
+                db.doc(`users/${uid}/private/info`).update({
+                    wallet : newWallet
+                }).then(() => db.doc(`transactions/${reference}`).update({ status : "inProgress" }))
+
             }
 
-            db.doc(`users/${uid}/private/info`).update({
-                wallet : newWallet
-            })
-        }).then(() => db.doc(`transactions/${reference}`).update({ status : "inProgress" }))
+            
+        })
         
     } catch (err) {
         console.log(err)

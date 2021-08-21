@@ -42,7 +42,6 @@ const ChangePassword = () => {
 
     return(
         <>
-            <h4>Update Password</h4>
 
 
                 <Form
@@ -59,18 +58,24 @@ const ChangePassword = () => {
                             type="password"
                             name="password"
                             placeholder="Password"
+                            label="Current Password"
+                            icon="unlock-alt"
                         />
 
                         <FormField 
                             type="password"
                             name="newPassword"
                             placeholder="New Password"
+                            label="New Password"
+                            icon="unlock-alt"
                         />
 
                         <FormField 
                             type="password"
                             name="passwordConfirmation"
                             placeholder="Confirm New Password"
+                            label="Confirm Password"
+                            icon="unlock-alt"
                         />
 
 

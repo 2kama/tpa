@@ -7,6 +7,7 @@ import { Form, SubmitButton, TextareaField } from '../../../components/Form'
 import { disableButton } from '../../../store/reducers/buttonState'
 import * as Yup from 'yup'
 import { thousands_separators, timeAgo, TIME_ZONE } from '../../../utils/helperFunctions'
+import { Col, Row } from 'react-bootstrap'
 
 
 const validationSchema = Yup.object().shape({
@@ -59,9 +60,6 @@ const PendingTransactions = ({
 
     return(
         <>
-
-
-                        <div>Pending Transactions</div>
                         {
                             pendingTransactions && (
                                 pendingTransactions.length > 0 ?
@@ -73,7 +71,7 @@ const PendingTransactions = ({
                                         show={showResponse}
                                         close={() => closeShowResponse()}
                                         closeText="Close"
-                                        size="sm"
+                                        size="md"
                                     >
                                         
                                         <Form
@@ -85,11 +83,23 @@ const PendingTransactions = ({
 
                                             <TextareaField 
                                                 name="reason"
+                                                icon="paragraph"
+                                                placeholder="Reason for Declination"
                                             />
+                                            
+                                            <Row>
 
-                                            <SubmitButton title="Decline" disable={buttonDisable} />
+                                                <Col md={6}>
+                                                    <SubmitButton title="Decline" disable={buttonDisable} />
+                                                </Col>
 
-                                            <button onClick={() => processTransaction({ reason : "", status : "approved"})}>Approve</button>
+                                                <Col md={6}>
+                                                    <button className="btn-success" onClick={() => processTransaction({ reason : "", status : "approved"})}>Approve</button>
+                                                </Col>
+
+                                            </Row>
+                                            
+                                            
 
                                         </Form>
 
@@ -107,10 +117,10 @@ const PendingTransactions = ({
                                                 'name' : `${trans.firstName} ${trans.lastName}`,
                                                 'receipt' : trans.txType === "credit" ? 
                                                     <>
-                                                        <span onClick={() => setContent("Uploaded Receipt", "md", <img alt="reciept" src={trans.receipt} />) }>REciept</span>
+                                                        <div className="text-secondary pointer" onClick={() => setContent("Uploaded Receipt", "md", <img alt="reciept" style={{width:"100%"}} src={trans.receipt} />) }>Reciept</div>
                                                     </> 
                                                     : "N/A",
-                                                'action' : <button onClick={() => {dispatch(setSelectedAlterContent({...trans})); setShowResponse(true)}}>Respond</button>
+                                                'action' : <button className="btn btn-secondary" onClick={() => {dispatch(setSelectedAlterContent({...trans})); setShowResponse(true)}}>Respond</button>
 
                                             }
                                         ))}
@@ -119,7 +129,7 @@ const PendingTransactions = ({
                                 </>
                                 
 
-                                : <div>No Pending Transactions</div>
+                                : <Col md={{span:4,offset:4}} className="btn-secondary rounded p-2 text-center">No Pending Transactions</Col>
                             )
                         }
 
